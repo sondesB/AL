@@ -21,13 +21,13 @@ public class LogImpl implements ILogComposant, ILogDecision {
 
     @Override
     public void logApparitionComposant(OCComponent ocComponent) {
-        String log = this.getDateToString() + " " + ocComponent.getComponentProperties() + "-" + "Apparition";
+        String log = String.format("%s %s - Apparition",this.getDateToString(), ocComponent.getComponentProperties());
         logService.ecrireLog(log);
     }
 
     @Override
     public void logDisparitionComposant(OCComponent ocComponent) {
-        String log = this.getDateToString() + " " + ocComponent.getComponentProperties() + "-" + "Disparition";
+        String log = String.format("%s %s - Disparition",this.getDateToString(), ocComponent.getComponentProperties());
         logService.ecrireLog(log);
     }
 
