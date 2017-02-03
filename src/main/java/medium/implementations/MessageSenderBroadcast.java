@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by benja135 on 03/02/17.
  */
-public class MessageSender implements EnvAnnonce {
+public class MessageSenderBroadcast implements EnvAnnonce {
 
     private Matching matching;
     private Communication communication;
@@ -19,9 +19,7 @@ public class MessageSender implements EnvAnnonce {
     @Override
     public void sendAnnonce(ArrayList<Agent> listAgents, Annonce ann) {
         for(Agent agent: listAgents) {
-            if(matching.match(ann.getSender(), agent)) {
-                communication.envoiSimple(ann, agent);
-            }
+            communication.envoiSimple(ann, agent);
         }
     }
 }
