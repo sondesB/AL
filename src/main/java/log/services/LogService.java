@@ -22,11 +22,13 @@ public class LogService {
      *  Création d'un nouveau fichier log par défauts
      */
     public LogService() {
-        this.log = new File("log");
+        this.log = new File("log.txt");
     }
+
+
     /**
-     * Ecriture 
-     * @param ligne
+     * Ecrit une ligne dans le fichier de log.
+     * @param logLine La ligne Ã  ecrire dans le fichier de log.
      */
     public void ecrireLog(String logLine) {
         try {
