@@ -10,10 +10,12 @@ import java.util.Map;
  */
 public class PersistanceImpl implements IPersistance,IRecuperationPlan {
 
+    @Override
     public Map<?, ?> recupererBasePlan() {
         return null;
     }
 
+    @Override
     public void persisterPlan(Map<?, ?> basePlan) {
 
     }

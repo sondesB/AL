@@ -7,6 +7,10 @@ import java.util.Map;
  */
 public interface IPersistance {
 
+    /**
+     * persiste la base de plan d'un agent
+     * @param basePlan La base de plan à conserver.
+     */
     void persisterPlan(Map<?,?> basePlan);
 
 }
