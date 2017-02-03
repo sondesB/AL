@@ -1,6 +1,6 @@
-package main.java.medium.interfaces;
+package medium.interfaces;
 
-import main.java.stub.Annonce;
+import stub.Annonce;
 
 /**
  * Created by benja135 on 03/02/17.

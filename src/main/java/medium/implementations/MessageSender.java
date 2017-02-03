@@ -1,10 +1,10 @@
-package main.java.medium.implementations;
+package medium.implementations;
 
-import main.java.medium.interfaces.EnvAnnonce;
-import main.java.stub.Agent;
-import main.java.stub.Annonce;
-import main.java.stub.Communication;
-import main.java.stub.Matching;
+import medium.interfaces.EnvAnnonce;
+import stub.Agent;
+import stub.Annonce;
+import stub.Communication;
+import stub.Matching;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ public class MessageSender implements EnvAnnonce {
     @Override
     public void sendAnnonce(ArrayList<Agent> listAgents, Annonce ann) {
         for(Agent agent: listAgents) {
-            if(matching.match(ann, agent)) {
+            if(matching.match(ann, agent)) { // 2 OCService pour tester le equals des string
                 communication.envoiSimple(ann, agent);
             }
         }

@@ -1,6 +1,6 @@
-package main.java.medium.interfaces;
+package medium.interfaces;
 
-import main.java.stub.Agent;
+import stub.Agent;
 
 import java.util.ArrayList;
 

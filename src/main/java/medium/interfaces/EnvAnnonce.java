@@ -1,7 +1,7 @@
-package main.java.medium.interfaces;
+package medium.interfaces;
 
-import main.java.stub.Agent;
-import main.java.stub.Annonce;
+import stub.Agent;
+import stub.Annonce;
 
 import java.util.ArrayList;
 

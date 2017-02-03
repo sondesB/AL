@@ -1,4 +1,4 @@
-package main.java.stub;
+package stub;
 
 /**
  * Created by benja135 on 03/02/17.

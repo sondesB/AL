@@ -1,7 +1,7 @@
-package main.java.medium.implementations;
+package medium.implementations;
 
-import main.java.medium.interfaces.RecAnnonce;
-import main.java.stub.Annonce;
+import medium.interfaces.RecAnnonce;
+import stub.Annonce;
 
 /**
  * Created by benja135 on 03/02/17.

@@ -1,6 +1,6 @@
-package main.java.medium.services;
+package medium.services;
 
-import main.java.stub.Agent;
+import stub.Agent;
 
 /**
  * Created by benja135 on 03/02/17.

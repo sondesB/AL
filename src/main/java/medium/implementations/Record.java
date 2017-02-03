@@ -1,8 +1,8 @@
-package main.java.medium.implementations;
+package medium.implementations;
 
-import main.java.medium.interfaces.ListerAgents;
-import main.java.medium.services.Enregistrement;
-import main.java.stub.Agent;
+import medium.interfaces.ListerAgents;
+import medium.services.Enregistrement;
+import stub.Agent;
 
 import java.util.ArrayList;
 

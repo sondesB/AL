@@ -1,4 +1,4 @@
-package main.java.stub;
+package stub;
 
 import java.util.ArrayList;
 
