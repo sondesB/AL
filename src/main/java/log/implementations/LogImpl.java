@@ -1,7 +1,9 @@
 package log.implementations;
 
+import log.interfaces.ILog;
+
 /**
  * Created by seb on 03/02/17.
  */
-public class LogImpl {
+public class LogImpl implements ILog {
 }
