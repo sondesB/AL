@@ -36,14 +36,17 @@ public class LogImpl implements ILogComposant, ILogDecision {
         String providerName = provider.getServiceName();
         String requireName = require.getServiceName();
 
-        String log = this.getDateToString() + " " + providerName + " " + " " + requireName + "-";
+        String log;
 
         switch(bindingType) {
             case BIND:
-                log += "bind";
+                log = String.format("%s %s %s - bind", this.getDateToString(), providerName, requireName);
                 break;
             case UNBIND:
-                log += "unbind";
+                log = String.format("%s %s %s - unbind", this.getDateToString(), providerName, requireName);
+                break;
+            default:
+                log = null;
                 break;
         }
 
