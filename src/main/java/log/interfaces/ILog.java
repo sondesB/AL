@@ -5,6 +5,7 @@ package log.interfaces;
  */
 public interface ILog {
 
+    public void loggerComposant();
 
-
+    public void loggerDecision();
 }

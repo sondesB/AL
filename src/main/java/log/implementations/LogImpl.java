@@ -8,5 +8,14 @@ import log.services.LogService;
  */
 public class LogImpl implements ILog {
 
+
     private LogService logService = new LogService();
+
+    public void loggerDecision(){
+
+    }
+
+    public void loggerComposant(){
+
+    }
 }

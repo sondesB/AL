@@ -8,7 +8,7 @@ import log.interfaces.IRelais;
  */
 public class RelaisImpl implements IRelais {
 
-    ILog log = new LogImpl();
+    private ILog log = new LogImpl();
 
     @Override
     public void envoyerDecision(Object serviceProvider, Object serviceRequire) {

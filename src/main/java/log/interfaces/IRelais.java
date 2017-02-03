@@ -5,5 +5,7 @@ package log.interfaces;
  */
 public interface IRelais {
 
+
+
     public void envoyerDecision(Object serviceProvider, Object serviceRequire);
 }
