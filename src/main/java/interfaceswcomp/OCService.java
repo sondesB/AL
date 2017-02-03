@@ -1,3 +1,5 @@
+package interfaceswcomp;
+
 import java.util.Properties;
 
 /**
