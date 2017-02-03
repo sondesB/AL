@@ -1,6 +1,7 @@
 package log.implementations;
 
 import interfaceswcomp.Binding;
+import interfaceswcomp.BindingFailure;
 import interfaceswcomp.OCService;
 import interfaceswcomp.UnbindingFailure;
 import log.interfaces.ILogDecision;
@@ -29,7 +30,11 @@ public class RelaisImpl implements IRelais {
     public void relayer(OCService serviceProvider, OCService serviceRequire, BindingType bindingType) {
         switch(bindingType) {
             case BIND:
-                this.binding.bind(serviceProvider, serviceRequire);
+			try {
+				this.binding.bind(serviceProvider, serviceRequire);
+			} catch (BindingFailure e) {
+				e.printStackTrace();
+			}
                 break;
             case UNBIND:
                 try {
