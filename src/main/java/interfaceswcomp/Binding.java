@@ -1,3 +1,4 @@
+package interfaceswcomp;
 /**
  * Binding Interface : connection of two component's services in a component framework
  * @version 0.1.0
