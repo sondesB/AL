@@ -1,4 +1,4 @@
-package agent;
+package com.m2dl.sma.infrastructure.agent;
 
 import java.util.UUID;
 
