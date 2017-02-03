@@ -11,10 +11,17 @@ public class LogService {
 
     File log;
 
+    /**
+     * Constructeur.
+     * @param path Le chemin du fichier de log.
+     */
     public LogService(String path) {
         this.log = new File(path);
     }
 
+    /**
+     * Constructeur.
+     */
     public LogService() {
         this.log = new File("log.txt");
     }
