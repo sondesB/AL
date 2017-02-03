@@ -11,11 +11,11 @@ public class LogImpl implements ILog {
 
     private LogService logService = new LogService();
 
-    public void loggerDecision(){
+    public void loggerDecision(OCService service1, OCService service2){
 
     }
 
-    public void loggerComposant(){
+    public void loggerComposant(OCService service1){
 
     }
 }
