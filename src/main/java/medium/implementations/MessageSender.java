@@ -4,7 +4,7 @@ import medium.interfaces.EnvAnnonce;
 import stub.Agent;
 import stub.Annonce;
 import stub.Communication;
-import stub.Matching;
+import unifieur.services.Matching;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ public class MessageSender implements EnvAnnonce {
     @Override
     public void sendAnnonce(ArrayList<Agent> listAgents, Annonce ann) {
         for(Agent agent: listAgents) {
-            if(matching.match(ann, agent)) { // 2 OCService pour tester le equals des string
+            if(matching.match(ann.getService(), agent)) { // 2 OCService pour tester le equals des string
                 communication.envoiSimple(ann, agent);
             }
         }

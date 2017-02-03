@@ -4,7 +4,7 @@ import medium.interfaces.EnvAnnonce;
 import stub.Agent;
 import stub.Annonce;
 import stub.Communication;
-import stub.Matching;
+import unifieur.services.Matching;
 
 import java.util.ArrayList;
 
