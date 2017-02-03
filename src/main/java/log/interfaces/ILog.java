@@ -1,5 +1,7 @@
 package log.interfaces;
 
+import interfaceswcomp.OCService;
+
 /**
  * Created by seb on 03/02/17.
  */
