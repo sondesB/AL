@@ -16,6 +16,7 @@ hs_err_pid*
 
 .metadata
 bin/
+gen/
 tmp/
 *.tmp
 *.bak
@@ -28,6 +29,7 @@ local.properties
 
 # Eclipse Core
 .project
+.classpath
 
 # External tool builders
 .externalToolBuilders/
@@ -43,3 +45,15 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+#Gradle
+.gradletasknamecache
+.gradle/
+build/
+bin/
