@@ -1,7 +1,7 @@
 package log.implementations;
 
 import interfaceswcomp.OCService;
-import log.interfaces.ILogComposant;
+import log.interfaces.ILogDecision;
 import log.interfaces.IRelais;
 import utils.BindingType;
 
@@ -10,10 +10,11 @@ import utils.BindingType;
  */
 public class RelaisImpl implements IRelais {
 
-    private ILogComposant log = new LogImpl();
+    private ILogDecision log = new LogImpl();
 
     @Override
     public void relayer(OCService serviceProvider, OCService serviceRequire, BindingType bindingType) {
 
+        log.logDecisionBinding(serviceProvider, serviceRequire, bindingType);
     }
 }

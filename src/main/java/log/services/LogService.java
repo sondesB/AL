@@ -16,9 +16,13 @@ public class LogService {
     }
 
     public LogService() {
-        this.log = new File("log");
+        this.log = new File("log.txt");
     }
 
+    /**
+     * Ecrit une ligne dans le fichier de log.
+     * @param logLine La ligne à ecrire dans le fichier de log.
+     */
     public void ecrireLog(String logLine) {
         try {
             PrintWriter pw = new PrintWriter(this.log);
