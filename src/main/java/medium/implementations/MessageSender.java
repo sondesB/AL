@@ -19,7 +19,7 @@ public class MessageSender implements EnvAnnonce {
     @Override
     public void sendAnnonce(ArrayList<Agent> listAgents, Annonce ann) {
         for(Agent agent: listAgents) {
-            if(matching.match(ann.getSender(), agent)) {
+            if(matching.match(ann, agent)) {
                 communication.envoiSimple(ann, agent);
             }
         }

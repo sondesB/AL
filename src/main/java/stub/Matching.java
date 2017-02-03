@@ -6,5 +6,5 @@ import java.util.ArrayList;
  * Created by benja135 on 03/02/17.
  */
 public interface Matching {
-    boolean match(Agent agentA, Agent agentB);
+    boolean match(Annonce ann, Agent agent);
 }
