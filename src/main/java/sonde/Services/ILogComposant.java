@@ -12,11 +12,11 @@ public interface ILogComposant {
      * Tracer le log des nouveaux Composants via la méthode fournit par le composant Log
      * @param nouveauxComposants la liste des nouveaux composants
      */
-    void getLogApparitionComposant(Set<OCComponent> nouveauxComposants);
+    void loggerApparition(Set<OCComponent> nouveauxComposants);
 
     /**
      * Tracer le log des composants disparus via la méthode fournit par le composant Log
      * @param composantsDisparus la liste des composants disparus
      */
-    void getLogDispparitionComposant(Set<OCComponent> composantsDisparus);
+    void loggerDisparition(Set<OCComponent> composantsDisparus);
 }

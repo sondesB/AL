@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class ILogComposantImpl implements ILogComposant {
     @Override
-    public void getLogApparitionComposant(Set<OCComponent> nouveauxComposants) {
+    public void loggerApparition(Set<OCComponent> nouveauxComposants) {
         Iterator <OCComponent> iterator = nouveauxComposants.iterator();
         while (iterator.hasNext()) {
             // Appel la methode fournit par le composant log
@@ -19,7 +19,7 @@ public class ILogComposantImpl implements ILogComposant {
     }
 
     @Override
-    public void getLogDispparitionComposant(Set<OCComponent> composantsDisparus) {
+    public void loggerDisparition(Set<OCComponent> composantsDisparus) {
         Iterator <OCComponent> iterator = composantsDisparus.iterator();
         while (iterator.hasNext()) {
             // Appel la methode fournit par le composant log
