@@ -5,8 +5,14 @@ import stub.Agent;
 import java.util.ArrayList;
 
 /**
- * Created by benja135 on 03/02/17.
+ * Interface interne du Medium.
  */
 public interface ListerAgents {
+
+    /**
+     * Retourne une liste d'agents.
+     *
+     * @return liste d'agents
+     */
     ArrayList<Agent> getListAgents();
 }

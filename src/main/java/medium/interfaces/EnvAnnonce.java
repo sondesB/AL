@@ -6,8 +6,15 @@ import stub.Annonce;
 import java.util.ArrayList;
 
 /**
- * Created by benja135 on 03/02/17.
+ * Interface interne du Medium.
  */
 public interface EnvAnnonce {
+
+    /**
+     * Envoi une annonce.
+     *
+     * @param listAgents liste d'agents possible destinataire
+     * @param ann        annonce
+     */
     void sendAnnonce(ArrayList<Agent> listAgents, Annonce ann);
 }

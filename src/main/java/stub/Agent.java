@@ -2,11 +2,12 @@ package stub;
 
 import interfaceswcomp.OCService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by benja135 on 03/02/17.
+ * NE PAS UTILISER DANS LA VERSION FINALE.
+ * PERMET DE FAIRE FONCTIONNER LE MEDIUM SANS
+ * L'IMPLEMENTATION REELLE DE CETTE CLASSE.
  */
 public class Agent {
     private List<OCService> services;
