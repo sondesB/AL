@@ -8,7 +8,6 @@ import stub.Communication;
 import unifieur.services.Matching;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by benja135 on 03/02/17.
@@ -21,22 +20,23 @@ public class MessageSender implements EnvAnnonce {
     @Override
     public void sendAnnonce(ArrayList<Agent> listAgents, Annonce ann) {
         for (Agent agent : listAgents) {
-            if (oneServiceMatch(ann.getService(), agent.getServices())) {
+            if (match(ann, agent)) {
                 communication.envoiSimple(ann, agent);
             }
         }
     }
 
     /**
-     * Return true if "service" match with one of the OCService in listService.
+     * Return true if the service contained in "annonce"
+     * match with one services of the "agent".
      *
-     * @param service OCService
-     * @param listService list of OCService
+     * @param ann annonce
+     * @param agent agent
      * @return boolean
      */
-    private boolean oneServiceMatch(OCService service, List<OCService> listService) {
-        for (OCService current : listService) {
-            if (matching.match(service, current)) {
+    private boolean match(Annonce ann, Agent agent) {
+        for (OCService current : agent.getServices()) {
+            if (matching.match(ann.getService(), current)) {
                 return true;
             }
         }
