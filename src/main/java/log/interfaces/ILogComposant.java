@@ -11,11 +11,11 @@ public interface ILogComposant {
      * Log l'apparition d'un composant.
      * @param ocComponent Le composant apparu.
      */
-    public void logApparitionComposant(OCComponent ocComponent);
+    void logApparitionComposant(OCComponent ocComponent);
 
     /**
      * Log la disparition du composant au logger.
      * @param component Le composant disparu.
      */
-    public void logDisparitionComposant(OCComponent component);
+    void logDisparitionComposant(OCComponent component);
 }

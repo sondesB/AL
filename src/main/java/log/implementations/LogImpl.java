@@ -5,7 +5,6 @@ import interfaceswcomp.OCService;
 import log.interfaces.ILogComposant;
 import log.interfaces.ILogDecision;
 import log.services.LogService;
-import utils.BindingType;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -26,32 +25,23 @@ public class LogImpl implements ILogComposant, ILogDecision {
     }
 
     @Override
+    public void logBinding(OCService service1, OCService service2) {
+        String log = String.format("%s %s %s - bind", this.getDateToString(), service1, service2);
+        this.logService.ecrireLog(log);
+    }
+
+    @Override
+    public void logUnbinding(OCService service1, OCService service2) {
+        String log = String.format("%s %s %s - unbind", this.getDateToString(), service1, service2);
+        this.logService.ecrireLog(log);
+    }
+
+    @Override
     public void logDisparitionComposant(OCComponent ocComponent) {
         String log = String.format("%s %s - Disparition",this.getDateToString(), ocComponent.getComponentProperties());
         logService.ecrireLog(log);
     }
 
-    @Override
-    public void logDecisionBinding(OCService provider, OCService require, BindingType bindingType) {
-        String providerName = provider.getServiceName();
-        String requireName = require.getServiceName();
-
-        String log;
-
-        switch(bindingType) {
-            case BIND:
-                log = String.format("%s %s %s - bind", this.getDateToString(), providerName, requireName);
-                break;
-            case UNBIND:
-                log = String.format("%s %s %s - unbind", this.getDateToString(), providerName, requireName);
-                break;
-            default:
-                log = null;
-                break;
-        }
-
-        logService.ecrireLog(log);
-    }
 
     /**
      * Retourne la date actuelle sous forme yyyy-MM-dd HH:mm:ss

@@ -1,6 +1,6 @@
 package persistance.interfaces;
 
-import java.util.Map;
+import interfaceswcomp.OCService;
 
 /**
  * Created by seb on 03/02/17.
@@ -8,9 +8,17 @@ import java.util.Map;
 public interface IPersistance {
 
     /**
-     * persiste la base de plan d'un agent
-     * @param basePlan La base de plan à conserver.
+     * Persiste la décision de connexion d'un agent.
+     * @param service1
+     * @param service2
      */
-    void persisterPlan(Map<?,?> basePlan);
+    void persisterDecisionBind(OCService service1, OCService service2);
+
+    /**
+     * Persiste la décision de déconnexion d'un agent.
+     * @param service1
+     * @param service2
+     */
+    void persisterDecisionUnbind(OCService service1, OCService service2);
 
 }

@@ -1,7 +1,6 @@
 package log.interfaces;
 
 import interfaceswcomp.OCService;
-import utils.BindingType;
 
 /**
  * Created by seb on 03/02/17.
@@ -9,10 +8,16 @@ import utils.BindingType;
 public interface ILogDecision {
 
     /**
-     * Log la décision de de connexion ou de déconnexion de composants.
-     * @param provider Le service provider.
-     * @param require Le service require.
-     * @param bindingType Le type de Binding (bind, unbind).
+     * Log la décision de connexion de services.
+     * @param service1
+     * @param service2
      */
-    public void logDecisionBinding(OCService provider, OCService require, BindingType bindingType);
+    void logBinding(OCService service1, OCService service2);
+
+    /**
+     * Log la décision de deconnexion de services.
+     * @param service1
+     * @param service2
+     */
+    void logUnbinding(OCService service1, OCService service2);
 }

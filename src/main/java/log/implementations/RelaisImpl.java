@@ -5,16 +5,16 @@ import interfaceswcomp.BindingFailure;
 import interfaceswcomp.OCService;
 import interfaceswcomp.UnbindingFailure;
 import log.interfaces.ILogDecision;
-import log.interfaces.IRelais;
-import utils.BindingType;
+import persistance.interfaces.IPersistance;
 
 /**
  * Created by seb on 03/02/17.
  */
-public class RelaisImpl implements IRelais {
+public class RelaisImpl implements Binding {
 
     private ILogDecision log;
     private Binding binding;
+    private IPersistance persistance;
 
     /**
      * Constructeur
@@ -27,23 +27,24 @@ public class RelaisImpl implements IRelais {
     }
 
     @Override
-    public void relayer(OCService serviceProvider, OCService serviceRequire, BindingType bindingType) {
-        switch(bindingType) {
-            case BIND:
-			try {
-				this.binding.bind(serviceProvider, serviceRequire);
-			} catch (BindingFailure e) {
-				e.printStackTrace();
-			}
-                break;
-            case UNBIND:
-                try {
-                    this.binding.unbind(serviceProvider, serviceRequire);
-                } catch (UnbindingFailure unbindingFailure) {
-                    unbindingFailure.printStackTrace();
-                }
-                break;
+    public void bind(OCService service1, OCService service2) throws BindingFailure {
+        try {
+            this.binding.bind(service1, service2);
+        } catch (BindingFailure e) {
+            e.printStackTrace();
         }
-        log.logDecisionBinding(serviceProvider, serviceRequire, bindingType);
+        this.log.logBinding(service1, service2);
+        this.persistance.persisterDecisionBind(service1, service2);
+    }
+
+    @Override
+    public void unbind(OCService service1, OCService service2) throws UnbindingFailure {
+        try {
+            this.binding.unbind(service1, service2);
+        } catch (UnbindingFailure unbindingFailure) {
+            unbindingFailure.printStackTrace();
+        }
+        this.log.logUnbinding(service1, service2);
+        this.persistance.persisterDecisionUnbind(service1, service2);
     }
 }

@@ -1,6 +1,8 @@
 package persistance.interfaces;
 
-import java.util.Map;
+import interfaceswcomp.OCService;
+
+import java.util.List;
 
 /**
  *
@@ -8,8 +10,10 @@ import java.util.Map;
 public interface IRecuperationPlan {
 
     /**
-     * recupere la base de plan relatif à un agent
+     * Récupere la base de plan relatif à un service.
+     * @param service Le service dont on veut récupérer la base de plan.
+     * @return La base de plan (sous forme de liste) de l'agent.
      */
-    Map<?,?> recupererBasePlan();
+    List<OCService> recupererBasePlan(OCService service);
 
 }
