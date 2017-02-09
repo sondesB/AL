@@ -6,7 +6,7 @@ package sonde.Services;
 public interface Configuration {
     /**
      *
-     * @return la perdiodicité de sondage fournit par l'utilisateur
+     * Définir la périodicité en fonction  de la valeur saisie par l'utilisateur
      */
-    int getPeriodiciteSondage();
+    void definirPeriodicite(int valeur);
 }
