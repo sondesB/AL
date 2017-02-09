@@ -1,6 +1,7 @@
 package sonde.Services;
 
 import interfaceswcomp.OCComponent;
+import interfaceswcomp.OCService;
 
 import java.util.Set;
 
@@ -10,14 +11,14 @@ import java.util.Set;
 public interface Notification {
 
     /**
-     * Communiquer les composants apparus
-     * @param composants les composants apparus
+     * Modifie la liste des services apparus
+     * @param listServicesApparus les services apparus
      */
-    void createAgents(Set<OCComponent> composants);
+    void servicesApparus(Set<OCService> listServicesApparus);
 
     /**
-     * Communiquer les composants disparus
-     * @param composantsDisparus les composants disparus
+     * Modifie la liste des service disparus
+     * @param listServicesDisparus les services disparus
      */
-    void notifyDisappearedComponents(Set<OCComponent> composantsDisparus);
+    void servicesDisparus(Set<OCService> listServicesDisparus);
 }
