@@ -5,7 +5,6 @@ import interfaceswcomp.BindingFailure;
 import interfaceswcomp.OCService;
 import interfaceswcomp.UnbindingFailure;
 import log.interfaces.ILogDecision;
-import persistance.interfaces.IPersistance;
 
 /**
  * Created by seb on 03/02/17.
@@ -14,7 +13,6 @@ public class RelaisImpl implements Binding {
 
     private ILogDecision log;
     private Binding binding;
-    private IPersistance persistance;
 
     /**
      * Constructeur
@@ -34,7 +32,6 @@ public class RelaisImpl implements Binding {
             e.printStackTrace();
         }
         this.log.logBinding(service1, service2);
-        this.persistance.persisterDecisionBind(service1, service2);
     }
 
     @Override
@@ -45,6 +42,5 @@ public class RelaisImpl implements Binding {
             unbindingFailure.printStackTrace();
         }
         this.log.logUnbinding(service1, service2);
-        this.persistance.persisterDecisionUnbind(service1, service2);
     }
 }

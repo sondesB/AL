@@ -1,28 +1,25 @@
 package persistance.implementations;
 
 import interfaceswcomp.OCService;
+import persistance.interfaces.BaseDePlanAbstraite;
 import persistance.interfaces.IPersistance;
 import persistance.interfaces.IRecuperationPlan;
-
-import java.util.List;
+import persistance.services.PersistanceService;
 
 /**
  * Created by seb on 03/02/17.
  */
 public class PersistanceImpl implements IPersistance,IRecuperationPlan {
 
-    @Override
-    public void persisterDecisionBind(OCService service1, OCService service2) {
+    PersistanceService persistanceService = new PersistanceService();
 
+    @Override
+    public void persisterBaseDePlan(BaseDePlanAbstraite baseDePlan) {
+        this.persistanceService.persisterBaseDePlan(baseDePlan);
     }
 
     @Override
-    public void persisterDecisionUnbind(OCService service1, OCService service2) {
-
-    }
-
-    @Override
-    public List<OCService> recupererBasePlan(OCService service) {
-        return null;
+    public BaseDePlanAbstraite recupererBasePlan(OCService service) {
+        return this.persistanceService.getBaseDePlan(service);
     }
 }
