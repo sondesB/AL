@@ -1,12 +1,15 @@
 package medium.implementations;
 
+import interfaceswcomp.OCService;
 import medium.interfaces.EnvAnnonce;
 import stub.Agent;
 import stub.Annonce;
 import stub.Communication;
 import unifieur.services.Matching;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Version Broadcast de MessageSender.
@@ -19,15 +22,15 @@ public class MessageSenderBroadcast implements EnvAnnonce {
     private Communication communication;
 
     /**
-     * Envoi l'annonce "ann" à tous les agents dans listAgents.
+     * Envoi l'annonce "ann" à tous les agents de la map.
      *
-     * @param listAgents liste d'agents possible destinataire
-     * @param ann        annonce
+     * @param agents map d'agents possible destinataire ainsi que leurs services
+     * @param ann    annonce
      */
     @Override
-    public void sendAnnonce(ArrayList<Agent> listAgents, Annonce ann) {
-        for (Agent agent : listAgents) {
-            communication.envoiSimple(ann, agent);
+    public void sendAnnonce(HashMap<Agent, List<OCService>> agents, Annonce ann) {
+        for (Map.Entry<Agent, List<OCService>> agent : agents.entrySet()) {
+            communication.envoiSimple(ann, agent.getKey());
         }
     }
 }

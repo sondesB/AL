@@ -7,7 +7,9 @@ import stub.Annonce;
 import stub.Communication;
 import unifieur.services.Matching;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * MessageSender fait appel aux services du composant Unifieur
@@ -22,28 +24,29 @@ public class MessageSender implements EnvAnnonce {
     /**
      * Envoi l'annonce ann aux agents compatibles.
      *
-     * @param listAgents liste d'agents possible destinataire
+     * @param agents     liste d'agents possible destinataire ainsi que leurs services
      * @param ann        annonce
      */
     @Override
-    public void sendAnnonce(ArrayList<Agent> listAgents, Annonce ann) {
-        for (Agent agent : listAgents) {
-            if (match(ann, agent)) {
-                communication.envoiSimple(ann, agent);
+    public void sendAnnonce(HashMap<Agent, List<OCService>> agents, Annonce ann) {
+        for (Map.Entry<Agent, List<OCService>> agent : agents.entrySet())
+        {
+            if (match(ann, agent.getValue())) {
+                communication.envoiSimple(ann, agent.getKey());
             }
         }
     }
 
     /**
      * Return true if the service contained in "annonce"
-     * match with one services of the "agent".
+     * match with one services of the list.
      *
-     * @param ann   annonce
-     * @param agent agent
+     * @param ann       annonce
+     * @param services  liste de services
      * @return boolean
      */
-    private boolean match(Annonce ann, Agent agent) {
-        for (OCService current : agent.getServices()) {
+    private boolean match(Annonce ann, List<OCService> services) {
+        for (OCService current : services) {
             if (matching.match(ann.getService(), current)) {
                 return true;
             }

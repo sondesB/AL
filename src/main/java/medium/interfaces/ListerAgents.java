@@ -1,8 +1,11 @@
 package medium.interfaces;
 
+import interfaceswcomp.OCService;
 import stub.Agent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Interface interne du Medium.
@@ -10,9 +13,9 @@ import java.util.ArrayList;
 public interface ListerAgents {
 
     /**
-     * Retourne une liste d'agents.
+     * Retourne une map d'agents associé à leurs services.
      *
-     * @return liste d'agents
+     * @return liste d'agents et services
      */
-    ArrayList<Agent> getListAgents();
+    HashMap<Agent, List<OCService>> getListAgents();
 }

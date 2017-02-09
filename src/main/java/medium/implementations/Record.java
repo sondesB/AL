@@ -1,10 +1,12 @@
 package medium.implementations;
 
+import interfaceswcomp.OCService;
 import medium.interfaces.ListerAgents;
 import medium.services.Enregistrement;
 import stub.Agent;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Record permet de stocker les agents disponibles.
@@ -14,18 +16,19 @@ import java.util.ArrayList;
 public class Record implements ListerAgents, Enregistrement {
 
     /**
-     * Liste des agents disponibles.
+     * Liste des agents disponibles associés à leurs services.
      */
-    private ArrayList<Agent> agents;
+    private HashMap<Agent, List<OCService>> agents = new HashMap<>();
 
     /**
      * Ajoute un agent disponible à la liste.
      *
      * @param agent nouvel agent
+     * @param listeServices liste des services de l'agent
      */
     @Override
-    public void addAgent(Agent agent) {
-        this.agents.add(agent);
+    public void addAgent(Agent agent, List<OCService> listeServices) {
+        this.agents.put(agent, listeServices);
     }
 
     /**
@@ -39,12 +42,12 @@ public class Record implements ListerAgents, Enregistrement {
     }
 
     /**
-     * Retourne la liste des agents disponibles.
+     * Retourne la map des agents disponibles et leurs services associé.
      *
-     * @return liste des agents disponibles
+     * @return liste d'agents et services
      */
     @Override
-    public ArrayList<Agent> getListAgents() {
+    public HashMap<Agent, List<OCService>> getListAgents() {
         return this.agents;
     }
 }
