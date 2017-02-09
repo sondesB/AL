@@ -7,7 +7,7 @@ import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 public interface Communicateur {
 
     void envoyerMessage(ReferenceAgent expediteur, ReferenceAgent destinataire,
-            MessageAgent messageAgent) throws AgentNotFoundException;
+            MessageAgent messageAgent);
 
     void diffuserMessage(ReferenceAgent expediteur, MessageAgent messageAgent);
 

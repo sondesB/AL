@@ -13,7 +13,6 @@ import java.util.function.Consumer;
 
 import com.m2dl.sma.infrastructure.agent.Agent;
 import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
-import com.m2dl.sma.infrastructure.communication.AgentNotFoundException;
 import com.m2dl.sma.infrastructure.communication.MessageAgent;
 
 public class AnnuaireImpl implements Annuaire {
@@ -51,12 +50,11 @@ public class AnnuaireImpl implements Annuaire {
 
     @Override
     public void envoyerMessage(ReferenceAgent expediteur, ReferenceAgent destinataire,
-            MessageAgent messageAgent) throws AgentNotFoundException {
+            MessageAgent messageAgent) {
         lockAgentLecture(destinataire);
-        if (!agentsMessagesQueues.containsKey(destinataire)) {
-            throw new AgentNotFoundException();
+        if (agentsMessagesQueues.containsKey(destinataire)) {
+            agentsMessagesQueues.get(destinataire).add(messageAgent);
         }
-        agentsMessagesQueues.get(destinataire).add(messageAgent);
         unlockAgentLecture(destinataire);
     }
 
