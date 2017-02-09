@@ -2,6 +2,7 @@ package com.m2dl.sma.infrastructure.agent;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
@@ -21,5 +22,12 @@ public class ReferenceAgentTest {
         ReferenceAgent referenceAgent = new ReferenceAgent();
 
         assertThat(referenceAgent, equalTo(referenceAgent));
+    }
+
+    @Test
+    public void devrais_avoir_un_uuid_a_la_creation() throws Exception {
+        ReferenceAgent referenceAgent = new ReferenceAgent();
+
+        assertNotNull(referenceAgent.hashCode());
     }
 }
