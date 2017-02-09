@@ -1,14 +1,9 @@
 package com.m2dl.sma.infrastructure.annuaire;
 
-import com.m2dl.sma.infrastructure.agent.Agent;
-import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 import com.m2dl.sma.infrastructure.communication.ICommunication;
+import com.m2dl.sma.infrastructure.fabrique.IFabrique;
 
-public interface Annuaire extends ICommunication {
-
-    void ajouterAgent(ReferenceAgent referenceAgent, Agent agent);
-
-    void retirerAgent(ReferenceAgent referenceAgent);
+public interface Annuaire extends ICommunication, IFabrique {
 
     void ajouterListener(AnnuaireListener annuaireListener);
 
