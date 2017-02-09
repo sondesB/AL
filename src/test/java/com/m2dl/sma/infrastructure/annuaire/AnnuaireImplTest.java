@@ -21,7 +21,6 @@ import org.mockito.Mock;
 
 import com.m2dl.sma.infrastructure.agent.Agent;
 import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
-import com.m2dl.sma.infrastructure.communication.AgentNotFoundException;
 import com.m2dl.sma.infrastructure.communication.MessageAgent;
 
 public class AnnuaireImplTest {
@@ -67,17 +66,8 @@ public class AnnuaireImplTest {
         verify(annuaireListener, times(0)).agentAjoute(any());
     }
 
-    @Test(expected = AgentNotFoundException.class)
-    public void devrais_throw_agent_not_found_exception_quand_on_envois_un_message_a_un_destinataire_inexistant()
-            throws Exception {
-        ReferenceAgent expediteur = new ReferenceAgent();
-        annuaire.ajouterAgent(expediteur, buildAgent());
-
-        annuaire.envoyerMessage(expediteur, new ReferenceAgent(), buildMessageAgent());
-    }
-
     private void setUpEnvoyerMessage(MessageAgent messageAgent,
-            ReferenceAgent destinataire) throws AgentNotFoundException {
+            ReferenceAgent destinataire) {
         ReferenceAgent expediteur = new ReferenceAgent();
 
         annuaire.ajouterAgent(expediteur, buildAgent());
