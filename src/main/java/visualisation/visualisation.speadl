@@ -1,0 +1,28 @@
+import ServiceNotification
+import ServiceSouscription
+import Transfert
+
+namespace toto {
+	
+	component Visualisation {
+
+		provides notification : ServiceNotification = journalisation.notification
+		requires souscription : ServiceSouscription
+
+		part affichage : Affichage{
+			bind donneRecu to journalisation.donneEnvoyer
+		}
+	
+		part journalisation : Journalisation 	
+	}
+	
+	component Journalisation{
+		provides donneEnvoyer : Transfert
+		provides notification : ServiceNotification
+	}
+	
+	component Affichage{
+		requires donneRecu : Transfert 
+	}
+
+}
