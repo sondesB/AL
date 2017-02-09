@@ -111,6 +111,14 @@ public class AnnuaireImplTest {
     }
 
     @Test
+    public void devrais_pas_lever_une_exception_lors_de_la_reception_de_message_pour_un_agent_inexistant()
+            throws Exception {
+        ReferenceAgent destinataire = new ReferenceAgent();
+
+        annuaire.recevoirMessage(destinataire);
+    }
+
+    @Test
     public void devrais_pouvoir_diffuser_un_message_sans_exception_pendant_une_suppression()
             throws Exception {
         List<ReferenceAgent> referenceAgents = new ArrayList<>();

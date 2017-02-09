@@ -71,7 +71,7 @@ public class AnnuaireImpl implements Annuaire {
     public Optional<MessageAgent> recevoirMessage(ReferenceAgent destinataire) {
         lockAgentLecture(destinataire);
         Optional<MessageAgent> message = Optional.ofNullable(
-                agentsMessagesQueues.get(destinataire).poll());
+                agentsMessagesQueues.get(destinataire)).map(ConcurrentLinkedQueue::poll);
         unlockAgentLecture(destinataire);
         return message;
     }
