@@ -4,7 +4,7 @@ import com.m2dl.sma.infrastructure.communication.ICommunication;
 
 public interface Annuaire extends ICommunication, IGestionAgent {
 
-    void ajouterListener(AnnuaireListener annuaireListener);
+    void ajouterAgentListener(AgentListener agentListener);
 
-    void retirerListener(AnnuaireListener annuaireListener);
+    void retirerAgentListener(AgentListener agentListener);
 }
