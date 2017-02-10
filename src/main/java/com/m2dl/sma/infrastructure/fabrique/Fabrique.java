@@ -8,16 +8,13 @@ import com.m2dl.sma.infrastructure.etat.IEtat;
 
 public class Fabrique implements ICreationService, ISuicideService {
 
-    private final IGestionAgent gestionAgent;
+    IGestionAgent gestionAgent;
 
     private final ICommunication communication;
-    private final ISuicideService suicideService;
 
-    public Fabrique(IGestionAgent gestionAgent, ICommunication communication,
-            ISuicideService suicideService) {
+    public Fabrique(IGestionAgent gestionAgent, ICommunication communication) {
         this.gestionAgent = gestionAgent;
         this.communication = communication;
-        this.suicideService = suicideService;
     }
 
     @Override
@@ -25,7 +22,7 @@ public class Fabrique implements ICreationService, ISuicideService {
         Agent agent = new Agent(etatInitial);
 
         etatInitial.setCommunication(communication);
-        etatInitial.setSuicideService(suicideService);
+        etatInitial.setSuicideService(this);
 
         gestionAgent.addAgent(agent);
         return agent.getReferenceAgent();
