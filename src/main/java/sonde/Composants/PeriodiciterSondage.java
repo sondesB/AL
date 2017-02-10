@@ -15,9 +15,9 @@ public class PeriodiciterSondage extends JFrame {
     private JLabel labelPeriodicite;
     private JTextField fieldPeriodicite;
     private JButton btnOK;
-    private int periodicite = 0;
+    private int periodicite = 20; // 20ms par default
 
-    sonde.Services.Configuration conf;
+    //sonde.Services.Configuration conf;
 
     public void createForm() {
         frame = new JFrame();
@@ -29,6 +29,7 @@ public class PeriodiciterSondage extends JFrame {
         fieldPeriodicite = new JTextField(10);
 
         btnOK = new JButton("OK");
+
         btnOK.addActionListener(e -> { getPeriodiciteValue(); });
 
         panel.add(labelPeriodicite);
@@ -36,8 +37,8 @@ public class PeriodiciterSondage extends JFrame {
         panel.add(btnOK);
 
         Dimension dimension = panel.getPreferredSize();
-        dimension.width = 200;
-        dimension.height = 100;
+        dimension.width = 300;
+        dimension.height = 150;
         panel.setPreferredSize(dimension);
 
         frame.add(panel);
@@ -46,18 +47,25 @@ public class PeriodiciterSondage extends JFrame {
     }
 
     private void getPeriodiciteValue() {
-        String value = fieldPeriodicite.getText();
         boolean parsable = true;
+        int value = 0;
         try {
-            periodicite = Integer.parseInt(fieldPeriodicite.getText());
+            value = Integer.parseInt(fieldPeriodicite.getText());
         } catch (NumberFormatException e) {
             parsable = false;
         }
-        if (!parsable) {
+        if (!parsable || value <=0) {
             JOptionPane.showMessageDialog(frame, "Invalid input!");
         } else {
             frame.dispose();
+            setPeriodicite(value);
         }
-        conf.definirPeriodicite(periodicite);
+        System.out.println(value);
+        //conf.definirPeriodicite(periodicite);
     }
+
+    private void setPeriodicite(int periodicite) {
+        this.periodicite = periodicite;
+    }
+
 }
