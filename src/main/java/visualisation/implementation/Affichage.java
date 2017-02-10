@@ -14,9 +14,6 @@ public class Affichage extends AbstractAffichage {
         System.out.println(information);
     }
 
-    public void transfertMsg(String msg) {
-        stategieAffichage.transfertMsg(msg);
-    }
     public void affichageMsg(String msg) {
         stategieAffichage.affichageMsg(msg);
     }
