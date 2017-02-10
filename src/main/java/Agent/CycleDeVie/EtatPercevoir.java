@@ -1,5 +1,7 @@
 package Agent.CycleDeVie;
 
+import interfaceswcomp.OCService;
+
 import java.util.Optional;
 
 /**
@@ -9,7 +11,11 @@ public class EtatPercevoir extends Etat {
 
     private ComposantPercevoir composantPercevoir;
 
-    public EtatPercevoir() {}
+    private OCService serviceAgent;
+
+    public EtatPercevoir(OCService serviceAgent) {
+        this.serviceAgent = serviceAgent;
+    }
 
     public Optional<IEtat> executer() {
         List<AstractPerception> listePerceptions  = composantPercevoir.percevoir();
@@ -17,6 +23,7 @@ public class EtatPercevoir extends Etat {
         composantDecider.setListePerceptions(listePerceptions);
         EtatDecider etatDecider = new EtatDecider();
         etatDecider.setComposantDecider(composantDecider);
+        etatDecider.setServiceAgent(serviceAgent);
         return Optional.ofNullable(etatDecider);
     }
 

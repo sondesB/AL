@@ -1,5 +1,7 @@
 package Agent.CycleDeVie;
 
+import interfaceswcomp.OCService;
+
 import java.util.Optional;
 
 /**
@@ -9,11 +11,15 @@ public class EtatDecider extends Etat{
 
     private ComposantDecider composantDecider;
 
-    public EtatDecider() {}
+    private OCService serviceAgent;
+
+    public EtatDecider(OCService serviceAgent) {
+        this.serviceAgent = serviceAgent;
+    }
 
     public Optional<IEtat> executer() {
         List<AstractDecision> listeDecisions  = composantDecider.decider();
-        ComposantAgir composantAgir = new ComposantAgir();
+        ComposantAgir composantAgir = new ComposantAgir(serviceAgent);
         composantAgir.setListeDecisions(listeDecisions);
         EtatAgir etatAgir = new EtatAgir();
         etatAgir.setComposantAgit(composantAgir);
