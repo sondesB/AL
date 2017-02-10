@@ -2,7 +2,7 @@ package com.m2dl.sma.infrastructure.agent;
 
 import com.m2dl.sma.infrastructure.etat.IEtat;
 
-public abstract class Agent {
+public class Agent {
     private final ReferenceAgent referenceAgent;
     private final IEtat etatInitial;
 

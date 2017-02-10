@@ -9,6 +9,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.ArrayList;
@@ -38,51 +39,50 @@ public class AnnuaireImplTest {
 
     @Test
     public void devrais_appeler_son_listener_quand_un_agent_est_ajoute() throws Exception {
-        ReferenceAgent referenceAgent = new ReferenceAgent();
+        Agent agent = buildAgent();
 
-        annuaire.ajouterAgent(referenceAgent, buildAgent());
+        annuaire.addAgent(agent);
 
-        verify(annuaireListener, times(1)).agentAjoute(eq(referenceAgent));
+        verify(annuaireListener, times(1)).agentAjoute(eq(agent.getReferenceAgent()));
     }
 
     @Test
     public void devrais_appeler_son_listener_quand_un_agent_est_supprime() throws Exception {
-        ReferenceAgent referenceAgent = new ReferenceAgent();
-        annuaire.ajouterAgent(referenceAgent, buildAgent());
+        Agent agent = buildAgent();
+        annuaire.addAgent(agent);
 
+        annuaire.removeAgent(agent);
 
-        annuaire.retirerAgent(referenceAgent);
-
-        verify(annuaireListener, times(1)).agentRetire(eq(referenceAgent));
+        verify(annuaireListener, times(1)).agentRetire(eq(agent.getReferenceAgent()));
     }
 
     @Test
     public void devrais_pas_appeler_son_listener_quand_il_est_supprime() throws Exception {
-        ReferenceAgent referenceAgent = new ReferenceAgent();
         annuaire.retirerListener(annuaireListener);
 
-        annuaire.ajouterAgent(referenceAgent, buildAgent());
+        annuaire.addAgent(buildAgent());
 
         verify(annuaireListener, times(0)).agentAjoute(any());
     }
 
-    private void setUpEnvoyerMessage(MessageAgent messageAgent,
-            ReferenceAgent destinataire) {
-        ReferenceAgent expediteur = new ReferenceAgent();
+    private void setUpEnvoyerMessage(MessageAgent messageAgent, Agent destinataire) {
 
-        annuaire.ajouterAgent(expediteur, buildAgent());
-        annuaire.ajouterAgent(destinataire, buildAgent());
+        Agent premierAgent = buildAgent();
+        annuaire.addAgent(premierAgent);
+        annuaire.addAgent(destinataire);
 
-        annuaire.envoyerMessage(expediteur, destinataire, messageAgent);
+        annuaire.envoyerMessage(premierAgent.getReferenceAgent(), destinataire.getReferenceAgent(),
+                messageAgent);
     }
 
     @Test
     public void devrais_recevoir_un_message_quand_un_message_est_envoye() throws Exception {
         MessageAgent messageAgent = buildMessageAgent();
-        ReferenceAgent destinataire = new ReferenceAgent();
+        Agent destinataire = buildAgent();
         setUpEnvoyerMessage(messageAgent, destinataire);
 
-        Optional<MessageAgent> messageAgentOptional = annuaire.recevoirMessage(destinataire);
+        Optional<MessageAgent> messageAgentOptional = annuaire.recevoirMessage(
+                destinataire.getReferenceAgent());
 
         assertTrue(messageAgentOptional.isPresent());
         assertThat(messageAgentOptional.get(), equalTo(messageAgent));
@@ -91,11 +91,12 @@ public class AnnuaireImplTest {
     @Test
     public void devrais_pas_recevoir_de_message_quand_un_message_a_deja_ete_lu() throws Exception {
         MessageAgent messageAgent = buildMessageAgent();
-        ReferenceAgent destinataire = new ReferenceAgent();
+        Agent destinataire = buildAgent();
         setUpEnvoyerMessage(messageAgent, destinataire);
 
-        annuaire.recevoirMessage(destinataire);
-        Optional<MessageAgent> messageAgentOptional = annuaire.recevoirMessage(destinataire);
+        annuaire.recevoirMessage(destinataire.getReferenceAgent());
+        Optional<MessageAgent> messageAgentOptional = annuaire.recevoirMessage(
+                destinataire.getReferenceAgent());
 
         assertFalse(messageAgentOptional.isPresent());
     }
@@ -111,25 +112,27 @@ public class AnnuaireImplTest {
     @Test
     public void devrais_pouvoir_diffuser_un_message_sans_exception_pendant_une_suppression()
             throws Exception {
-        List<ReferenceAgent> referenceAgents = new ArrayList<>();
+        List<Agent> agents = new ArrayList<>();
         for (int i = 0; i < 10000; i++) {
-            ReferenceAgent referenceAgent = new ReferenceAgent();
-            referenceAgents.add(referenceAgent);
-            annuaire.ajouterAgent(referenceAgent, buildAgent());
+            Agent agent = buildAgent();
+            agents.add(agent);
+            annuaire.addAgent(agent);
         }
 
         new Thread(() -> {
             for (int i = 1; i < 10000; i++) {
-                annuaire.retirerAgent(referenceAgents.get(i));
+                annuaire.removeAgent(agents.get(i));
             }
         }).start();
         for (int i = 0; i < 1000; i++) {
-            annuaire.diffuserMessage(referenceAgents.get(0), buildMessageAgent());
+            annuaire.diffuserMessage(agents.get(0).getReferenceAgent(), buildMessageAgent());
         }
     }
 
     private Agent buildAgent() {
-        return mock(Agent.class);
+        Agent agent = mock(Agent.class);
+        when(agent.getReferenceAgent()).thenReturn(new ReferenceAgent());
+        return agent;
     }
 
     private MessageAgent buildMessageAgent() {
