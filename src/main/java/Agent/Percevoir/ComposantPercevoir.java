@@ -18,16 +18,18 @@ public class ComposantPercevoir implements IComposantPercevoir{
 
     private ILireMessageInfrastructure lireMessageInfrastructure;
     private ILireMessageSonde lireMessageSonde;
+    private ReferenceAgent referenceAgent;
 
-    public ComposantPercevoir(){
+    public ComposantPercevoir(ReferenceAgent referenceAgent){
         lireMessageInfrastructure = new LireMessageInfrastructure();
         lireMessageSonde = new LireMessageSonde();
+        this.referenceAgent = referenceAgent;
     }
     @Override
     public List<AbstractPerception> percevoir() {
         List<AbstractPerception> perceptions = new ArrayList<AbstractPerception>();
-        perceptions.add(lireMessageSonde.lireSonde());
-        perceptions.add(lireMessageInfrastructure.lireInfrastructure());
+        perceptions.add(lireMessageSonde.lireSonde(referenceAgent));
+        perceptions.add(lireMessageInfrastructure.lireInfrastructure(referenceAgent));
 
         return perceptions;
     }

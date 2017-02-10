@@ -10,15 +10,16 @@ import Agent.Percevoir.CreerPerception.Perceptions.AbstractPerception;
 public class LireMessageSonde implements ILireMessageSonde{
 
     ICreerPerception creerPerception;
+    IDisparitionComposant disparitionComposant;
 
     public LireMessageSonde() {
         this.creerPerception = new FabriqueAbstractPerception();
+        this.disparitionComposant = new DisparitionComposant();
     }
 
 
     @Override
-    public AbstractPerception lireSonde() {
-
-        return creerPerception.creerPerception();
+    public AbstractPerception lireSonde(ReferenceAgent referenceAgent) {
+        return creerPerception.creerPerception(disparitionComposant.suicide(referenceAgent));
     }
 }

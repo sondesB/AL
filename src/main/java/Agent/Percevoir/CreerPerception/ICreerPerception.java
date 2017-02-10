@@ -7,5 +7,5 @@ import Agent.Percevoir.CreerPerception.Perceptions.AbstractPerception;
  */
 public interface ICreerPerception {
 
-    public AbstractPerception creerPerception();
+    public AbstractPerception creerPerception(Object message);
 }

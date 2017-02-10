@@ -10,15 +10,15 @@ import Agent.Percevoir.CreerPerception.Perceptions.AbstractPerception;
 public class LireMessageInfrastructure implements ILireMessageInfrastructure{
 
     ICreerPerception creerPerception;
+    ICommunication communication;
 
     public LireMessageInfrastructure() {
         this.creerPerception = new FabriqueAbstractPerception();
+        this.communication = new Communication();
     }
 
     @Override
-    public AbstractPerception lireInfrastructure() {
-
-
-        return creerPerception.creerPerception();
+    public AbstractPerception lireInfrastructure(ReferenceAgent referenceAgent) {
+        return creerPerception.creerPerception(communication.lireMessage(referenceAgent));
     }
 }
