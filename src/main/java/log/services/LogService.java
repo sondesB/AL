@@ -25,7 +25,6 @@ public class LogService {
         this.log = new File("log.txt");
     }
 
-
     /**
      * Ecrit une ligne dans le fichier de log.
      * @param logLine La ligne à ecrire dans le fichier de log.
@@ -39,4 +38,9 @@ public class LogService {
             e.printStackTrace();
         }
     }
+    
+    //getter
+    public File getLog() {
+		return this.log;
+	}
 }
