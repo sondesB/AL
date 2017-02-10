@@ -6,4 +6,6 @@ public interface IOrdonnanceur {
     void ordonnancer();
 
     void changerVitesse(EnumVitesse vitesse);
+
+    void changerOrdonnancement(IStratOrdonnanceur stratOrdonnanceur);
 }
