@@ -30,22 +30,24 @@ public class AnnuaireImpl implements Annuaire {
     }
 
     @Override
-    public void ajouterAgent(ReferenceAgent referenceAgent, Agent agent) {
-        agentsLocks.put(referenceAgent, new ReentrantReadWriteLock());
-        lockAgentEcriture(referenceAgent);
-        agents.put(referenceAgent, agent);
-        agentsMessagesQueues.put(referenceAgent, new ConcurrentLinkedQueue<>());
-        unlockAgentEcriture(referenceAgent);
-        annuaireListeners.forEach(annuaireListener -> annuaireListener.agentAjoute(referenceAgent));
+    public void addAgent(Agent agent) {
+        agentsLocks.put(agent.getReferenceAgent(), new ReentrantReadWriteLock());
+        lockAgentEcriture(agent.getReferenceAgent());
+        agents.put(agent.getReferenceAgent(), agent);
+        agentsMessagesQueues.put(agent.getReferenceAgent(), new ConcurrentLinkedQueue<>());
+        unlockAgentEcriture(agent.getReferenceAgent());
+        annuaireListeners.forEach(
+                annuaireListener -> annuaireListener.agentAjoute(agent.getReferenceAgent()));
     }
 
     @Override
-    public void retirerAgent(ReferenceAgent referenceAgent) {
-        lockAgentEcriture(referenceAgent);
-        agents.remove(referenceAgent);
-        agentsMessagesQueues.remove(referenceAgent);
-        unlockAgentEcriture(referenceAgent);
-        annuaireListeners.forEach(annuaireListener -> annuaireListener.agentRetire(referenceAgent));
+    public void removeAgent(Agent agent) {
+        lockAgentEcriture(agent.getReferenceAgent());
+        agents.remove(agent.getReferenceAgent());
+        agentsMessagesQueues.remove(agent.getReferenceAgent());
+        unlockAgentEcriture(agent.getReferenceAgent());
+        annuaireListeners.forEach(
+                annuaireListener -> annuaireListener.agentRetire(agent.getReferenceAgent()));
     }
 
     @Override
@@ -68,8 +70,8 @@ public class AnnuaireImpl implements Annuaire {
     @Override
     public Optional<MessageAgent> recevoirMessage(ReferenceAgent destinataire) {
         lockAgentLecture(destinataire);
-        Optional<MessageAgent> message = Optional.ofNullable(
-                agentsMessagesQueues.get(destinataire)).map(ConcurrentLinkedQueue::poll);
+        Optional<MessageAgent> message = Optional.ofNullable(agentsMessagesQueues.get(destinataire))
+                                                 .map(ConcurrentLinkedQueue::poll);
         unlockAgentLecture(destinataire);
         return message;
     }

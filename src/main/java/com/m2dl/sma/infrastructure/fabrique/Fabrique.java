@@ -4,9 +4,6 @@ import com.m2dl.sma.infrastructure.agent.Agent;
 import com.m2dl.sma.infrastructure.annuaire.IGestionAgent;
 import com.m2dl.sma.infrastructure.etat.IEtat;
 
-/**
- * Created by valentin Chevalier on 10/02/17.
- */
 public class Fabrique implements ICreationService, ISuicideService {
 
     IGestionAgent gestionAgent;
