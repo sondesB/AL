@@ -4,7 +4,7 @@ import java.io.File;
 
 public interface ILogRestitution {
 	/**
-	 * Retourne le fichier contenant les différentes connexions
+	 * Retourne le fichier contenant les diffÃ©rentes connexions
 	 */
 	File getLog();
 }
