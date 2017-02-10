@@ -5,6 +5,7 @@ import com.m2dl.sma.infrastructure.annuaire.AgentListener;
 import visualisation.abstractvisualisation.AbstractJournalisation;
 import visualisation.interfaces.ITransfert;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -15,17 +16,6 @@ public class Journalisation extends AbstractJournalisation implements AgentListe
     List<Agent> agentList;
 
     @Override
-    protected ITransfert make_donneEnvoyer() {
-        return new Transfert();
-    }
-
-    @Override
-    protected AgentListener make_notification() {
-        return this;
-    }
-
-
-    @Override
     public void agentAjoute(Agent agent) {
 
     }
@@ -34,4 +24,22 @@ public class Journalisation extends AbstractJournalisation implements AgentListe
     public void agentRetire(Agent agent) {
 
     }
+
+    @Override
+    protected AgentListener make_notification() {
+        return null;
+    }
+
+    private void afficherAgent (Agent agent) {
+        String agentsEnString = "";
+
+        Iterator<Agent> it = this.agentList.iterator();
+
+        while (it.hasNext()) {
+            agentsEnString += it.next().getEtatInitial() + " n\\  ";
+        }
+
+        this.requires().envoyerMsgVersAffichage().lireInformations(agentsEnString);
+    }
+
 }

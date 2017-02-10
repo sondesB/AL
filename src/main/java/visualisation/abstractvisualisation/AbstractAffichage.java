@@ -4,19 +4,19 @@ package visualisation.abstractvisualisation;
 import visualisation.interfaces.ITransfert;
 
 @SuppressWarnings("all")
-public class AbstractAffichage {
+public abstract class AbstractAffichage {
   public interface Requires {
-    /**
-     * This can be called by the implementation to access this required port.
-     * 
-     */
-    public ITransfert donneRecu();
   }
   
   public interface Component extends Provides {
   }
   
   public interface Provides {
+    /**
+     * This can be called to access the provided port.
+     * 
+     */
+    public ITransfert recevoirMsgDeJournalisation();
   }
   
   public interface Parts {
@@ -36,8 +36,16 @@ public class AbstractAffichage {
       
     }
     
+    private void init_recevoirMsgDeJournalisation() {
+      assert this.recevoirMsgDeJournalisation == null: "This is a bug.";
+      this.recevoirMsgDeJournalisation = this.implementation.make_recevoirMsgDeJournalisation();
+      if (this.recevoirMsgDeJournalisation == null) {
+      	throw new RuntimeException("make_recevoirMsgDeJournalisation() in abstractvisualisation.AbstractAffichage should not return null.");
+      }
+    }
+    
     protected void initProvidedPorts() {
-      
+      init_recevoirMsgDeJournalisation();
     }
     
     public ComponentImpl(final AbstractAffichage implem, final Requires b, final boolean doInits) {
@@ -54,6 +62,12 @@ public class AbstractAffichage {
       	initParts();
       	initProvidedPorts();
       }
+    }
+    
+    private ITransfert recevoirMsgDeJournalisation;
+    
+    public ITransfert recevoirMsgDeJournalisation() {
+      return this.recevoirMsgDeJournalisation;
     }
   }
   
@@ -97,6 +111,13 @@ public class AbstractAffichage {
   }
   
   /**
+   * This should be overridden by the implementation to define the provided port.
+   * This will be called once during the construction of the component to initialize the port.
+   * 
+   */
+  protected abstract ITransfert make_recevoirMsgDeJournalisation();
+  
+  /**
    * This can be called by the implementation to access the required ports.
    * 
    */
@@ -135,5 +156,12 @@ public class AbstractAffichage {
     }
     return _comp;
   }
+  
+  /**
+   * Use to instantiate a component from this implementation.
+   * 
+   */
+  public Component newComponent() {
+    return this._newComponent(new Requires() {}, true);
+  }
 }
-

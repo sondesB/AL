@@ -1,24 +1,22 @@
 package visualisation.abstractvisualisation;
 
-
 import com.m2dl.sma.infrastructure.annuaire.AgentListener;
 import visualisation.interfaces.ITransfert;
 
 @SuppressWarnings("all")
 public abstract class AbstractJournalisation {
   public interface Requires {
+    /**
+     * This can be called by the implementation to access this required port.
+     * 
+     */
+    public ITransfert envoyerMsgVersAffichage();
   }
   
   public interface Component extends Provides {
   }
   
   public interface Provides {
-    /**
-     * This can be called to access the provided port.
-     * 
-     */
-    public ITransfert donneEnvoyer();
-    
     /**
      * This can be called to access the provided port.
      * 
@@ -43,14 +41,6 @@ public abstract class AbstractJournalisation {
       
     }
     
-    private void init_donneEnvoyer() {
-      assert this.donneEnvoyer == null: "This is a bug.";
-      this.donneEnvoyer = this.implementation.make_donneEnvoyer();
-      if (this.donneEnvoyer == null) {
-      	throw new RuntimeException("make_donneEnvoyer() in abstractvisualisation.AbstractJournalisation should not return null.");
-      }
-    }
-    
     private void init_notification() {
       assert this.notification == null: "This is a bug.";
       this.notification = this.implementation.make_notification();
@@ -60,7 +50,6 @@ public abstract class AbstractJournalisation {
     }
     
     protected void initProvidedPorts() {
-      init_donneEnvoyer();
       init_notification();
     }
     
@@ -78,12 +67,6 @@ public abstract class AbstractJournalisation {
       	initParts();
       	initProvidedPorts();
       }
-    }
-    
-    private ITransfert donneEnvoyer;
-    
-    public ITransfert donneEnvoyer() {
-      return this.donneEnvoyer;
     }
     
     private AgentListener notification;
@@ -137,13 +120,6 @@ public abstract class AbstractJournalisation {
    * This will be called once during the construction of the component to initialize the port.
    * 
    */
-  protected abstract ITransfert make_donneEnvoyer();
-  
-  /**
-   * This should be overridden by the implementation to define the provided port.
-   * This will be called once during the construction of the component to initialize the port.
-   * 
-   */
   protected abstract AgentListener make_notification();
   
   /**
@@ -184,13 +160,5 @@ public abstract class AbstractJournalisation {
     	_comp.start();
     }
     return _comp;
-  }
-  
-  /**
-   * Use to instantiate a component from this implementation.
-   * 
-   */
-  public Component newComponent() {
-    return this._newComponent(new Requires() {}, true);
   }
 }
