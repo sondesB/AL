@@ -6,7 +6,6 @@ import com.m2dl.sma.infrastructure.etat.IEtat;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class StrategieEtatAEtat implements IStratOrdonnanceur {
 
