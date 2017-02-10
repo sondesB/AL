@@ -11,12 +11,14 @@ public interface Notification {
 
     /**
      * Modifie la liste des services apparus
+     *
      * @param listServicesApparus les services apparus
      */
     void servicesApparus(ArrayList<OCService> listServicesApparus);
 
     /**
      * Modifie la liste des service disparus
+     *
      * @param listServicesDisparus les services disparus
      */
     void servicesDisparus(ArrayList<OCService> listServicesDisparus);
