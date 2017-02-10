@@ -1,6 +1,7 @@
 package Agent.Decider.ComposantTraitementPerceptionVide;
 
 import Agent.Decider.ComposantCreationDecision.AbstractDecision;
+import Agent.Percevoir.CreerPerception.Perceptions.PerceptionVide;
 
 import java.util.List;
 
@@ -9,5 +10,5 @@ import java.util.List;
  */
 public interface ITraitementPerceptionVide {
 
-  public AbstractDecision traiter(List<PerceptionVide> listePerceptionVide):
+  public AbstractDecision traiter(List<PerceptionVide> listePerceptionVide);
 }

@@ -1,7 +1,7 @@
 package Agent.Decider.ComposantTraitementDisparition;
 
 import Agent.Decider.ComposantCreationDecision.AbstractDecision;
-import Agent.Percevoir.CreatePerception.PerceptionSonde;
+import Agent.Percevoir.CreerPerception.Perceptions.PerceptionSonde;
 
 import java.util.List;
 

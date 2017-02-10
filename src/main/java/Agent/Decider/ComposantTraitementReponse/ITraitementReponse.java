@@ -1,7 +1,7 @@
 package Agent.Decider.ComposantTraitementReponse;
 
 import Agent.Decider.ComposantCreationDecision.AbstractDecision;
-import Agent.Percevoir.CreatePerception.PerceptionReponse;
+import Agent.Percevoir.CreerPerception.Perceptions.PerceptionReponse;
 
 import java.util.List;
 

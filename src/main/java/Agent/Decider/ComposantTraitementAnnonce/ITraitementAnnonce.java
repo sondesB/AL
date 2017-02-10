@@ -1,7 +1,7 @@
 package Agent.Decider.ComposantTraitementAnnonce;
 
 import Agent.Decider.ComposantCreationDecision.AbstractDecision;
-import Agent.Percevoir.CreatePerception.PerceptionAnnonce;
+import Agent.Percevoir.CreerPerception.Perceptions.PerceptionAnnonce;
 
 import java.util.List;
 
