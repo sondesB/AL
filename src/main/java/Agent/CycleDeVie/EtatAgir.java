@@ -10,7 +10,7 @@ public class EtatAgir extends Etat {
     private ComposantAgir composantAgir;
 
     public EtatAgir() {
-        
+
     }
 
     public Optional<IEtat> executer() {

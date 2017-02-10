@@ -19,10 +19,10 @@ public class EtatDecider extends Etat{
 
     public Optional<IEtat> executer() {
         List<AstractDecision> listeDecisions  = composantDecider.decider();
-        ComposantAgir composantAgir = new ComposantAgir(serviceAgent);
+        ComposantAgir composantAgir = new ComposantAgir(serviceAgent, communication);
         composantAgir.setListeDecisions(listeDecisions);
         EtatAgir etatAgir = new EtatAgir();
-        etatAgir.setComposantAgit(composantAgir);
+        etatAgir.setComposantAgir(composantAgir);
         return Optional.ofNullable(etatAgir);
     }
 

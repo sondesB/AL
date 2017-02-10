@@ -19,11 +19,10 @@ public class EtatPercevoir extends Etat {
 
     public Optional<IEtat> executer() {
         List<AstractPerception> listePerceptions  = composantPercevoir.percevoir();
-        ComposantDecider composantDecider = new ComposantDecider();
+        ComposantDecider composantDecider = new ComposantDecider(serviceAgent);
         composantDecider.setListePerceptions(listePerceptions);
-        EtatDecider etatDecider = new EtatDecider();
+        EtatDecider etatDecider = new EtatDecider(serviceAgent);
         etatDecider.setComposantDecider(composantDecider);
-        etatDecider.setServiceAgent(serviceAgent);
         return Optional.ofNullable(etatDecider);
     }
 
