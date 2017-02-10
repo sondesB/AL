@@ -1,28 +1,28 @@
-import ServiceNotification
-import ServiceSouscription
-import Transfert
+import interfaces.IServiceSouscription
+import interfaces.IServiceNotification
+import interfaces.ITransfert
 
-namespace toto {
-	
-	component Visualisation {
+namespace abstractvisualisation {
 
-		provides notification : ServiceNotification = journalisation.notification
-		requires souscription : ServiceSouscription
+	component AbstractVisualisation {
 
-		part affichage : Affichage{
+		provides notification : IServiceNotification = journalisation.notification
+		requires souscription : IServiceSouscription
+
+		part affichage : AbstractAffichage{
 			bind donneRecu to journalisation.donneEnvoyer
 		}
-	
-		part journalisation : Journalisation 	
+
+		part journalisation : AbstractJournalisation
 	}
-	
-	component Journalisation{
-		provides donneEnvoyer : Transfert
-		provides notification : ServiceNotification
+
+	component AbstractJournalisation{
+		provides donneEnvoyer : ITransfert
+		provides notification : IServiceNotification
 	}
-	
-	component Affichage{
-		requires donneRecu : Transfert 
+
+	component AbstractAffichage{
+		requires donneRecu : ITransfert
 	}
 
 }

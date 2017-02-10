@@ -1,17 +1,21 @@
-package visualisation;
+package visualisation.abstractvisualisation;
+
+
+import visualisation.interfaces.IServiceNotification;
+import visualisation.interfaces.IServiceSouscription;
+import visualisation.interfaces.ITransfert;
 
 @SuppressWarnings("all")
-public abstract class Visualisation {
-
+public abstract class AbstractVisualisation {
   public interface Requires {
     /**
      * This can be called by the implementation to access this required port.
      * 
      */
-    public ServiceSouscription souscription();
+    public IServiceSouscription souscription();
   }
   
-  public interface Component extends Visualisation.Provides {
+  public interface Component extends Provides {
   }
   
   public interface Provides {
@@ -19,7 +23,7 @@ public abstract class Visualisation {
      * This can be called to access the provided port.
      * 
      */
-    public ServiceNotification notification();
+    public IServiceNotification notification();
   }
   
   public interface Parts {
@@ -28,26 +32,26 @@ public abstract class Visualisation {
      * It will be initialized after the required ports are initialized and before the provided ports are initialized.
      * 
      */
-    public Affichage.Component affichage();
+    public AbstractAffichage.Component affichage();
     
     /**
      * This can be called by the implementation to access the part and its provided ports.
      * It will be initialized after the required ports are initialized and before the provided ports are initialized.
      * 
      */
-    public Journalisation.Component journalisation();
+    public AbstractJournalisation.Component journalisation();
   }
   
-  public static class ComponentImpl implements Visualisation.Component, Visualisation.Parts {
-    private final Visualisation.Requires bridge;
+  public static class ComponentImpl implements Component, Parts {
+    private final Requires bridge;
     
-    private final Visualisation implementation;
+    private final AbstractVisualisation implementation;
     
     public void start() {
       assert this.affichage != null: "This is a bug.";
-      ((Affichage.ComponentImpl) this.affichage).start();
+      ((AbstractAffichage.ComponentImpl) this.affichage).start();
       assert this.journalisation != null: "This is a bug.";
-      ((Journalisation.ComponentImpl) this.journalisation).start();
+      ((AbstractJournalisation.ComponentImpl) this.journalisation).start();
       this.implementation.start();
       this.implementation.started = true;
     }
@@ -57,7 +61,7 @@ public abstract class Visualisation {
       assert this.implem_affichage == null: "This is a bug.";
       this.implem_affichage = this.implementation.make_affichage();
       if (this.implem_affichage == null) {
-      	throw new RuntimeException("make_affichage() in toto.Visualisation should not return null.");
+      	throw new RuntimeException("make_affichage() in abstractvisualisation.AbstractVisualisation should not return null.");
       }
       this.affichage = this.implem_affichage._newComponent(new BridgeImpl_affichage(), false);
       
@@ -68,7 +72,7 @@ public abstract class Visualisation {
       assert this.implem_journalisation == null: "This is a bug.";
       this.implem_journalisation = this.implementation.make_journalisation();
       if (this.implem_journalisation == null) {
-      	throw new RuntimeException("make_journalisation() in toto.Visualisation should not return null.");
+      	throw new RuntimeException("make_journalisation() in abstractvisualisation.AbstractVisualisation should not return null.");
       }
       this.journalisation = this.implem_journalisation._newComponent(new BridgeImpl_journalisation(), false);
       
@@ -83,7 +87,7 @@ public abstract class Visualisation {
       
     }
     
-    public ComponentImpl(final Visualisation implem, final Visualisation.Requires b, final boolean doInits) {
+    public ComponentImpl(final AbstractVisualisation implem, final Requires b, final boolean doInits) {
       this.bridge = b;
       this.implementation = implem;
       
@@ -99,32 +103,32 @@ public abstract class Visualisation {
       }
     }
     
-    public ServiceNotification notification() {
+    public IServiceNotification notification() {
       return this.journalisation().notification();
     }
     
-    private Affichage.Component affichage;
+    private AbstractAffichage.Component affichage;
     
-    private Affichage implem_affichage;
+    private AbstractAffichage implem_affichage;
     
-    private final class BridgeImpl_affichage implements Affichage.Requires {
-      public final Transfert donneRecu() {
-        return Visualisation.ComponentImpl.this.journalisation().donneEnvoyer();
+    private final class BridgeImpl_affichage implements AbstractAffichage.Requires {
+      public final ITransfert donneRecu() {
+        return ComponentImpl.this.journalisation().donneEnvoyer();
       }
     }
     
-    public final Affichage.Component affichage() {
+    public final AbstractAffichage.Component affichage() {
       return this.affichage;
     }
     
-    private Journalisation.Component journalisation;
+    private AbstractJournalisation.Component journalisation;
     
-    private Journalisation implem_journalisation;
+    private AbstractJournalisation implem_journalisation;
     
-    private final class BridgeImpl_journalisation implements Journalisation.Requires {
+    private final class BridgeImpl_journalisation implements AbstractJournalisation.Requires {
     }
     
-    public final Journalisation.Component journalisation() {
+    public final AbstractJournalisation.Component journalisation() {
       return this.journalisation;
     }
   }
@@ -143,7 +147,7 @@ public abstract class Visualisation {
    */
   private boolean started = false;;
   
-  private Visualisation.ComponentImpl selfComponent;
+  private ComponentImpl selfComponent;
   
   /**
    * Can be overridden by the implementation.
@@ -160,7 +164,7 @@ public abstract class Visualisation {
    * This can be called by the implementation to access the provided ports.
    * 
    */
-  protected Visualisation.Provides provides() {
+  protected Provides provides() {
     assert this.selfComponent != null: "This is a bug.";
     if (!this.init) {
     	throw new RuntimeException("provides() can't be accessed until a component has been created from this implementation, use start() instead of the constructor if provides() is needed to initialise the component.");
@@ -172,7 +176,7 @@ public abstract class Visualisation {
    * This can be called by the implementation to access the required ports.
    * 
    */
-  protected Visualisation.Requires requires() {
+  protected Requires requires() {
     assert this.selfComponent != null: "This is a bug.";
     if (!this.init) {
     	throw new RuntimeException("requires() can't be accessed until a component has been created from this implementation, use start() instead of the constructor if requires() is needed to initialise the component.");
@@ -184,7 +188,7 @@ public abstract class Visualisation {
    * This can be called by the implementation to access the parts and their provided ports.
    * 
    */
-  protected Visualisation.Parts parts() {
+  protected Parts parts() {
     assert this.selfComponent != null: "This is a bug.";
     if (!this.init) {
     	throw new RuntimeException("parts() can't be accessed until a component has been created from this implementation, use start() instead of the constructor if parts() is needed to initialise the component.");
@@ -197,29 +201,28 @@ public abstract class Visualisation {
    * This will be called once during the construction of the component to initialize this sub-component.
    * 
    */
-  protected abstract Affichage make_affichage();
+  protected abstract AbstractAffichage make_affichage();
   
   /**
    * This should be overridden by the implementation to define how to create this sub-component.
    * This will be called once during the construction of the component to initialize this sub-component.
    * 
    */
-  protected abstract Journalisation make_journalisation();
+  protected abstract AbstractJournalisation make_journalisation();
   
   /**
    * Not meant to be used to manually instantiate components (except for testing).
    * 
    */
-  public synchronized Visualisation.Component _newComponent(final Visualisation.Requires b, final boolean start) {
+  public synchronized Component _newComponent(final Requires b, final boolean start) {
     if (this.init) {
-    	throw new RuntimeException("This instance of Visualisation has already been used to create a component, use another one.");
+    	throw new RuntimeException("This instance of AbstractVisualisation has already been used to create a component, use another one.");
     }
     this.init = true;
-    Visualisation.ComponentImpl  _comp = new Visualisation.ComponentImpl(this, b, true);
+    ComponentImpl  _comp = new ComponentImpl(this, b, true);
     if (start) {
     	_comp.start();
     }
     return _comp;
   }
-
 }

@@ -1,35 +1,31 @@
-package visualisation;
+package visualisation.abstractvisualisation;
+
+
+import visualisation.interfaces.ITransfert;
 
 @SuppressWarnings("all")
-public abstract class Journalisation {
-
+public class AbstractAffichage {
   public interface Requires {
+    /**
+     * This can be called by the implementation to access this required port.
+     * 
+     */
+    public ITransfert donneRecu();
   }
   
-  public interface Component extends Journalisation.Provides {
+  public interface Component extends Provides {
   }
   
   public interface Provides {
-    /**
-     * This can be called to access the provided port.
-     * 
-     */
-    public Transfert donneEnvoyer();
-    
-    /**
-     * This can be called to access the provided port.
-     * 
-     */
-    public ServiceNotification notification();
   }
   
   public interface Parts {
   }
   
-  public static class ComponentImpl implements Journalisation.Component, Journalisation.Parts {
-    private final Journalisation.Requires bridge;
+  public static class ComponentImpl implements Component, Parts {
+    private final Requires bridge;
     
-    private final Journalisation implementation;
+    private final AbstractAffichage implementation;
     
     public void start() {
       this.implementation.start();
@@ -40,28 +36,11 @@ public abstract class Journalisation {
       
     }
     
-    private void init_donneEnvoyer() {
-      assert this.donneEnvoyer == null: "This is a bug.";
-      this.donneEnvoyer = this.implementation.make_donneEnvoyer();
-      if (this.donneEnvoyer == null) {
-      	throw new RuntimeException("make_donneEnvoyer() in toto.Journalisation should not return null.");
-      }
-    }
-    
-    private void init_notification() {
-      assert this.notification == null: "This is a bug.";
-      this.notification = this.implementation.make_notification();
-      if (this.notification == null) {
-      	throw new RuntimeException("make_notification() in toto.Journalisation should not return null.");
-      }
-    }
-    
     protected void initProvidedPorts() {
-      init_donneEnvoyer();
-      init_notification();
+      
     }
     
-    public ComponentImpl(final Journalisation implem, final Journalisation.Requires b, final boolean doInits) {
+    public ComponentImpl(final AbstractAffichage implem, final Requires b, final boolean doInits) {
       this.bridge = b;
       this.implementation = implem;
       
@@ -75,18 +54,6 @@ public abstract class Journalisation {
       	initParts();
       	initProvidedPorts();
       }
-    }
-    
-    private Transfert donneEnvoyer;
-    
-    public Transfert donneEnvoyer() {
-      return this.donneEnvoyer;
-    }
-    
-    private ServiceNotification notification;
-    
-    public ServiceNotification notification() {
-      return this.notification;
     }
   }
   
@@ -104,7 +71,7 @@ public abstract class Journalisation {
    */
   private boolean started = false;;
   
-  private Journalisation.ComponentImpl selfComponent;
+  private ComponentImpl selfComponent;
   
   /**
    * Can be overridden by the implementation.
@@ -121,7 +88,7 @@ public abstract class Journalisation {
    * This can be called by the implementation to access the provided ports.
    * 
    */
-  protected Journalisation.Provides provides() {
+  protected Provides provides() {
     assert this.selfComponent != null: "This is a bug.";
     if (!this.init) {
     	throw new RuntimeException("provides() can't be accessed until a component has been created from this implementation, use start() instead of the constructor if provides() is needed to initialise the component.");
@@ -130,24 +97,10 @@ public abstract class Journalisation {
   }
   
   /**
-   * This should be overridden by the implementation to define the provided port.
-   * This will be called once during the construction of the component to initialize the port.
-   * 
-   */
-  protected abstract Transfert make_donneEnvoyer();
-  
-  /**
-   * This should be overridden by the implementation to define the provided port.
-   * This will be called once during the construction of the component to initialize the port.
-   * 
-   */
-  protected abstract ServiceNotification make_notification();
-  
-  /**
    * This can be called by the implementation to access the required ports.
    * 
    */
-  protected Journalisation.Requires requires() {
+  protected Requires requires() {
     assert this.selfComponent != null: "This is a bug.";
     if (!this.init) {
     	throw new RuntimeException("requires() can't be accessed until a component has been created from this implementation, use start() instead of the constructor if requires() is needed to initialise the component.");
@@ -159,7 +112,7 @@ public abstract class Journalisation {
    * This can be called by the implementation to access the parts and their provided ports.
    * 
    */
-  protected Journalisation.Parts parts() {
+  protected Parts parts() {
     assert this.selfComponent != null: "This is a bug.";
     if (!this.init) {
     	throw new RuntimeException("parts() can't be accessed until a component has been created from this implementation, use start() instead of the constructor if parts() is needed to initialise the component.");
@@ -171,24 +124,15 @@ public abstract class Journalisation {
    * Not meant to be used to manually instantiate components (except for testing).
    * 
    */
-  public synchronized Journalisation.Component _newComponent(final Journalisation.Requires b, final boolean start) {
+  public synchronized Component _newComponent(final Requires b, final boolean start) {
     if (this.init) {
-    	throw new RuntimeException("This instance of Journalisation has already been used to create a component, use another one.");
+    	throw new RuntimeException("This instance of AbstractAffichage has already been used to create a component, use another one.");
     }
     this.init = true;
-    Journalisation.ComponentImpl  _comp = new Journalisation.ComponentImpl(this, b, true);
+    ComponentImpl  _comp = new ComponentImpl(this, b, true);
     if (start) {
     	_comp.start();
     }
     return _comp;
   }
-  
-  /**
-   * Use to instantiate a component from this implementation.
-   * 
-   */
-  public Journalisation.Component newComponent() {
-    return this._newComponent(new Journalisation.Requires() {}, true);
-  }
-
 }

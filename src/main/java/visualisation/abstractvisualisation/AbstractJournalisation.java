@@ -1,39 +1,38 @@
-package visualisation;
+package visualisation.abstractvisualisation;
+
+
+import visualisation.interfaces.IServiceNotification;
+import visualisation.interfaces.ITransfert;
 
 @SuppressWarnings("all")
-public class Affichage {
-
-  private IStrategieAffichage strategieAffichage;
-
-  public void setIStrategieAffichage (IStrategieAffichage strat) {
-    this.strategieAffichage = strat;
-  }
-
-  public IStrategieAffichage getIStrategieAffichage () {
-    return this.strategieAffichage;
-  }
-
+public abstract class AbstractJournalisation {
   public interface Requires {
-    /**
-     * This can be called by the implementation to access this required port.
-     * 
-     */
-    public Transfert donneRecu();
   }
   
-  public interface Component extends Affichage.Provides {
+  public interface Component extends Provides {
   }
   
   public interface Provides {
+    /**
+     * This can be called to access the provided port.
+     * 
+     */
+    public ITransfert donneEnvoyer();
+    
+    /**
+     * This can be called to access the provided port.
+     * 
+     */
+    public IServiceNotification notification();
   }
   
   public interface Parts {
   }
   
-  public static class ComponentImpl implements Affichage.Component, Affichage.Parts {
-    private final Affichage.Requires bridge;
+  public static class ComponentImpl implements Component, Parts {
+    private final Requires bridge;
     
-    private final Affichage implementation;
+    private final AbstractJournalisation implementation;
     
     public void start() {
       this.implementation.start();
@@ -44,11 +43,28 @@ public class Affichage {
       
     }
     
-    protected void initProvidedPorts() {
-      
+    private void init_donneEnvoyer() {
+      assert this.donneEnvoyer == null: "This is a bug.";
+      this.donneEnvoyer = this.implementation.make_donneEnvoyer();
+      if (this.donneEnvoyer == null) {
+      	throw new RuntimeException("make_donneEnvoyer() in abstractvisualisation.AbstractJournalisation should not return null.");
+      }
     }
     
-    public ComponentImpl(final Affichage implem, final Affichage.Requires b, final boolean doInits) {
+    private void init_notification() {
+      assert this.notification == null: "This is a bug.";
+      this.notification = this.implementation.make_notification();
+      if (this.notification == null) {
+      	throw new RuntimeException("make_notification() in abstractvisualisation.AbstractJournalisation should not return null.");
+      }
+    }
+    
+    protected void initProvidedPorts() {
+      init_donneEnvoyer();
+      init_notification();
+    }
+    
+    public ComponentImpl(final AbstractJournalisation implem, final Requires b, final boolean doInits) {
       this.bridge = b;
       this.implementation = implem;
       
@@ -62,6 +78,18 @@ public class Affichage {
       	initParts();
       	initProvidedPorts();
       }
+    }
+    
+    private ITransfert donneEnvoyer;
+    
+    public ITransfert donneEnvoyer() {
+      return this.donneEnvoyer;
+    }
+    
+    private IServiceNotification notification;
+    
+    public IServiceNotification notification() {
+      return this.notification;
     }
   }
   
@@ -79,7 +107,7 @@ public class Affichage {
    */
   private boolean started = false;;
   
-  private Affichage.ComponentImpl selfComponent;
+  private ComponentImpl selfComponent;
   
   /**
    * Can be overridden by the implementation.
@@ -96,7 +124,7 @@ public class Affichage {
    * This can be called by the implementation to access the provided ports.
    * 
    */
-  protected Affichage.Provides provides() {
+  protected Provides provides() {
     assert this.selfComponent != null: "This is a bug.";
     if (!this.init) {
     	throw new RuntimeException("provides() can't be accessed until a component has been created from this implementation, use start() instead of the constructor if provides() is needed to initialise the component.");
@@ -105,10 +133,24 @@ public class Affichage {
   }
   
   /**
+   * This should be overridden by the implementation to define the provided port.
+   * This will be called once during the construction of the component to initialize the port.
+   * 
+   */
+  protected abstract ITransfert make_donneEnvoyer();
+  
+  /**
+   * This should be overridden by the implementation to define the provided port.
+   * This will be called once during the construction of the component to initialize the port.
+   * 
+   */
+  protected abstract IServiceNotification make_notification();
+  
+  /**
    * This can be called by the implementation to access the required ports.
    * 
    */
-  protected Affichage.Requires requires() {
+  protected Requires requires() {
     assert this.selfComponent != null: "This is a bug.";
     if (!this.init) {
     	throw new RuntimeException("requires() can't be accessed until a component has been created from this implementation, use start() instead of the constructor if requires() is needed to initialise the component.");
@@ -120,7 +162,7 @@ public class Affichage {
    * This can be called by the implementation to access the parts and their provided ports.
    * 
    */
-  protected Affichage.Parts parts() {
+  protected Parts parts() {
     assert this.selfComponent != null: "This is a bug.";
     if (!this.init) {
     	throw new RuntimeException("parts() can't be accessed until a component has been created from this implementation, use start() instead of the constructor if parts() is needed to initialise the component.");
@@ -132,16 +174,23 @@ public class Affichage {
    * Not meant to be used to manually instantiate components (except for testing).
    * 
    */
-  public synchronized Affichage.Component _newComponent(final Affichage.Requires b, final boolean start) {
+  public synchronized Component _newComponent(final Requires b, final boolean start) {
     if (this.init) {
-    	throw new RuntimeException("This instance of Affichage has already been used to create a component, use another one.");
+    	throw new RuntimeException("This instance of AbstractJournalisation has already been used to create a component, use another one.");
     }
     this.init = true;
-    Affichage.ComponentImpl  _comp = new Affichage.ComponentImpl(this, b, true);
+    ComponentImpl  _comp = new ComponentImpl(this, b, true);
     if (start) {
     	_comp.start();
     }
     return _comp;
   }
-
+  
+  /**
+   * Use to instantiate a component from this implementation.
+   * 
+   */
+  public Component newComponent() {
+    return this._newComponent(new Requires() {}, true);
+  }
 }
