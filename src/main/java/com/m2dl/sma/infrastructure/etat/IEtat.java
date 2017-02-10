@@ -1,8 +1,21 @@
 package com.m2dl.sma.infrastructure.etat;
 
+import com.m2dl.sma.infrastructure.communication.ICommunication;
+
 import java.util.Optional;
 
-public interface IEtat {
+public abstract class IEtat {
 
-    Optional<IEtat> executer();
+    private ICommunication communication;
+
+    public ICommunication getCommunication() {
+        return communication;
+    }
+
+    public void setCommunication(ICommunication communication) {
+        this.communication = communication;
+    }
+
+    abstract Optional<IEtat> executer();
+
 }
