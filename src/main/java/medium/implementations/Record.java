@@ -6,7 +6,6 @@ import medium.services.Enregistrement;
 import stub.Agent;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Record permet de stocker les agents disponibles.
@@ -18,17 +17,17 @@ public class Record implements ListerAgents, Enregistrement {
     /**
      * Liste des agents disponibles associés à leurs services.
      */
-    private HashMap<Agent, List<OCService>> agents = new HashMap<>();
+    private HashMap<Agent, OCService> agents = new HashMap<>();
 
     /**
      * Ajoute un agent disponible à la liste.
      *
      * @param agent nouvel agent
-     * @param listeServices liste des services de l'agent
+     * @param service service de l'agent
      */
     @Override
-    public void addAgent(Agent agent, List<OCService> listeServices) {
-        this.agents.put(agent, listeServices);
+    public void addAgent(Agent agent, OCService service) {
+        this.agents.put(agent, service);
     }
 
     /**
@@ -47,7 +46,7 @@ public class Record implements ListerAgents, Enregistrement {
      * @return liste d'agents et services
      */
     @Override
-    public HashMap<Agent, List<OCService>> getListAgents() {
+    public HashMap<Agent, OCService> getListAgents() {
         return this.agents;
     }
 }

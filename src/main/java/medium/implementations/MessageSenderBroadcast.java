@@ -8,7 +8,6 @@ import stub.Communication;
 import unifieur.services.Matching;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,8 +27,8 @@ public class MessageSenderBroadcast implements EnvAnnonce {
      * @param ann    annonce
      */
     @Override
-    public void sendAnnonce(HashMap<Agent, List<OCService>> agents, Annonce ann) {
-        for (Map.Entry<Agent, List<OCService>> agent : agents.entrySet()) {
+    public void sendAnnonce(HashMap<Agent, OCService> agents, Annonce ann) {
+        for (Map.Entry<Agent, OCService> agent : agents.entrySet()) {
             communication.envoiSimple(ann, agent.getKey());
         }
     }
