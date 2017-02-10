@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 
-public interface ICommunication {
+public interface ICom {
 
     void envoyerMessage(ReferenceAgent expediteur, ReferenceAgent destinataire,
             MessageAgent messageAgent);
