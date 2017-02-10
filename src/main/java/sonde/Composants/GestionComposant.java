@@ -3,9 +3,12 @@ package sonde.Composants;
 import interfaceswcomp.Acquisition;
 import interfaceswcomp.AcquisitionFailure;
 import interfaceswcomp.OCComponent;
+import interfaceswcomp.OCService;
+import log.interfaces.ILogComposant;
 import sonde.Services.Configuration;
 import sonde.Services.Notification;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -15,9 +18,9 @@ public class GestionComposant implements Configuration {
 
     private Notification notification;
     private Acquisition acquisition;
-    //ILogComposant logger;
-    //Périodicité du sondage
+    private ILogComposant logger;
     private int periodicite;
+
     @Override
     public void definirPeriodicite(int valeur) {
         this.periodicite = valeur;
@@ -30,12 +33,21 @@ public class GestionComposant implements Configuration {
      * @return void
      * @throws Exception
      */
-    public void  getComposant() throws AcquisitionFailure {
+    public void getComposantApparu() throws AcquisitionFailure {
         Set<OCComponent> composants = acquisition.getNewComponents();
-        for(OCComponent c : composants) {
-            //Logger Composant
-            notification.servicesApparus(c.getProvidedServices());
-            notification.servicesApparus(c.getRequiredServices());
+        for (OCComponent c : composants) {
+            logger.logApparitionComposant(c);
+
+            ArrayList<OCService> servicesFournis = c.getProvidedServices();
+            ArrayList<OCService> servicesRequis = c.getRequiredServices();
+
+            if (servicesFournis != null) {
+                notification.servicesApparus(servicesFournis);
+            }
+
+            if (servicesRequis != null) {
+                notification.servicesApparus(servicesRequis);
+            }
         }
     }
 
@@ -48,10 +60,19 @@ public class GestionComposant implements Configuration {
      */
     public void getComposantDisparu() throws AcquisitionFailure {
         Set<OCComponent> composants = acquisition.getDisappearedComponents();
-        for(OCComponent c : composants) {
-            //Logger Composant
-            notification.servicesDisparus(c.getProvidedServices());
-            notification.servicesDisparus(c.getRequiredServices());
+        for (OCComponent c : composants) {
+            logger.logDisparitionComposant(c);
+
+            ArrayList<OCService> servicesFournis = c.getProvidedServices();
+            ArrayList<OCService> servicesRequis = c.getRequiredServices();
+
+            if (servicesFournis != null) {
+                notification.servicesDisparus(servicesFournis);
+            }
+
+            if (servicesRequis != null) {
+                notification.servicesDisparus(servicesRequis);
+            }
         }
     }
 }
