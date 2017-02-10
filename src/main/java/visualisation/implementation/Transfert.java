@@ -8,6 +8,7 @@ import visualisation.interfaces.ITransfert;
 public class Transfert implements ITransfert {
     @Override
     public String lireInformations() {
+
         return null;
     }
 }
