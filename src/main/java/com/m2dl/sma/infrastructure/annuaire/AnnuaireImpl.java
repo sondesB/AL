@@ -18,12 +18,14 @@ import com.m2dl.sma.infrastructure.communication.MessageAgent;
 public class AnnuaireImpl implements Annuaire {
 
     private List<AgentListener> agentListeners;
+    private List<MessageAgentListener> messageAgentListeners;
     private ConcurrentMap<ReferenceAgent, Agent> agents;
     private ConcurrentMap<ReferenceAgent, ConcurrentLinkedQueue<MessageAgent>> agentsMessagesQueues;
     private ConcurrentMap<ReferenceAgent, ReadWriteLock> agentsLocks;
 
     public AnnuaireImpl() {
         agentListeners = Collections.synchronizedList(new ArrayList<>());
+        messageAgentListeners = Collections.synchronizedList(new ArrayList<>());
         agents = new ConcurrentHashMap<>();
         agentsMessagesQueues = new ConcurrentHashMap<>();
         agentsLocks = new ConcurrentHashMap<>();
@@ -36,8 +38,7 @@ public class AnnuaireImpl implements Annuaire {
         agents.put(agent.getReferenceAgent(), agent);
         agentsMessagesQueues.put(agent.getReferenceAgent(), new ConcurrentLinkedQueue<>());
         unlockAgentEcriture(agent.getReferenceAgent());
-        agentListeners.forEach(
-                agentListener -> agentListener.agentAjoute(agent));
+        agentListeners.forEach(agentListener -> agentListener.agentAjoute(agent));
     }
 
     @Override
@@ -46,8 +47,7 @@ public class AnnuaireImpl implements Annuaire {
         agents.remove(agent.getReferenceAgent());
         agentsMessagesQueues.remove(agent.getReferenceAgent());
         unlockAgentEcriture(agent.getReferenceAgent());
-        agentListeners.forEach(
-                agentListener -> agentListener.agentRetire(agent));
+        agentListeners.forEach(agentListener -> agentListener.agentRetire(agent));
     }
 
     @Override
@@ -56,6 +56,9 @@ public class AnnuaireImpl implements Annuaire {
         lockAgentLecture(destinataire);
         if (agentsMessagesQueues.containsKey(destinataire)) {
             agentsMessagesQueues.get(destinataire).add(messageAgent);
+            messageAgentListeners.forEach(
+                    messageAgentListener -> messageAgentListener.messageEnvoye(expediteur,
+                            destinataire, messageAgent));
         }
         unlockAgentLecture(destinataire);
     }
@@ -63,8 +66,18 @@ public class AnnuaireImpl implements Annuaire {
     @Override
     public void diffuserMessage(ReferenceAgent expediteur, MessageAgent messageAgent) {
         agentsMessagesQueues.keySet().forEach(this::lockAgentLecture);
-        agentsMessagesQueues.values().forEach(messageAgents -> messageAgents.add(messageAgent));
+        agentsMessagesQueues.entrySet().forEach(referenceAgentEntry -> {
+            referenceAgentEntry.getValue().add(messageAgent);
+            notifierMessageAgentListeners(expediteur, messageAgent, referenceAgentEntry.getKey());
+        });
         agentsMessagesQueues.keySet().forEach(this::unlockAgentLecture);
+    }
+
+    private void notifierMessageAgentListeners(ReferenceAgent expediteur, MessageAgent messageAgent,
+            ReferenceAgent referenceAgent) {
+        messageAgentListeners.forEach(
+                messageAgentListener -> messageAgentListener.messageEnvoye(expediteur,
+                        referenceAgent, messageAgent));
     }
 
     @Override
@@ -72,6 +85,9 @@ public class AnnuaireImpl implements Annuaire {
         lockAgentLecture(destinataire);
         Optional<MessageAgent> message = Optional.ofNullable(agentsMessagesQueues.get(destinataire))
                                                  .map(ConcurrentLinkedQueue::poll);
+        message.ifPresent(
+                messageAgent -> notifierMessageAgentListeners(messageAgent.getExpediteur(),
+                        messageAgent, destinataire));
         unlockAgentLecture(destinataire);
         return message;
     }
@@ -84,6 +100,16 @@ public class AnnuaireImpl implements Annuaire {
     @Override
     public void retirerAgentListener(AgentListener agentListener) {
         agentListeners.remove(agentListener);
+    }
+
+    @Override
+    public void ajouterMessageAgentListener(MessageAgentListener messageAgentListener) {
+        messageAgentListeners.add(messageAgentListener);
+    }
+
+    @Override
+    public void retirerMessageAgentListener(MessageAgentListener messageAgentListener) {
+        messageAgentListeners.remove(messageAgentListener);
     }
 
     private void lockAgentEcriture(ReferenceAgent referenceAgent) {
