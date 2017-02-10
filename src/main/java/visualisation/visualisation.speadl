@@ -1,0 +1,28 @@
+import interfaces.IServiceSouscription
+import interfaces.IServiceNotification
+import interfaces.ITransfert
+
+namespace abstractvisualisation {
+
+	component AbstractVisualisation {
+
+		provides notification : IServiceNotification = journalisation.notification
+		requires souscription : IServiceSouscription
+
+		part affichage : AbstractAffichage{
+			bind donneRecu to journalisation.donneEnvoyer
+		}
+
+		part journalisation : AbstractJournalisation
+	}
+
+	component AbstractJournalisation{
+		provides donneEnvoyer : ITransfert
+		provides notification : IServiceNotification
+	}
+
+	component AbstractAffichage{
+		requires donneRecu : ITransfert
+	}
+
+}
