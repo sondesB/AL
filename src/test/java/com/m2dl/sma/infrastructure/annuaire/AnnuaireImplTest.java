@@ -26,7 +26,7 @@ import com.m2dl.sma.infrastructure.communication.MessageAgent;
 
 public class AnnuaireImplTest {
 
-    @Mock private AnnuaireListener annuaireListener;
+    @Mock private AgentListener agentListener;
 
     private Annuaire annuaire;
 
@@ -34,7 +34,7 @@ public class AnnuaireImplTest {
     public void setUp() throws Exception {
         initMocks(this);
         annuaire = new AnnuaireImpl();
-        annuaire.ajouterListener(annuaireListener);
+        annuaire.ajouterAgentListener(agentListener);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class AnnuaireImplTest {
 
         annuaire.addAgent(agent);
 
-        verify(annuaireListener, times(1)).agentAjoute(eq(agent.getReferenceAgent()));
+        verify(agentListener, times(1)).agentAjoute(eq(agent));
     }
 
     @Test
@@ -53,16 +53,16 @@ public class AnnuaireImplTest {
 
         annuaire.removeAgent(agent);
 
-        verify(annuaireListener, times(1)).agentRetire(eq(agent.getReferenceAgent()));
+        verify(agentListener, times(1)).agentRetire(eq(agent));
     }
 
     @Test
     public void devrais_pas_appeler_son_listener_quand_il_est_supprime() throws Exception {
-        annuaire.retirerListener(annuaireListener);
+        annuaire.retirerAgentListener(agentListener);
 
         annuaire.addAgent(buildAgent());
 
-        verify(annuaireListener, times(0)).agentAjoute(any());
+        verify(agentListener, times(0)).agentAjoute(any());
     }
 
     private void setUpEnvoyerMessage(MessageAgent messageAgent, Agent destinataire) {

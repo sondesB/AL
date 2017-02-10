@@ -17,13 +17,13 @@ import com.m2dl.sma.infrastructure.communication.MessageAgent;
 
 public class AnnuaireImpl implements Annuaire {
 
-    private List<AnnuaireListener> annuaireListeners;
+    private List<AgentListener> agentListeners;
     private ConcurrentMap<ReferenceAgent, Agent> agents;
     private ConcurrentMap<ReferenceAgent, ConcurrentLinkedQueue<MessageAgent>> agentsMessagesQueues;
     private ConcurrentMap<ReferenceAgent, ReadWriteLock> agentsLocks;
 
     public AnnuaireImpl() {
-        annuaireListeners = Collections.synchronizedList(new ArrayList<>());
+        agentListeners = Collections.synchronizedList(new ArrayList<>());
         agents = new ConcurrentHashMap<>();
         agentsMessagesQueues = new ConcurrentHashMap<>();
         agentsLocks = new ConcurrentHashMap<>();
@@ -36,8 +36,8 @@ public class AnnuaireImpl implements Annuaire {
         agents.put(agent.getReferenceAgent(), agent);
         agentsMessagesQueues.put(agent.getReferenceAgent(), new ConcurrentLinkedQueue<>());
         unlockAgentEcriture(agent.getReferenceAgent());
-        annuaireListeners.forEach(
-                annuaireListener -> annuaireListener.agentAjoute(agent.getReferenceAgent()));
+        agentListeners.forEach(
+                agentListener -> agentListener.agentAjoute(agent));
     }
 
     @Override
@@ -46,8 +46,8 @@ public class AnnuaireImpl implements Annuaire {
         agents.remove(agent.getReferenceAgent());
         agentsMessagesQueues.remove(agent.getReferenceAgent());
         unlockAgentEcriture(agent.getReferenceAgent());
-        annuaireListeners.forEach(
-                annuaireListener -> annuaireListener.agentRetire(agent.getReferenceAgent()));
+        agentListeners.forEach(
+                agentListener -> agentListener.agentRetire(agent));
     }
 
     @Override
@@ -77,13 +77,13 @@ public class AnnuaireImpl implements Annuaire {
     }
 
     @Override
-    public void ajouterListener(AnnuaireListener annuaireListener) {
-        annuaireListeners.add(annuaireListener);
+    public void ajouterAgentListener(AgentListener agentListener) {
+        agentListeners.add(agentListener);
     }
 
     @Override
-    public void retirerListener(AnnuaireListener annuaireListener) {
-        annuaireListeners.remove(annuaireListener);
+    public void retirerAgentListener(AgentListener agentListener) {
+        agentListeners.remove(agentListener);
     }
 
     private void lockAgentEcriture(ReferenceAgent referenceAgent) {
