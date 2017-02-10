@@ -9,7 +9,7 @@ import com.m2dl.sma.infrastructure.etat.IEtat;
 
 public class Fabrique implements ICreationService, ISuicideService {
 
-    Annuaire annuaire;
+    private final Annuaire annuaire;
 
     public Fabrique(Annuaire annuaire) {
         this.annuaire = annuaire;
@@ -28,7 +28,7 @@ public class Fabrique implements ICreationService, ISuicideService {
 
     @Override
     public void seSuicider(ReferenceAgent referenceAgent) {
-        gestionAgent.removeAgent(referenceAgent);
+        annuaire.removeAgent(referenceAgent);
     }
 
 }

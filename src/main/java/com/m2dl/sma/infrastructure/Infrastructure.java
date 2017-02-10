@@ -30,7 +30,7 @@ public class Infrastructure implements ICreationService, ISuicideService, ICommu
     }
 
     @Override
-    public void seSuicider(Agent agent) {
+    public void seSuicider(ReferenceAgent agent) {
         fabrique.seSuicider(agent);
     }
 

@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import com.m2dl.sma.infrastructure.annuaire.Annuaire;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -19,7 +20,7 @@ import com.m2dl.sma.infrastructure.etat.IEtat;
 public class FabriqueTest {
 
     @Mock
-    private IGestionAgent gestionAgent;
+    private Annuaire annuaire;
     @Mock
     private ICommunication communication;
     @Mock
@@ -31,7 +32,7 @@ public class FabriqueTest {
     public void setUp() {
         initMocks(this);
 
-        fabrique = new Fabrique(gestionAgent, communication, suicideService);
+        fabrique = new Fabrique(annuaire);
     }
 
     @Test
@@ -39,7 +40,7 @@ public class FabriqueTest {
         IEtat etat = mock(IEtat.class);
         fabrique.creer(etat);
 
-        verify(etat, times(1)).setCommunication(eq(communication));
+        verify(etat, times(1)).setCommunication(eq(annuaire));
     }
 
     @Test
@@ -47,7 +48,7 @@ public class FabriqueTest {
         IEtat etat = mock(IEtat.class);
         fabrique.creer(etat);
 
-        verify(etat, times(1)).setSuicideService(eq(suicideService));
+        verify(etat, times(1)).setSuicideService(eq(fabrique));
     }
 
     @Test
@@ -55,7 +56,7 @@ public class FabriqueTest {
         IEtat etat = mock(IEtat.class);
         fabrique.creer(etat);
 
-        verify(gestionAgent, times(1)).addAgent(any());
+        verify(annuaire, times(1)).addAgent(any());
     }
 
     @Test
@@ -63,7 +64,7 @@ public class FabriqueTest {
         ReferenceAgent referenceAgent = new ReferenceAgent();
         fabrique.seSuicider(referenceAgent);
 
-        verify(gestionAgent, times(1)).removeAgent(referenceAgent);
+        verify(annuaire, times(1)).removeAgent(referenceAgent);
     }
 
 }

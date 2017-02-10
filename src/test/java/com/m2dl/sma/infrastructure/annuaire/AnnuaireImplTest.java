@@ -68,8 +68,8 @@ public class AnnuaireImplTest {
 
     private void setUpEnvoyerMessage(IMessageAgent messageAgent, Agent destinataire) {
 
-        Agent premierAgent = buildAgent();
-        annuaire.addAgent(premierAgent);
+        Agent expediteur = buildAgent();
+        annuaire.addAgent(expediteur);
         annuaire.addAgent(destinataire);
 
         annuaire.envoyerMessage(expediteur.getReferenceAgent(), destinataire.getReferenceAgent(),
