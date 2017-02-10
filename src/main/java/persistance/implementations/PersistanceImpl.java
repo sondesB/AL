@@ -22,4 +22,15 @@ public class PersistanceImpl implements IPersistance,IRecuperationPlan {
     public BaseDePlanAbstraite recupererBasePlan(OCService service) {
         return this.persistanceService.getBaseDePlan(service);
     }
+
+    /**
+     * Définir les informations de connexions à la base de données.
+     * @param username L'utilisateur.
+     * @param password Le mot de passe.
+     * @param url L'url de connexion.
+     * @param driver Le driver sql.
+     */
+    public void setDonneeConnexion(String username,String password, String url, String driver) {
+        this.persistanceService.setConnexion(username,password,url,driver);
+    }
 }

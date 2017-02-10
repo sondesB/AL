@@ -3,17 +3,21 @@ package persistance.services;
 import interfaceswcomp.OCService;
 import persistance.interfaces.BaseDePlanAbstraite;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 /**
  * Created by seb on 03/02/17.
  */
 public class PersistanceService {
+
+    private String username,password,url,driver;
+
+    private Connection connection;
+
+    /**
+     * Instruction d'insertion.
+     */
+    private static final String SQL_SERIALIZE_OBJECT = "INSERT INTO serialized_java_objects(object_name, serialized_object) VALUES (?, ?)";
 
     /**
      * Permet de récuperer la base de plan d'un service donnée.
@@ -21,66 +25,64 @@ public class PersistanceService {
      * @return La base de plan.
      */
     public BaseDePlanAbstraite getBaseDePlan(OCService ocService) {
-
-        BaseDePlanAbstraite bp = null;
-        PreparedStatement ps;
-        ResultSet rs;
-        String sql = null;
-
-        // Forme du select a determiner
-        //sql="select * from BasesDePlan where ?????";
-
-        try {
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            if(rs.next())
-            {
-                ByteArrayInputStream bais;
-                ObjectInputStream ins;
-
-                bais = new ByteArrayInputStream(rs.getBytes("javaObject"));
-                ins = new ObjectInputStream(bais);
-                bp =(BaseDePlanAbstraite) ins.readObject();
-                ins.close();
-
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return bp;
+        return null;
     }
 
     /**
-     * Permet de sauvegarder une base de plan dans une base de don7nées.
+     * Permet de sauvegarder une base de plan dans une base de données.
      * @param baseDePlan La base de plan.
      */
     public void persisterBaseDePlan(BaseDePlanAbstraite baseDePlan) {
-        try{
-            PreparedStatement ps;
-            String sql;
-
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(bos);
-
-            oos.writeObject(baseDePlan);
-            oos.flush();
-            oos.close();
-            bos.close();
-
-            byte[] data = bos.toByteArray();
-
-            sql = "insert into BasesDePlan (baseDePlan) values(?)";
-            ps = conn.prepareStatement(sql);
-            ps.setObject(1, data);
-            ps.executeUpdate();
-
-        }
-        catch(Exception e)
-        {
+        try {
+            Class.forName(driver);
+            connection = DriverManager.getConnection(url, username, password);
+            long serialized_id = serializeJavaObjectToDB(connection, baseDePlan);
+            connection.close();
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Connexion à la base de donnée.
+     * @param username
+     * @param password
+     * @param url
+     * @param driver
+     */
+    public void setConnexion(String username,String password, String url, String driver)  {
+        this.connection = null;
+        this.username = username;
+        this.password = password;
+        this.url = url;
+        this.driver = driver;
+
+    }
+
+    /**
+     *
+     * @param connection
+     * @param objectToSerialize
+     * @return
+     * @throws SQLException
+     */
+    private long serializeJavaObjectToDB(Connection connection,
+                                               Object objectToSerialize) throws SQLException {
+
+        PreparedStatement pstmt = connection
+                .prepareStatement(SQL_SERIALIZE_OBJECT);
+
+        // just setting the class name
+        pstmt.setString(1, objectToSerialize.getClass().getName());
+        pstmt.setObject(2, objectToSerialize);
+        pstmt.executeUpdate();
+        ResultSet rs = pstmt.getGeneratedKeys();
+        int serialized_id = -1;
+        if (rs.next()) {
+            serialized_id = rs.getInt(1);
+        }
+        rs.close();
+        pstmt.close();
+        return serialized_id;
     }
 }
