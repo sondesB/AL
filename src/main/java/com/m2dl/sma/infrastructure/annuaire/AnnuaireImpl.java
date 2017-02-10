@@ -100,15 +100,22 @@ public class AnnuaireImpl implements Annuaire {
         return message;
     }
 
-    @Override
     public void ajouterAgentListener(AgentListener agentListener) {
-        referenceAgentListeners.add(agentListener);
+        agentListeners.add(agentListener);
     }
 
-    @Override
     public void retirerAgentListener(AgentListener agentListener) {
-        referenceAgentListeners.remove(agentListener);
+        agentListeners.remove(agentListener);
     }
+
+    public void ajouterReferenceAgentListener(ReferenceAgentListener referenceAgentListener) {
+        referenceAgentListeners.add(referenceAgentListener);
+    }
+
+    public void retirerReferenceAgentListener(ReferenceAgentListener referenceAgentListener) {
+        referenceAgentListeners.remove(referenceAgentListener);
+    }
+
 
     @Override
     public void ajouterMessageAgentListener(MessageAgentListener messageAgentListener) {

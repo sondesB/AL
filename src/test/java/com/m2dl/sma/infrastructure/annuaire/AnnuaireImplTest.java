@@ -27,6 +27,7 @@ import com.m2dl.sma.infrastructure.communication.IMessageAgent;
 public class AnnuaireImplTest {
 
     @Mock private AgentListener agentListener;
+    @Mock private ReferenceAgentListener referenceAgentListener;
 
     private Annuaire annuaire;
 
@@ -43,7 +44,7 @@ public class AnnuaireImplTest {
 
         annuaire.addAgent(agent);
 
-        verify(agentListener, times(1)).agentAjoute(eq(agent.getReferenceAgent()));
+        verify(agentListener, times(1)).agentAjoute(eq(agent));
     }
 
     @Test
@@ -53,7 +54,7 @@ public class AnnuaireImplTest {
 
         annuaire.removeAgent(agent.getReferenceAgent());
 
-        verify(agentListener, times(1)).agentRetire(eq(agent.getReferenceAgent()));
+        verify(agentListener, times(1)).agentRetire(eq(agent));
     }
 
     @Test

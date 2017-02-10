@@ -23,7 +23,7 @@ public class StrategieEtatAEtat implements IStratOrdonnanceur {
         while(run){
             agentCourant = listOrdonnancement.get(0);
             etatCourant = listEtatAgent.get(agentCourant);
-            changerEtatAgent(agentCourant, etatCourant.executer().orElseGet(agentCourant.getEtatInitial()));
+            changerEtatAgent(agentCourant, etatCourant.executer().orElseGet(agentCourant::getEtatInitial));
             listOrdonnancement.remove(agentCourant);
             listOrdonnancement.add(agentCourant);
         }
