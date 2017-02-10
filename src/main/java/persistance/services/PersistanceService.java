@@ -3,6 +3,9 @@ package persistance.services;
 import interfaceswcomp.OCService;
 import persistance.interfaces.BaseDePlanAbstraite;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.sql.*;
 
 /**
@@ -27,8 +30,31 @@ public class PersistanceService {
      * @param ocService Le service.
      * @return La base de plan.
      */
-    public BaseDePlanAbstraite getBaseDePlan(OCService ocService) {
-        return null;
+    public BaseDePlanAbstraite getBaseDePlan(OCService ocService)  {
+        PreparedStatement pstmt = null;
+        BaseDePlanAbstraite basedeplan = null;
+        try {
+            pstmt = connection
+                    .prepareStatement(SQL_DESERIALIZE_OBJECT);
+
+        ResultSet rs = pstmt.executeQuery();
+        rs.next();
+
+        // Object object = rs.getObject(1);
+
+        byte[] buf = rs.getBytes(1);
+        ObjectInputStream objectIn = null;
+        if (buf != null)
+            objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
+
+        basedeplan = (BaseDePlanAbstraite) objectIn.readObject();
+
+        rs.close();
+        pstmt.close();
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } 
+        return basedeplan;
     }
 
     /**
