@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/main/java/visualisation/abstractvisualisation/AbstractJournalisation.java
 package visualisation.abstractvisualisation;
 
 
