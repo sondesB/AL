@@ -1,5 +1,8 @@
 package com.m2dl.sma.infrastructure.etat;
 
+import java.util.Optional;
+
 public interface IEtat {
-    IEtat executer();
+
+    Optional<IEtat> executer();
 }
