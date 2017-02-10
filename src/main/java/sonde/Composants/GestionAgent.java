@@ -10,15 +10,17 @@ import java.util.*;
  */
 public class GestionAgent implements Notification,DisparitionComposant {
 
-    private ArrayList<Integer> RefAgent = new ArrayList<>(); //TypeListe : ReffAgent (class equipe infra)
+    private ICreationService creationService;
+    private Etatpercevoir etatpercevoir;
+    private ArrayList<ReferenceAgent> RefAgent = new ArrayList<ReferenceAgent>(); //TypeListe : ReffAgent (class equipe infra)
 
     @Override
     public void servicesApparus(Set<OCService> listServicesApparus){
         //plan
         for(Iterator<OCService> iterator = listServicesApparus.iterator(); iterator.hasNext();){
             OCService service = iterator.next();
-            RefferenceAgent RefAgent = createAgent(SetService(service)); //ReferenceAgent createAgent(IEtat) | IEtat SetService(OCService)
-            RefAgent.add(RegAgent);
+            ReferenceAgent  RefAgent = creationService.creer(etatpercevoir.setServiceAgent(service)); //ReferenceAgent createAgent(IEtat) | IEtat SetService(OCService)
+            RefAgent.add(RefAgent );
             addAgent(RefAgent,service); //addAgent(RefAgent,OCService
         }
     }
