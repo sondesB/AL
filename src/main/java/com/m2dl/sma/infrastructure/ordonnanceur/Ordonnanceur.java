@@ -5,6 +5,11 @@ import com.m2dl.sma.infrastructure.EnumVitesse;
 public class Ordonnanceur implements IOrdonnanceur {
 
     private IStratOrdonnanceur stratOrdonnanceur;
+
+    public Ordonnanceur(IStratOrdonnanceur stratOrdonnanceur){
+        this.stratOrdonnanceur = stratOrdonnanceur;
+    }
+
     @Override
     public void ordonnancer() {
         stratOrdonnanceur.ordonnancer();
