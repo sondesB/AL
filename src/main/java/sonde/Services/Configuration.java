@@ -5,7 +5,6 @@ package sonde.Services;
  */
 public interface Configuration {
     /**
-     *
      * Définir la périodicité en fonction  de la valeur saisie par l'utilisateur
      */
     void definirPeriodicite(int valeur);

@@ -1,9 +1,7 @@
 package sonde.Composants;
 
-import javax.security.auth.login.Configuration;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 /**
  * Created by Jaafar on 03/02/2017.
@@ -16,8 +14,7 @@ public class PeriodiciterSondage extends JFrame {
     private JTextField fieldPeriodicite;
     private JButton btnOK;
     private int periodicite = 20; // 20ms par default
-
-    //sonde.Services.Configuration conf;
+    private sonde.Services.Configuration configuration;
 
     public void createForm() {
         frame = new JFrame();
@@ -30,7 +27,9 @@ public class PeriodiciterSondage extends JFrame {
 
         btnOK = new JButton("OK");
 
-        btnOK.addActionListener(e -> { getPeriodiciteValue(); });
+        btnOK.addActionListener(e -> {
+            getPeriodiciteValue();
+        });
 
         panel.add(labelPeriodicite);
         panel.add(fieldPeriodicite);
@@ -54,14 +53,13 @@ public class PeriodiciterSondage extends JFrame {
         } catch (NumberFormatException e) {
             parsable = false;
         }
-        if (!parsable || value <=0) {
+        if (!parsable || value <= 0) {
             JOptionPane.showMessageDialog(frame, "Invalid input!");
         } else {
             frame.dispose();
             setPeriodicite(value);
         }
-        System.out.println(value);
-        //conf.definirPeriodicite(periodicite);
+        configuration.definirPeriodicite(periodicite);
     }
 
     private void setPeriodicite(int periodicite) {
