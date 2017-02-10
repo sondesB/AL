@@ -18,12 +18,14 @@ import com.m2dl.sma.infrastructure.communication.MessageAgent;
 public class AnnuaireImpl implements Annuaire {
 
     private List<AgentListener> agentListeners;
+    private List<ReferenceAgentListener> referenceAgentListeners;
     private List<MessageAgentListener> messageAgentListeners;
     private ConcurrentMap<ReferenceAgent, Agent> agents;
     private ConcurrentMap<ReferenceAgent, ConcurrentLinkedQueue<MessageAgent>> agentsMessagesQueues;
     private ConcurrentMap<ReferenceAgent, ReadWriteLock> agentsLocks;
 
     public AnnuaireImpl() {
+        referenceAgentListeners = Collections.synchronizedList(new ArrayList<>());
         agentListeners = Collections.synchronizedList(new ArrayList<>());
         messageAgentListeners = Collections.synchronizedList(new ArrayList<>());
         agents = new ConcurrentHashMap<>();
@@ -38,17 +40,22 @@ public class AnnuaireImpl implements Annuaire {
         agents.put(agent.getReferenceAgent(), agent);
         agentsMessagesQueues.put(agent.getReferenceAgent(), new ConcurrentLinkedQueue<>());
         unlockAgentEcriture(agent.getReferenceAgent());
-        agentListeners.forEach(
+        referenceAgentListeners.forEach(
                 agentListener -> agentListener.agentAjoute(agent.getReferenceAgent()));
+        agentListeners.forEach(
+                agentListener -> agentListener.agentAjoute(agent));
     }
 
     @Override
     public void removeAgent(ReferenceAgent referenceAgent) {
+        agentListeners.forEach(
+                agentListener -> agentListener.agentRetire(agents.get(referenceAgent)));
         lockAgentEcriture(referenceAgent);
         agents.remove(referenceAgent);
         agentsMessagesQueues.remove(referenceAgent);
         unlockAgentEcriture(referenceAgent);
-        agentListeners.forEach(agentListener -> agentListener.agentRetire(referenceAgent));
+        referenceAgentListeners.forEach(agentListener -> agentListener.agentRetire(referenceAgent));
+
     }
 
     @Override
@@ -95,12 +102,12 @@ public class AnnuaireImpl implements Annuaire {
 
     @Override
     public void ajouterAgentListener(AgentListener agentListener) {
-        agentListeners.add(agentListener);
+        referenceAgentListeners.add(agentListener);
     }
 
     @Override
     public void retirerAgentListener(AgentListener agentListener) {
-        agentListeners.remove(agentListener);
+        referenceAgentListeners.remove(agentListener);
     }
 
     @Override
