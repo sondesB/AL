@@ -22,7 +22,7 @@ import org.mockito.Mock;
 
 import com.m2dl.sma.infrastructure.agent.Agent;
 import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
-import com.m2dl.sma.infrastructure.communication.MessageAgent;
+import com.m2dl.sma.infrastructure.communication.IMessageAgent;
 
 public class AnnuaireImplTest {
 
@@ -66,10 +66,10 @@ public class AnnuaireImplTest {
         verify(agentListener, times(0)).agentAjoute(any());
     }
 
-    private void setUpEnvoyerMessage(MessageAgent messageAgent, Agent destinataire) {
+    private void setUpEnvoyerMessage(IMessageAgent messageAgent, Agent destinataire) {
 
-        Agent expediteur = buildAgent();
-        annuaire.addAgent(expediteur);
+        Agent premierAgent = buildAgent();
+        annuaire.addAgent(premierAgent);
         annuaire.addAgent(destinataire);
 
         annuaire.envoyerMessage(expediteur.getReferenceAgent(), destinataire.getReferenceAgent(),
@@ -78,25 +78,25 @@ public class AnnuaireImplTest {
 
     @Test
     public void devrais_recevoir_un_message_quand_un_message_est_envoye() throws Exception {
-        MessageAgent messageAgent = buildMessageAgent();
+        IMessageAgent IMessageAgent = buildMessageAgent();
         Agent destinataire = buildAgent();
-        setUpEnvoyerMessage(messageAgent, destinataire);
+        setUpEnvoyerMessage(IMessageAgent, destinataire);
 
-        Optional<MessageAgent> messageAgentOptional = annuaire.recevoirMessage(
+        Optional<IMessageAgent> messageAgentOptional = annuaire.recevoirMessage(
                 destinataire.getReferenceAgent());
 
         assertTrue(messageAgentOptional.isPresent());
-        assertThat(messageAgentOptional.get(), equalTo(messageAgent));
+        assertThat(messageAgentOptional.get(), equalTo(IMessageAgent));
     }
 
     @Test
     public void devrais_pas_recevoir_de_message_quand_un_message_a_deja_ete_lu() throws Exception {
-        MessageAgent messageAgent = buildMessageAgent();
+        IMessageAgent messageAgent = buildMessageAgent();
         Agent destinataire = buildAgent();
         setUpEnvoyerMessage(messageAgent, destinataire);
 
         annuaire.recevoirMessage(destinataire.getReferenceAgent());
-        Optional<MessageAgent> messageAgentOptional = annuaire.recevoirMessage(
+        Optional<IMessageAgent> messageAgentOptional = annuaire.recevoirMessage(
                 destinataire.getReferenceAgent());
 
         assertFalse(messageAgentOptional.isPresent());
@@ -136,7 +136,7 @@ public class AnnuaireImplTest {
         return agent;
     }
 
-    private MessageAgent buildMessageAgent() {
-        return mock(MessageAgent.class);
+    private IMessageAgent buildMessageAgent() {
+        return mock(IMessageAgent.class);
     }
 }

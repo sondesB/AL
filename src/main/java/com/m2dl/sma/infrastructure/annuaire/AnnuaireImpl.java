@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 import com.m2dl.sma.infrastructure.agent.Agent;
 import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
-import com.m2dl.sma.infrastructure.communication.MessageAgent;
+import com.m2dl.sma.infrastructure.communication.IMessageAgent;
 
 public class AnnuaireImpl implements Annuaire {
 
@@ -21,7 +21,7 @@ public class AnnuaireImpl implements Annuaire {
     private List<ReferenceAgentListener> referenceAgentListeners;
     private List<MessageAgentListener> messageAgentListeners;
     private ConcurrentMap<ReferenceAgent, Agent> agents;
-    private ConcurrentMap<ReferenceAgent, ConcurrentLinkedQueue<MessageAgent>> agentsMessagesQueues;
+    private ConcurrentMap<ReferenceAgent, ConcurrentLinkedQueue<IMessageAgent>> agentsMessagesQueues;
     private ConcurrentMap<ReferenceAgent, ReadWriteLock> agentsLocks;
 
     public AnnuaireImpl() {
@@ -60,38 +60,38 @@ public class AnnuaireImpl implements Annuaire {
 
     @Override
     public void envoyerMessage(ReferenceAgent expediteur, ReferenceAgent destinataire,
-            MessageAgent messageAgent) {
+            IMessageAgent IMessageAgent) {
         lockAgentLecture(destinataire);
         if (agentsMessagesQueues.containsKey(destinataire)) {
-            agentsMessagesQueues.get(destinataire).add(messageAgent);
+            agentsMessagesQueues.get(destinataire).add(IMessageAgent);
             messageAgentListeners.forEach(
                     messageAgentListener -> messageAgentListener.messageEnvoye(expediteur,
-                            destinataire, messageAgent));
+                            destinataire, IMessageAgent));
         }
         unlockAgentLecture(destinataire);
     }
 
     @Override
-    public void diffuserMessage(ReferenceAgent expediteur, MessageAgent messageAgent) {
+    public void diffuserMessage(ReferenceAgent expediteur, IMessageAgent IMessageAgent) {
         agentsMessagesQueues.keySet().forEach(this::lockAgentLecture);
         agentsMessagesQueues.entrySet().forEach(referenceAgentEntry -> {
-            referenceAgentEntry.getValue().add(messageAgent);
-            notifierMessageAgentListeners(expediteur, messageAgent, referenceAgentEntry.getKey());
+            referenceAgentEntry.getValue().add(IMessageAgent);
+            notifierMessageAgentListeners(expediteur, IMessageAgent, referenceAgentEntry.getKey());
         });
         agentsMessagesQueues.keySet().forEach(this::unlockAgentLecture);
     }
 
-    private void notifierMessageAgentListeners(ReferenceAgent expediteur, MessageAgent messageAgent,
+    private void notifierMessageAgentListeners(ReferenceAgent expediteur, IMessageAgent IMessageAgent,
             ReferenceAgent referenceAgent) {
         messageAgentListeners.forEach(
                 messageAgentListener -> messageAgentListener.messageEnvoye(expediteur,
-                        referenceAgent, messageAgent));
+                        referenceAgent, IMessageAgent));
     }
 
     @Override
-    public Optional<MessageAgent> recevoirMessage(ReferenceAgent destinataire) {
+    public Optional<IMessageAgent> recevoirMessage(ReferenceAgent destinataire) {
         lockAgentLecture(destinataire);
-        Optional<MessageAgent> message = Optional.ofNullable(agentsMessagesQueues.get(destinataire))
+        Optional<IMessageAgent> message = Optional.ofNullable(agentsMessagesQueues.get(destinataire))
                                                  .map(ConcurrentLinkedQueue::poll);
         message.ifPresent(
                 messageAgent -> notifierMessageAgentListeners(messageAgent.getExpediteur(),

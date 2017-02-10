@@ -2,29 +2,27 @@ package com.m2dl.sma.infrastructure.fabrique;
 
 import com.m2dl.sma.infrastructure.agent.Agent;
 import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
+import com.m2dl.sma.infrastructure.annuaire.Annuaire;
 import com.m2dl.sma.infrastructure.annuaire.IGestionAgent;
 import com.m2dl.sma.infrastructure.communication.ICommunication;
 import com.m2dl.sma.infrastructure.etat.IEtat;
 
 public class Fabrique implements ICreationService, ISuicideService {
 
-    IGestionAgent gestionAgent;
+    Annuaire annuaire;
 
-    private final ICommunication communication;
-
-    public Fabrique(IGestionAgent gestionAgent, ICommunication communication) {
-        this.gestionAgent = gestionAgent;
-        this.communication = communication;
+    public Fabrique(Annuaire annuaire) {
+        this.annuaire = annuaire;
     }
 
     @Override
     public ReferenceAgent creer(IEtat etatInitial) {
         Agent agent = new Agent(etatInitial);
 
-        etatInitial.setCommunication(communication);
+        etatInitial.setCommunication(annuaire);
         etatInitial.setSuicideService(this);
 
-        gestionAgent.addAgent(agent);
+        annuaire.addAgent(agent);
         return agent.getReferenceAgent();
     }
 
