@@ -1,15 +1,24 @@
 package Agent.Percevoir.LireMessageSonde;
 
-import Agent.Percevoir.CreatePerception.ICreatePerception;
+import Agent.Percevoir.CreerPerception.FabriqueAbstractPerception;
+import Agent.Percevoir.CreerPerception.ICreerPerception;
+import Agent.Percevoir.CreerPerception.Perceptions.AbstractPerception;
 
 /**
  * Created by Kévin on 09/02/2017.
  */
-public class LireMessageSonde {
+public class LireMessageSonde implements ILireMessageSonde{
 
-    ICreatePerception createPerception;
+    ICreerPerception creerPerception;
 
-    public LireMessageSonde(ICreatePerception createPerception) {
-        this.createPerception = createPerception;
+    public LireMessageSonde() {
+        this.creerPerception = new FabriqueAbstractPerception();
+    }
+
+
+    @Override
+    public AbstractPerception lireSonde() {
+
+        return creerPerception.creerPerception();
     }
 }
