@@ -18,7 +18,7 @@ public class PersistanceService {
     private Connection connection;
 
     /**
-     * Instruction d'insertion.
+     * Instruction d'insertion sql.
      */
     private static final String SQL_SERIALIZE_OBJECT = "INSERT INTO serialized_java_objects(object_name, serialized_object) VALUES (?, ?)";
     private static final String SQL_DESERIALIZE_OBJECT = "SELECT serialized_object FROM serialized_java_objects WHERE serialized_id = ?";

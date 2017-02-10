@@ -38,8 +38,11 @@ public class LogService {
             e.printStackTrace();
         }
     }
-    
-    //getter
+
+    /**
+     * getLog
+     * @return File Le fichier de log.
+     */
     public File getLog() {
 		return this.log;
 	}
