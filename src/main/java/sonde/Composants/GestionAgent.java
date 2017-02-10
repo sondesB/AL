@@ -22,6 +22,10 @@ public class GestionAgent implements Notification, DisparitionComposant {
             ReferenceAgent  RefAgent = creationService.creer(etatpercevoir.setServiceAgent(service)); //ReferenceAgent createAgent(IEtat) | IEtat SetService(OCService)
             RefAgent.add(RefAgent );
             addAgent(RefAgent,service); //addAgent(RefAgent,OCService
+            RefferenceAgent RefAgent = createAgent(SetService(service)); //ReferenceAgent createAgent(IEtat) | IEtat SetService(OCService)
+            RefAgent.add(RefAgent);
+            addAgent(RefAgent, service); //addAgent(RefAgent,OCService
+        }
     }
 
     @Override
