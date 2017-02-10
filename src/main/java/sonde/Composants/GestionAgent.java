@@ -18,7 +18,7 @@ public class GestionAgent implements Notification, DisparitionComposant {
         for (Iterator<OCService> iterator = listServicesApparus.iterator(); iterator.hasNext(); ) {
             OCService service = iterator.next();
             RefferenceAgent RefAgent = createAgent(SetService(service)); //ReferenceAgent createAgent(IEtat) | IEtat SetService(OCService)
-            RefAgent.add(RegAgent);
+            RefAgent.add(RefAgent);
             addAgent(RefAgent, service); //addAgent(RefAgent,OCService
         }
     }
