@@ -1,8 +1,6 @@
 package visualisation.abstractvisualisation;
 
 
-import visualisation.interfaces.IServiceNotification;
-import visualisation.interfaces.IServiceSouscription;
 import visualisation.interfaces.ITransfert;
 
 @SuppressWarnings("all")
@@ -12,7 +10,7 @@ public abstract class AbstractVisualisation {
      * This can be called by the implementation to access this required port.
      * 
      */
-    public IServiceSouscription souscription();
+    public Annuaire souscription();
   }
   
   public interface Component extends Provides {
@@ -23,7 +21,7 @@ public abstract class AbstractVisualisation {
      * This can be called to access the provided port.
      * 
      */
-    public IServiceNotification notification();
+    public AnnuaireListener notification();
   }
   
   public interface Parts {
@@ -103,7 +101,7 @@ public abstract class AbstractVisualisation {
       }
     }
     
-    public IServiceNotification notification() {
+    public AnnuaireListener notification() {
       return this.journalisation().notification();
     }
     
