@@ -1,7 +1,8 @@
 package com.m2dl.sma.infrastructure.fabrique;
 
-import com.m2dl.sma.infrastructure.agent.Agent;
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 
 public interface ISuicideService {
-    void seSuicider(Agent agent);
+
+    void seSuicider(ReferenceAgent referenceAgent);
 }

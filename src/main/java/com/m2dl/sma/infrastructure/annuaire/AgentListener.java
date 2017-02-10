@@ -1,10 +1,10 @@
 package com.m2dl.sma.infrastructure.annuaire;
 
-import com.m2dl.sma.infrastructure.agent.Agent;
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 
 public interface AgentListener {
 
-    void agentAjoute(Agent agent);
+    void agentAjoute(ReferenceAgent referenceAgent);
 
-    void agentRetire(Agent agent);
+    void agentRetire(ReferenceAgent referenceAgent);
 }

@@ -38,16 +38,17 @@ public class AnnuaireImpl implements Annuaire {
         agents.put(agent.getReferenceAgent(), agent);
         agentsMessagesQueues.put(agent.getReferenceAgent(), new ConcurrentLinkedQueue<>());
         unlockAgentEcriture(agent.getReferenceAgent());
-        agentListeners.forEach(agentListener -> agentListener.agentAjoute(agent));
+        agentListeners.forEach(
+                agentListener -> agentListener.agentAjoute(agent.getReferenceAgent()));
     }
 
     @Override
-    public void removeAgent(Agent agent) {
-        lockAgentEcriture(agent.getReferenceAgent());
-        agents.remove(agent.getReferenceAgent());
-        agentsMessagesQueues.remove(agent.getReferenceAgent());
-        unlockAgentEcriture(agent.getReferenceAgent());
-        agentListeners.forEach(agentListener -> agentListener.agentRetire(agent));
+    public void removeAgent(ReferenceAgent referenceAgent) {
+        lockAgentEcriture(referenceAgent);
+        agents.remove(referenceAgent);
+        agentsMessagesQueues.remove(referenceAgent);
+        unlockAgentEcriture(referenceAgent);
+        agentListeners.forEach(agentListener -> agentListener.agentRetire(referenceAgent));
     }
 
     @Override

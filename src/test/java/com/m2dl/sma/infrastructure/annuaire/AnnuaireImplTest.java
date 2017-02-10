@@ -43,7 +43,7 @@ public class AnnuaireImplTest {
 
         annuaire.addAgent(agent);
 
-        verify(agentListener, times(1)).agentAjoute(eq(agent));
+        verify(agentListener, times(1)).agentAjoute(eq(agent.getReferenceAgent()));
     }
 
     @Test
@@ -51,27 +51,28 @@ public class AnnuaireImplTest {
         Agent agent = buildAgent();
         annuaire.addAgent(agent);
 
-        annuaire.removeAgent(agent);
+        annuaire.removeAgent(agent.getReferenceAgent());
 
-        verify(agentListener, times(1)).agentRetire(eq(agent));
+        verify(agentListener, times(1)).agentRetire(eq(agent.getReferenceAgent()));
     }
 
     @Test
     public void devrais_pas_appeler_son_listener_quand_il_est_supprime() throws Exception {
         annuaire.retirerAgentListener(agentListener);
+        Agent agent = buildAgent();
 
-        annuaire.addAgent(buildAgent());
+        annuaire.addAgent(agent);
 
         verify(agentListener, times(0)).agentAjoute(any());
     }
 
     private void setUpEnvoyerMessage(MessageAgent messageAgent, Agent destinataire) {
 
-        Agent premierAgent = buildAgent();
-        annuaire.addAgent(premierAgent);
+        Agent expediteur = buildAgent();
+        annuaire.addAgent(expediteur);
         annuaire.addAgent(destinataire);
 
-        annuaire.envoyerMessage(premierAgent.getReferenceAgent(), destinataire.getReferenceAgent(),
+        annuaire.envoyerMessage(expediteur.getReferenceAgent(), destinataire.getReferenceAgent(),
                 messageAgent);
     }
 
@@ -112,10 +113,10 @@ public class AnnuaireImplTest {
     @Test
     public void devrais_pouvoir_diffuser_un_message_sans_exception_pendant_une_suppression()
             throws Exception {
-        List<Agent> agents = new ArrayList<>();
+        List<ReferenceAgent> agents = new ArrayList<>();
         for (int i = 0; i < 10000; i++) {
             Agent agent = buildAgent();
-            agents.add(agent);
+            agents.add(agent.getReferenceAgent());
             annuaire.addAgent(agent);
         }
 
@@ -125,7 +126,7 @@ public class AnnuaireImplTest {
             }
         }).start();
         for (int i = 0; i < 1000; i++) {
-            annuaire.diffuserMessage(agents.get(0).getReferenceAgent(), buildMessageAgent());
+            annuaire.diffuserMessage(agents.get(0), buildMessageAgent());
         }
     }
 
