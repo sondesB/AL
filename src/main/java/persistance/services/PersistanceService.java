@@ -13,8 +13,10 @@ public class PersistanceService {
     private String username,password,url,driver;
     private Connection connection;
 
-    //Method de connexion tiré de joe@javapappers.com
     private static final String SQL_SERIALIZE_OBJECT = "INSERT INTO serialized_java_objects(object_name, serialized_object) VALUES (?, ?)";
+    private static final String SQL_DESERIALIZE_OBJECT = "SELECT serialized_object FROM serialized_java_objects WHERE serialized_id = ?";
+
+    
 
     public static long serializeJavaObjectToDB(Connection connection,
                                                Object objectToSerialize) throws SQLException {
@@ -33,6 +35,8 @@ public class PersistanceService {
         }
         rs.close();
         pstmt.close();
+        System.out.println("Java object serialized to database. Object: "
+                + objectToSerialize);
         return serialized_id;
     }
 
@@ -65,7 +69,5 @@ public class PersistanceService {
         connection = DriverManager.getConnection(url, username, password);
 
         long serialized_id = serializeJavaObjectToDB(connection, baseDePlan);
-
-        connection.close();
     }
 }
