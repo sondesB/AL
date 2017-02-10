@@ -1,6 +1,8 @@
 package visualisation.abstractvisualisation;
 
 
+import com.m2dl.sma.infrastructure.annuaire.AgentListener;
+import com.m2dl.sma.infrastructure.annuaire.Annuaire;
 import visualisation.interfaces.ITransfert;
 
 @SuppressWarnings("all")
@@ -21,7 +23,7 @@ public abstract class AbstractVisualisation {
      * This can be called to access the provided port.
      * 
      */
-    public AnnuaireListener notification();
+    public AgentListener notification();
   }
   
   public interface Parts {
@@ -101,7 +103,7 @@ public abstract class AbstractVisualisation {
       }
     }
     
-    public AnnuaireListener notification() {
+    public AgentListener notification() {
       return this.journalisation().notification();
     }
     
