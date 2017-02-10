@@ -1,4 +1,4 @@
-package Agent.Percevoir.CreatePerception;
+package Agent.Percevoir.CreerPerception.Perceptions;
 
 /**
  * Created by Kévin on 10/02/2017.
