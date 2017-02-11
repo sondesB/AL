@@ -19,9 +19,11 @@ public class ComposantPercevoir implements IComposantPercevoir{
     private ILireMessageInfrastructure lireMessageInfrastructure;
     private ILireMessageSonde lireMessageSonde;
     private ReferenceAgent referenceAgent;
+    private ICommunication communication;
 
     public ComposantPercevoir(ReferenceAgent referenceAgent){
         lireMessageInfrastructure = new LireMessageInfrastructure();
+        lireMessageInfrastructure.setCommunication(communication);
         lireMessageSonde = new LireMessageSonde();
         this.referenceAgent = referenceAgent;
     }
@@ -32,5 +34,13 @@ public class ComposantPercevoir implements IComposantPercevoir{
         perceptions.add(lireMessageInfrastructure.lireInfrastructure(referenceAgent));
 
         return perceptions;
+    }
+
+    public ICommunication getCommunication() {
+        return communication;
+    }
+
+    public void setCommunication(ICommunication communication) {
+        this.communication = communication;
     }
 }

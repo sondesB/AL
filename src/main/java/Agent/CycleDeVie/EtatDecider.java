@@ -1,5 +1,6 @@
 package Agent.CycleDeVie;
 
+import Agent.Agir.ComposantAgir;
 import Agent.Decider.ComposantCreationDecision.AbstractDecision;
 import Agent.Decider.ComposantDecider;
 import interfaceswcomp.OCService;

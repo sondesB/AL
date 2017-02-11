@@ -1,5 +1,7 @@
 package Agent.CycleDeVie;
 
+import Agent.Agir.ComposantAgir;
+
 import java.util.Optional;
 
 /**

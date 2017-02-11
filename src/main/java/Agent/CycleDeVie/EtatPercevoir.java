@@ -19,6 +19,7 @@ public class EtatPercevoir extends Etat {
 
 
     public Optional<IEtat> executer() {
+        composantPercevoir.setCommunication(communication);
         List<AbstractPerception> listePerceptions  = composantPercevoir.percevoir(referenceAgent);
         ComposantDecider composantDecider = new ComposantDecider(serviceAgent);
         composantDecider.setListePerceptions(listePerceptions);
