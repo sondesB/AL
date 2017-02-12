@@ -14,6 +14,14 @@ public class GestionBinding implements IGestionBinding {
         this.binding = binding;
     }
 
+    /**
+     * Appelle le service binding pour bind 2 services
+     * @param s1 
+     * 			service 1 to bind
+     * @param s2
+     * 			service 2 to bind
+     */
+    @Override
     public void bind(OCService s1, OCService s2) {
         try {
             this.binding.bind(s1, s2);

@@ -7,13 +7,17 @@ public class GenererMessage implements IGenererMessage {
     private ICommunication communication;
     private ReferenceAgent referenceAgent;
 
-    public GenererMessage(ICommunication communication, ReferenceAgent referenceAgent, M) {
+    public GenererMessage(ICommunication communication, ReferenceAgent referenceAgent) {
         this.communication = communication;
         this.referenceAgent = referenceAgent;
     }
 
+    
+    /**
+     * Génère un message
+     */
     public void genererMessage() {
-
+    	// TODO
     }
 
     public ICommunication getCommunication() {
