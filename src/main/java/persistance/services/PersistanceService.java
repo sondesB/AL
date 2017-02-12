@@ -2,6 +2,7 @@ package persistance.services;
 
 import interfaceswcomp.OCService;
 import persistance.interfaces.BaseDePlanAbstraite;
+import persistance.services.Connection
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -81,8 +82,10 @@ public class PersistanceService {
        /* this.username = username;
         this.password = password;
         this.url = url;
-        this.driver = driver;*/
-       this.infConnexion=infConnexion;
+        this.driver = driver;
+       this.infConnexion=infConnexion;*/
+       connection = new Connection(infConnexion);
+       connection.connect();
     }
 
     /**
