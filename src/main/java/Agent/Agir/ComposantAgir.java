@@ -11,6 +11,9 @@ import Agent.Agir.IComposantAgir;
 import Agent.Agir.TraitementDecision.ITraitementDecision;
 import Agent.Agir.TraitementDecision.TraitementDecision;
 
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
+import com.m2dl.sma.infrastructure.communication.ICommunication;
+import com.m2dl.sma.infrastructure.fabrique.ISuicideService;
 import interfaceswcomp.Binding;
 import interfaceswcomp.OCService;
 

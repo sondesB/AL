@@ -1,6 +1,7 @@
 package Agent.CycleDeVie;
 
 import Agent.Agir.ComposantAgir;
+import com.m2dl.sma.infrastructure.etat.IEtat;
 
 import java.util.Optional;
 
@@ -14,7 +15,7 @@ public class EtatAgir extends Etat {
 
     public Optional<IEtat> executer() {
         composantAgir.agir();
-        Optional.ofNullable(null);
+        return Optional.ofNullable(null);
     }
 
     public ComposantAgir getComposantAgir() {
