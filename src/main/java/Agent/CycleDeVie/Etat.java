@@ -1,5 +1,7 @@
 package Agent.CycleDeVie;
 
+import com.m2dl.sma.infrastructure.etat.IEtat;
+
 import java.util.Optional;
 
 /**

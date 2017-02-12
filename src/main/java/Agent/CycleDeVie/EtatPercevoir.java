@@ -3,6 +3,7 @@ package Agent.CycleDeVie;
 import Agent.Decider.ComposantDecider;
 import Agent.Percevoir.ComposantPercevoir;
 import Agent.Percevoir.CreerPerception.Perceptions.AbstractPerception;
+import com.m2dl.sma.infrastructure.etat.IEtat;
 import interfaceswcomp.OCService;
 
 import java.util.List;
@@ -19,8 +20,9 @@ public class EtatPercevoir extends Etat {
 
 
     public Optional<IEtat> executer() {
-        composantPercevoir.setCommunication(communication);
-        List<AbstractPerception> listePerceptions  = composantPercevoir.percevoir(referenceAgent);
+        composantPercevoir.setReferenceAgent(super.getReferenceAgent());
+        composantPercevoir.setCommunication(super.getCommunication());
+        List<AbstractPerception> listePerceptions  = composantPercevoir.percevoir();
         ComposantDecider composantDecider = new ComposantDecider(serviceAgent);
         composantDecider.setListePerceptions(listePerceptions);
         EtatDecider etatDecider = new EtatDecider();
