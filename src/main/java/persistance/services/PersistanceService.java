@@ -42,10 +42,13 @@ public class PersistanceService {
 
         // Object object = rs.getObject(1);
 
-        byte[] buf = rs.getBytes(1);
+      /*  byte[] buf = rs.getBytes(1);*/
         ObjectInputStream objectIn = null;
-        if (buf != null)
-            objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
+        String buf = rs.getString(1);
+        if (buf != null) {
+            objectIn = new ObjectInputStream(new ByteArrayInputStream(buf.getBytes()));
+        }
+            //objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
 
         basedeplan = (BaseDePlanAbstraite) objectIn.readObject();
 
@@ -97,7 +100,7 @@ public class PersistanceService {
 
         // just setting the class name
         prstatement.setString(1, objectToSerialize.getClass().getName());
-        prstatement.setObject(2, objectToSerialize);
+        prstatement.setString(2, objectToSerialize.toString());
         prstatement.executeUpdate("INSERT INTO serialized_java_objects(object_name, serialized_object) VALUES ()"+objectToSerialize.getClass().getName()+','+objectToSerialize+")");
         ResultSet rs = prstatement.getGeneratedKeys();
         int serialized_id = -1;
