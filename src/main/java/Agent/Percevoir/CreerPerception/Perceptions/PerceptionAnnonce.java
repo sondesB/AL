@@ -1,5 +1,6 @@
 package Agent.Percevoir.CreerPerception.Perceptions;
 
+import Agent.Agir.GenererMessage.Message.Annonce;
 import Agent.Percevoir.CreerPerception.Perceptions.AbstractPerception;
 import interfaceswcomp.OCService;
 

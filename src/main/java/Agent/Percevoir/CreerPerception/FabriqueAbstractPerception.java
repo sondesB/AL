@@ -1,5 +1,8 @@
 package Agent.Percevoir.CreerPerception;
 
+import Agent.Agir.GenererMessage.Message.Annonce;
+import Agent.Agir.GenererMessage.Message.MessageAgent;
+import Agent.Agir.GenererMessage.Message.Reponse;
 import Agent.Percevoir.CreerPerception.Perceptions.*;
 
 /**
@@ -13,15 +16,15 @@ public class FabriqueAbstractPerception implements ICreerPerception{
     @Override
     public AbstractPerception creerPerception(Object message) {
         if (message instanceof Boolean){
-            return new PerceptionSonde(message);
+            return new PerceptionSonde((Boolean) message);
         }
 
         else if (message instanceof MessageAgent){
             if (message instanceof Annonce){
-                return new PerceptionAnnonce(message);
+                return new PerceptionAnnonce((Annonce)message);
             }
             else if (message instanceof Reponse){
-                return new PerceptionReponse(message);
+                return new PerceptionReponse((Reponse)message);
             }
             else{
                 return new PerceptionVide(message);
@@ -30,6 +33,5 @@ public class FabriqueAbstractPerception implements ICreerPerception{
         else{
             return new PerceptionVide(message);
         }
-        return null;
     }
 }
