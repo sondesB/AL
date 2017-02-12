@@ -2,46 +2,68 @@ package com.m2dl.sma.infrastructure.ordonnanceur;
 
 import com.m2dl.sma.infrastructure.EnumVitesse;
 import com.m2dl.sma.infrastructure.agent.Agent;
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 import com.m2dl.sma.infrastructure.etat.IEtat;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class StrategieClassique implements IStratOrdonnanceur {
 
     private List<Agent> listOrdonnancement;
-    private EnumVitesse vitesse;
+    private List<OrdonnanceurListener> listListenerPourOrdonnanceur;
+    private int vitesse;
     private boolean run = true;
-    
+
+    public StrategieClassique(List<Agent> listAgents, List<OrdonnanceurListener> listListenerActuels){
+        listOrdonnancement = listAgents;
+        listListenerPourOrdonnanceur = listListenerActuels;
+        changerVitesse(EnumVitesse.CENT);
+    }
+
     @Override
     public void ordonnancer() {
         run = true;
         Agent agentCourant;
         while(run){
             agentCourant = listOrdonnancement.get(0);
-            cycleDeVie(agentCourant);
+            cycleDeVie(agentCourant.getReferenceAgent(), agentCourant.getEtatInitial());
             listOrdonnancement.remove(agentCourant);
             listOrdonnancement.add(agentCourant);
         }
     }
 
-    private void cycleDeVie(Agent agentCourant) {
-        IEtat etat = agentCourant.getEtatInitial();
-        executerEtat(etat);
-    }
-
-    private void executerEtat(IEtat etat) {
-        etat.executer().ifPresent(this::executerEtat);
+    private void cycleDeVie(ReferenceAgent agentCourantReference, IEtat etat) {
+        listListenerPourOrdonnanceur.forEach(ordonnanceurListener -> ordonnanceurListener.changementEtat(agentCourantReference,etat));
+        try {
+            TimeUnit.MICROSECONDS.sleep(vitesse);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        etat.executer().ifPresent(iEtat -> cycleDeVie(agentCourantReference, iEtat));
     }
 
     @Override
     public void changerVitesse(EnumVitesse vitesse) {
-        this.vitesse = vitesse;
+        switch (vitesse){
+            case CENT: this.vitesse = 10; break;
+            case SOIXANTE_QUINZE: this.vitesse = 15; break;
+            case CINQUANTE: this.vitesse = 20; break;
+            case VINGT_CINQ: this.vitesse = 50; break;
+            case DIX: this.vitesse = 100; break;
+        }
     }
 
     @Override
     public List<Agent> arreterOrdonnancement() {
         run = false;
         return listOrdonnancement;
+    }
+
+    @Override
+    public void addOrdonnaceurListener(OrdonnanceurListener ordonnanceurListener) {
+        listListenerPourOrdonnanceur.add(ordonnanceurListener);
     }
 
     @Override

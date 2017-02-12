@@ -1,6 +1,9 @@
 package com.m2dl.sma.infrastructure.ordonnanceur;
 
 import com.m2dl.sma.infrastructure.EnumVitesse;
+import com.m2dl.sma.infrastructure.agent.Agent;
+
+import java.util.List;
 
 public class Ordonnanceur implements IOrdonnanceur {
 
@@ -22,7 +25,11 @@ public class Ordonnanceur implements IOrdonnanceur {
 
     @Override
     public void changerOrdonnancement(IStratOrdonnanceur stratOrdonnanceur) {
-        this.stratOrdonnanceur.arreterOrdonnancement();
         this.stratOrdonnanceur = stratOrdonnanceur;
+    }
+
+    @Override
+    public List<Agent> arreterOrdonnancement() {
+        return stratOrdonnanceur.arreterOrdonnancement();
     }
 }

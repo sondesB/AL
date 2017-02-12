@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.m2dl.sma.infrastructure.etat.IEtat;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -23,13 +24,14 @@ import org.mockito.Mock;
 import com.m2dl.sma.infrastructure.agent.Agent;
 import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 import com.m2dl.sma.infrastructure.communication.IMessageAgent;
+import org.mockito.internal.util.reflection.Whitebox;
 
 public class AnnuaireImplTest {
 
     @Mock private AgentListener agentListener;
     @Mock private ReferenceAgentListener referenceAgentListener;
 
-    private Annuaire annuaire;
+    private AnnuaireImpl annuaire;
 
     @Before
     public void setUp() throws Exception {
@@ -65,16 +67,6 @@ public class AnnuaireImplTest {
         annuaire.addAgent(agent);
 
         verify(agentListener, times(0)).agentAjoute(any());
-    }
-
-    private void setUpEnvoyerMessage(IMessageAgent messageAgent, Agent destinataire) {
-
-        Agent expediteur = buildAgent();
-        annuaire.addAgent(expediteur);
-        annuaire.addAgent(destinataire);
-
-        annuaire.envoyerMessage(expediteur.getReferenceAgent(), destinataire.getReferenceAgent(),
-                messageAgent);
     }
 
     @Test
@@ -131,6 +123,117 @@ public class AnnuaireImplTest {
         }
     }
 
+    @Test
+    public void devrais_appeler_add_de_messageAgentListeners() {
+        List<MessageAgentListener> mockedMessageAgentListeners = mock(List.class);
+        Whitebox.setInternalState(annuaire, "messageAgentListeners", mockedMessageAgentListeners);
+
+        MessageAgentListener messageAgentListener = mock(MessageAgentListener.class);
+        annuaire.ajouterMessageAgentListener(messageAgentListener);
+
+        verify(mockedMessageAgentListeners, times(1)).add(eq(messageAgentListener));
+    }
+
+    @Test
+    public void devrais_appeler_remove_de_messageAgentListeners() {
+        List<MessageAgentListener> mockedMessageAgentListeners = mock(List.class);
+        Whitebox.setInternalState(annuaire, "messageAgentListeners", mockedMessageAgentListeners);
+
+        MessageAgentListener messageAgentListener = mock(MessageAgentListener.class);
+        annuaire.retirerMessageAgentListener(messageAgentListener);
+
+        verify(mockedMessageAgentListeners, times(1)).remove(eq(messageAgentListener));
+    }
+
+    @Test
+    public void devrais_appeler_add_de_referenceAgentListeners() {
+        List<ReferenceAgentListener> mockedReferenceAgentListeners = mock(List.class);
+        Whitebox.setInternalState(annuaire, "referenceAgentListeners", mockedReferenceAgentListeners);
+
+        ReferenceAgentListener referenceAgentListener = mock(ReferenceAgentListener.class);
+        annuaire.ajouterReferenceAgentListener(referenceAgentListener);
+
+        verify(mockedReferenceAgentListeners, times(1)).add(eq(referenceAgentListener));
+    }
+
+    @Test
+    public void devrais_appeler_remove_de_referenceAgentListeners() {
+        List<ReferenceAgentListener> mockedReferenceAgentListeners = mock(List.class);
+        Whitebox.setInternalState(annuaire, "referenceAgentListeners", mockedReferenceAgentListeners);
+
+        ReferenceAgentListener referenceAgentListener = mock(ReferenceAgentListener.class);
+        annuaire.retirerReferenceAgentListener(referenceAgentListener);
+
+        verify(mockedReferenceAgentListeners, times(1)).remove(eq(referenceAgentListener));
+    }
+
+    @Test
+    public void devrais_appeler_agentAjoute_de_tous_les_agentListeners() {
+        ReferenceAgentListener referenceAgentListener1 = mock(ReferenceAgentListener.class);
+        ReferenceAgentListener referenceAgentListener2 = mock(ReferenceAgentListener.class);
+
+        Agent agent = buildAgent();
+
+        annuaire.ajouterReferenceAgentListener(referenceAgentListener1);
+        annuaire.ajouterReferenceAgentListener(referenceAgentListener2);
+        annuaire.addAgent(agent);
+
+        verify(referenceAgentListener1, times(1)).agentAjoute(any());
+        verify(referenceAgentListener2, times(1)).agentAjoute(any());
+    }
+
+    @Test
+    public void devrais_appeler_agentAjoute_de_tous_les_referenceAgentListeners() {
+        AgentListener mockAgentListener1 = mock(AgentListener.class);
+        AgentListener mockAgentListener2 = mock(AgentListener.class);
+
+        Agent agent = buildAgent();
+
+        annuaire.ajouterAgentListener(mockAgentListener1);
+        annuaire.ajouterAgentListener(mockAgentListener2);
+        annuaire.addAgent(agent);
+
+        verify(mockAgentListener1, times(1)).agentAjoute(any());
+        verify(mockAgentListener2, times(1)).agentAjoute(any());
+    }
+
+    @Test
+    public void devrais_appeler_messageEnvoye_de_tous_les_messageAgentListeners() {
+
+        MessageAgentListener mockMessageAgentListener1 = mock(MessageAgentListener.class);
+        MessageAgentListener mockMessageAgentListener2 = mock(MessageAgentListener.class);
+
+        Agent expediteur = new Agent(mock(IEtat.class));
+        Agent destinataire = new Agent(mock(IEtat.class));
+        IMessageAgent messageAgent = buildMessageAgent();
+
+        annuaire.ajouterMessageAgentListener(mockMessageAgentListener1);
+        annuaire.ajouterMessageAgentListener(mockMessageAgentListener2);
+        setUpEnvoyerMessage(messageAgent, expediteur, destinataire);
+
+        verify(mockMessageAgentListener1, times(1)).messageEnvoye(eq(expediteur.getReferenceAgent()), eq(destinataire.getReferenceAgent()), eq(messageAgent));
+        verify(mockMessageAgentListener2, times(1)).messageEnvoye(eq(expediteur.getReferenceAgent()), eq(destinataire.getReferenceAgent()), eq(messageAgent));
+    }
+
+    @Test
+    public void devrais_appeler_messageEnvoye_de_tous_les_messageAgentListeners_pour_notification() {
+
+        MessageAgentListener mockMessageAgentListener1 = mock(MessageAgentListener.class);
+        MessageAgentListener mockMessageAgentListener2 = mock(MessageAgentListener.class);
+
+        ReferenceAgent expediteur = mock(ReferenceAgent.class);
+        Agent destinataire = new Agent(mock(IEtat.class));
+        annuaire.addAgent(destinataire);
+        IMessageAgent messageAgent = buildMessageAgent();
+
+        annuaire.ajouterMessageAgentListener(mockMessageAgentListener1);
+        annuaire.ajouterMessageAgentListener(mockMessageAgentListener2);
+        annuaire.diffuserMessage(expediteur, messageAgent);
+
+        verify(mockMessageAgentListener1, times(1)).messageEnvoye(eq(expediteur), eq(destinataire.getReferenceAgent()), eq(messageAgent));
+        verify(mockMessageAgentListener2, times(1)).messageEnvoye(eq(expediteur), eq(destinataire.getReferenceAgent()), eq(messageAgent));
+    }
+
     private Agent buildAgent() {
         Agent agent = mock(Agent.class);
         when(agent.getReferenceAgent()).thenReturn(new ReferenceAgent());
@@ -139,5 +242,23 @@ public class AnnuaireImplTest {
 
     private IMessageAgent buildMessageAgent() {
         return mock(IMessageAgent.class);
+    }
+
+    private void setUpEnvoyerMessage(IMessageAgent messageAgent, Agent expediteur, Agent destinataire) {
+        annuaire.addAgent(expediteur);
+        annuaire.addAgent(destinataire);
+
+        annuaire.envoyerMessage(expediteur.getReferenceAgent(), destinataire.getReferenceAgent(),
+                messageAgent);
+    }
+
+    private void setUpEnvoyerMessage(IMessageAgent messageAgent, Agent destinataire) {
+
+        Agent expediteur = buildAgent();
+        annuaire.addAgent(expediteur);
+        annuaire.addAgent(destinataire);
+
+        annuaire.envoyerMessage(expediteur.getReferenceAgent(), destinataire.getReferenceAgent(),
+                messageAgent);
     }
 }
