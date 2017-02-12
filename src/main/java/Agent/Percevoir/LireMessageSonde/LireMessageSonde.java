@@ -12,8 +12,8 @@ import sonde.Services.DisparitionComposant;
  */
 public class LireMessageSonde implements ILireMessageSonde{
 
-    ICreerPerception creerPerception;
-    DisparitionComposant disparitionComposant;
+    private ICreerPerception creerPerception;
+    private DisparitionComposant disparitionComposant;
 
     public LireMessageSonde() {
         this.creerPerception = new FabriqueAbstractPerception();
