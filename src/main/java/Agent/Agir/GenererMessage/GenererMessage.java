@@ -4,7 +4,6 @@ import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 import com.m2dl.sma.infrastructure.communication.ICommunication;
 
 import Agent.Agir.GenererMessage.Message.Annonce;
-import Agent.Agir.GenererMessage.Message.MessageAgent;
 import Agent.Agir.GenererMessage.Message.Reponse;
 import interfaceswcomp.OCService;
 
@@ -16,9 +15,8 @@ public class GenererMessage implements IGenererMessage {
     private ReferenceAgent referenceAgent;
     private OCService service;
 
-    public GenererMessage(ReferenceAgent referenceAgent, OCService service) {
-    	// Il n'y as pas d'implémentation de ICommunication
-        // this.communication = new Communication();
+    public GenererMessage(ICommunication communication, ReferenceAgent referenceAgent, OCService service) {
+        this.communication = communication;
         this.referenceAgent = referenceAgent;
         this.service = service;
     }

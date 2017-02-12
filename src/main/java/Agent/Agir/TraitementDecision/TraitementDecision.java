@@ -1,6 +1,8 @@
 package Agent.Agir.TraitementDecision;
 
 import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
+import com.m2dl.sma.infrastructure.communication.ICommunication;
+import com.m2dl.sma.infrastructure.fabrique.ISuicideService;
 
 import Agent.Agir.GenererMessage.GenererMessage;
 import Agent.Agir.GenererMessage.IGenererMessage;
@@ -13,6 +15,7 @@ import Agent.Decider.ComposantCreationDecision.DecisionBinding;
 import Agent.Decider.ComposantCreationDecision.DecisionGenererMessage;
 import Agent.Decider.ComposantCreationDecision.DecisionSuicide;
 import Agent.Decider.ComposantCreationDecision.DecisionVide;
+import interfaceswcomp.Binding;
 import interfaceswcomp.OCService;
 
 /**
@@ -23,10 +26,10 @@ public class TraitementDecision implements ITraitementDecision {
     private IGestionSuicide gestionSuicide;
     private IGestionBinding gestionBinding;
 
-    public TraitementDecision(ReferenceAgent ref, OCService service) {
-        this.genererMessage = new GenererMessage(ref, service);
-        this.gestionSuicide = new GestionSuicide(ref);
-        this.gestionBinding = new GestionBinding(service);
+    public TraitementDecision(OCService service, ICommunication communication, ISuicideService suicideService, ReferenceAgent referenceAgent, Binding binding) {
+        this.genererMessage = new GenererMessage(communication, referenceAgent, service);
+        this.gestionSuicide = new GestionSuicide(suicideService, referenceAgent);
+        this.gestionBinding = new GestionBinding(binding, service);
     }
 
     /**

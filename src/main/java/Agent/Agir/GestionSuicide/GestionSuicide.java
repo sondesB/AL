@@ -10,8 +10,8 @@ public class GestionSuicide implements IGestionSuicide {
 	private ISuicideService suicideService;
 	private ReferenceAgent referenceAgent;
 	
-	public GestionSuicide(ReferenceAgent ref) {
-		//this.suicideService = new SuicideService();
+	public GestionSuicide(ISuicideService suicideService, ReferenceAgent ref) {
+		this.suicideService = suicideService;
 		this.referenceAgent = ref;
 	}
 

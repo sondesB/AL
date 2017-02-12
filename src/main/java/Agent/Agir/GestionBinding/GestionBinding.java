@@ -11,8 +11,8 @@ public class GestionBinding implements IGestionBinding {
     private Binding binding;
     private OCService serviceFromAgent;
 
-    public GestionBinding(OCService service) {
-        //this.binding = new Binding();
+    public GestionBinding(Binding binding, OCService service) {
+        this.binding = binding;
     	this.serviceFromAgent = service;
     }
 
