@@ -12,4 +12,6 @@ public interface IStratOrdonnanceur extends AgentListener {
     void changerVitesse(EnumVitesse vitesse);
 
     List<Agent> arreterOrdonnancement();
+
+    void addOrdonnaceurListener(OrdonnanceurListener ordonnanceurListener);
 }
