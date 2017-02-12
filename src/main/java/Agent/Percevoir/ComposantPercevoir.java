@@ -7,6 +7,8 @@ import Agent.Percevoir.LireMessageInfrastructure.ILireMessageInfrastructure;
 import Agent.Percevoir.LireMessageInfrastructure.LireMessageInfrastructure;
 import Agent.Percevoir.LireMessageSonde.ILireMessageSonde;
 import Agent.Percevoir.LireMessageSonde.LireMessageSonde;
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
+import com.m2dl.sma.infrastructure.communication.ICommunication;
 
 import java.util.ArrayList;
 import java.util.List;
