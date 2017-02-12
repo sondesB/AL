@@ -13,7 +13,7 @@ public class PerceptionReponse extends AbstractPerception {
     private ReferenceAgent ref;
     public PerceptionReponse(Reponse message){
         this.service = message.getService();
-        this.ref = message.getReferenceAgent();
+        this.ref = message.getExpediteur();
     }
 
     public OCService getService(){
