@@ -57,3 +57,6 @@ local.properties
 .gradle/
 build/
 bin/
+*.iml
+.idea
+target
