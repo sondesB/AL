@@ -9,9 +9,11 @@ import interfaceswcomp.OCService;
  */
 public class GestionBinding implements IGestionBinding {
     private Binding binding;
+    private OCService serviceFromAgent;
 
-    public GestionBinding(Binding binding) {
-        this.binding = binding;
+    public GestionBinding(OCService service) {
+        //this.binding = new Binding();
+    	this.serviceFromAgent = service;
     }
 
     /**
@@ -22,9 +24,9 @@ public class GestionBinding implements IGestionBinding {
      * 			service 2 to bind
      */
     @Override
-    public void bind(OCService s1, OCService s2) {
+    public void bind(OCService service) {
         try {
-            this.binding.bind(s1, s2);
+            this.binding.bind(this.serviceFromAgent, service);
         } catch (BindingFailure e) {
 
         }
@@ -32,5 +34,9 @@ public class GestionBinding implements IGestionBinding {
 
     public Binding getBinding() {
         return binding;
+    }
+    
+    public OCService getServiceFromAgent() {
+        return serviceFromAgent;
     }
 }

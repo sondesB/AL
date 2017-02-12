@@ -16,6 +16,10 @@ import interfaceswcomp.OCService;
 
 import java.util.List;
 
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
+import com.m2dl.sma.infrastructure.communication.ICommunication;
+import com.m2dl.sma.infrastructure.fabrique.ISuicideService;
+
 /**
  * Created by Utilisateur on 10/02/2017.
  */
@@ -25,10 +29,8 @@ public class ComposantAgir implements IComposantAgir {
 
     private ITraitementDecision traitementDecision;
 
-    public ComposantAgir(OCService service, ICommunication communication, ISuicideService suicideService, ReferenceAgent referenceAgent, Binding binding) {
-        this.traitementDecision = new TraitementDecision(new GenererMessage(communication, referenceAgent),
-                new GestionSuicide(suicideService, referenceAgent), new GestionBinding(binding));
-
+    public ComposantAgir(OCService service, ReferenceAgent referenceAgent) {
+    	this.traitementDecision = new TraitementDecision(referenceAgent, service);
         this.service = service;
     }
 

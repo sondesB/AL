@@ -1,8 +1,14 @@
 package Agent.Decider.ComposantCreationDecision;
 
+import interfaceswcomp.OCService;
+
 /**
  * Created by qsaieb on 10/02/2017.
  */
 public class DecisionBinding extends AbstractDecision {
-  // prendre le service qui a répondu
+	private OCService service;
+	
+	public OCService getService() {
+		return service;
+	}
 }

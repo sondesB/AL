@@ -1,9 +1,19 @@
 package Agent.Agir.TraitementDecision;
 
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
+
+import Agent.Agir.GenererMessage.GenererMessage;
 import Agent.Agir.GenererMessage.IGenererMessage;
+import Agent.Agir.GestionBinding.GestionBinding;
 import Agent.Agir.GestionBinding.IGestionBinding;
+import Agent.Agir.GestionSuicide.GestionSuicide;
 import Agent.Agir.GestionSuicide.IGestionSuicide;
 import Agent.Decider.ComposantCreationDecision.AbstractDecision;
+import Agent.Decider.ComposantCreationDecision.DecisionBinding;
+import Agent.Decider.ComposantCreationDecision.DecisionGenererMessage;
+import Agent.Decider.ComposantCreationDecision.DecisionSuicide;
+import Agent.Decider.ComposantCreationDecision.DecisionVide;
+import interfaceswcomp.OCService;
 
 /**
  * Created by Utilisateur on 09/02/2017.
@@ -13,10 +23,10 @@ public class TraitementDecision implements ITraitementDecision {
     private IGestionSuicide gestionSuicide;
     private IGestionBinding gestionBinding;
 
-    public TraitementDecision(IGenererMessage genererMessage, IGestionSuicide gestionSuicide, IGestionBinding gestionBinding) {
-        this.genererMessage = genererMessage;
-        this.gestionSuicide = gestionSuicide;
-        this.gestionBinding = gestionBinding;
+    public TraitementDecision(ReferenceAgent ref, OCService service) {
+        this.genererMessage = new GenererMessage(ref, service);
+        this.gestionSuicide = new GestionSuicide(ref);
+        this.gestionBinding = new GestionBinding(service);
     }
 
     /**
@@ -27,14 +37,14 @@ public class TraitementDecision implements ITraitementDecision {
     public void traiter(AbstractDecision decision) {
         if(decision instanceof DecisionGenererMessage){
         	// On génère un message
-            this.genererMessage.genererMessage(decision.referenceAgentTo);
+            this.genererMessage.genererMessage(((DecisionGenererMessage) decision).getType(), ((DecisionGenererMessage) decision).getRefTo());
         } else if(decision instanceof DecisionSuicide){
         	// On fait se suicider l'agent
             this.gestionSuicide.suicide();
         } else if(decision instanceof DecisionBinding){
         	// On bind 2 services
-            this.gestionBinding.bind(service, decision.service);
-        } else if(decision instanceof DecisionEmpty){
+        	this.gestionBinding.bind(((DecisionBinding) decision).getService());
+        } else if(decision instanceof DecisionVide){
             // On ne fait rien.
         }
     }

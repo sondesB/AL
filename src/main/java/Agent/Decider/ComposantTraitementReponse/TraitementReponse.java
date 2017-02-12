@@ -1,6 +1,7 @@
 package Agent.Decider.ComposantTraitementReponse;
 
 import Agent.Decider.ComposantCreationDecision.AbstractDecision;
+import Agent.Decider.ComposantCreationDecision.DecisionGenererMessage;
 import Agent.Percevoir.CreerPerception.Perceptions.PerceptionReponse;
 
 import java.util.List;
@@ -10,8 +11,8 @@ import java.util.List;
  */
 public class TraitementReponse implements ITraitementReponse {
 
-  @Override
-  public AbstractDecision traiter(List<PerceptionReponse> listePerceptionReponse) {
-    return null;
-  }
+	@Override
+	public AbstractDecision traiter(List<PerceptionReponse> listePerceptionReponse) {
+		return new DecisionGenererMessage("REPONSE");
+	}
 }
