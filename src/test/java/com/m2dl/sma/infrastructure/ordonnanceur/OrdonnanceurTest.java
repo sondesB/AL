@@ -4,6 +4,7 @@ import com.m2dl.sma.infrastructure.EnumVitesse;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.internal.util.reflection.Whitebox;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.eq;
@@ -39,11 +40,16 @@ public class OrdonnanceurTest {
 
     @Test
     public void devrais_arreter_l_ordonnancement() {
-        IStratOrdonnanceur istrat = mock(IStratOrdonnanceur.class);
-        ordonnaceur.changerOrdonnancement(istrat);
+        ordonnaceur.arreterOrdonnancement();
 
         verify(strat, times(1)).arreterOrdonnancement();
     }
 
+    @Test
+    public void devrais_changer_la_strategie() {
+        IStratOrdonnanceur istrat = mock(IStratOrdonnanceur.class);
+        ordonnaceur.changerOrdonnancement(istrat);
 
+        assertEquals(Whitebox.getInternalState(ordonnaceur, "stratOrdonnanceur"), istrat);
+    }
 }
