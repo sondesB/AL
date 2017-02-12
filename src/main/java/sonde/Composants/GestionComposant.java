@@ -21,6 +21,9 @@ public class GestionComposant implements Configuration {
     private ILogComposant logger;
     private int periodicite;
 
+    public int getPeriodicite(){
+        return periodicite;
+    }
     @Override
     public void definirPeriodicite(int valeur) {
         this.periodicite = valeur;
@@ -34,12 +37,12 @@ public class GestionComposant implements Configuration {
      * @throws Exception
      */
     public void getComposantApparu() throws AcquisitionFailure {
-        Set<OCComponent> composants = acquisition.getNewComponents();
-        for (OCComponent c : composants) {
-            logger.logApparitionComposant(c);
+        Set<OCComponent> listComposants = acquisition.getNewComponents();
+        for (OCComponent composant : listComposants) {
+            logger.logApparitionComposant(composant);
 
-            ArrayList<OCService> servicesFournis = c.getProvidedServices();
-            ArrayList<OCService> servicesRequis = c.getRequiredServices();
+            ArrayList<OCService> servicesFournis = composant.getProvidedServices();
+            ArrayList<OCService> servicesRequis = composant.getRequiredServices();
 
             if (servicesFournis != null) {
                 notification.servicesApparus(servicesFournis);
@@ -59,12 +62,12 @@ public class GestionComposant implements Configuration {
      * @throws Exception
      */
     public void getComposantDisparu() throws AcquisitionFailure {
-        Set<OCComponent> composants = acquisition.getDisappearedComponents();
-        for (OCComponent c : composants) {
-            logger.logDisparitionComposant(c);
+        Set<OCComponent> listComposants = acquisition.getDisappearedComponents();
+        for (OCComponent composant : listComposants) {
+            logger.logDisparitionComposant(composant);
 
-            ArrayList<OCService> servicesFournis = c.getProvidedServices();
-            ArrayList<OCService> servicesRequis = c.getRequiredServices();
+            ArrayList<OCService> servicesFournis = composant.getProvidedServices();
+            ArrayList<OCService> servicesRequis = composant.getRequiredServices();
 
             if (servicesFournis != null) {
                 notification.servicesDisparus(servicesFournis);
