@@ -75,6 +75,16 @@ public class InfrastructureTest {
     }
 
     @Test
+    public void devrais_appeler_arreterOrdonnancement_de_ordonnanceur() {
+        Whitebox.setInternalState(infrastructure, "ordonnanceur", mockedOrdonnanceur);
+
+        IStratOrdonnanceur stratOrdonnanceur = mock(IStratOrdonnanceur.class);
+        infrastructure.arreterOrdonnancement();
+
+        verify(mockedOrdonnanceur, times(1)).arreterOrdonnancement();
+    }
+
+    @Test
     public void devrais_appeler_envoyerMessage_de_annuaire() {
         Whitebox.setInternalState(infrastructure, "annuaire", mockedAnnuaire);
 
