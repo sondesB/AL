@@ -27,7 +27,7 @@ public class ComposantAgir implements IComposantAgir {
 
     public ComposantAgir(OCService service, ICommunication communication, ISuicideService suicideService, ReferenceAgent referenceAgent, Binding binding) {
         this.traitementDecision = new TraitementDecision(new GenererMessage(communication, referenceAgent),
-                new GestionSuicide(suicideService), new GestionBinding(binding));
+                new GestionSuicide(suicideService, referenceAgent), new GestionBinding(binding));
 
         this.service = service;
     }

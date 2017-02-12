@@ -27,7 +27,7 @@ public class TraitementDecision implements ITraitementDecision {
     public void traiter(AbstractDecision decision) {
         if(decision instanceof DecisionGenererMessage){
         	// On génère un message
-            this.genererMessage.genererMessage();
+            this.genererMessage.genererMessage(decision.referenceAgentTo);
         } else if(decision instanceof DecisionSuicide){
         	// On fait se suicider l'agent
             this.gestionSuicide.suicide();
