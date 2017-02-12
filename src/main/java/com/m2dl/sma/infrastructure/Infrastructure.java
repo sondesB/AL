@@ -18,9 +18,9 @@ import java.util.Optional;
 
 public class Infrastructure implements ICreationService, ISuicideService, ICommunication, IOrdonnanceur {
 
-    Fabrique fabrique;
-    Ordonnanceur ordonnanceur;
-    Annuaire annuaire;
+    private Fabrique fabrique;
+    private Ordonnanceur ordonnanceur;
+    private Annuaire annuaire;
 
     public Infrastructure() {
         ordonnanceur = new Ordonnanceur(new StrategieClassique(new ArrayList<>(), new ArrayList<>()));
