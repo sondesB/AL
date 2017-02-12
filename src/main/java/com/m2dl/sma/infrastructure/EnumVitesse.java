@@ -1,5 +1,5 @@
 package com.m2dl.sma.infrastructure;
 
 public enum EnumVitesse {
-    PAUSE, DIX, VINGT_CINQ, CINQUANTE, SOIXANTE_QUINZE, CENT
+    DIX, VINGT_CINQ, CINQUANTE, SOIXANTE_QUINZE, CENT
 }

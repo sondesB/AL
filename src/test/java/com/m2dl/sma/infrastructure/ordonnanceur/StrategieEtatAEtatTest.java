@@ -36,10 +36,10 @@ public class StrategieEtatAEtatTest {
     public void devrais_changer_la_vitesse() {
         EnumVitesse vitesse = EnumVitesse.CINQUANTE;
 
-        assertEquals(Whitebox.getInternalState(strategieEtatAEtat, "vitesse"), EnumVitesse.CENT);
+        assertEquals(Whitebox.getInternalState(strategieEtatAEtat, "vitesse"), 10);
 
         strategieEtatAEtat.changerVitesse(vitesse);
-        assertEquals(Whitebox.getInternalState(strategieEtatAEtat, "vitesse"), vitesse);
+        assertEquals(Whitebox.getInternalState(strategieEtatAEtat, "vitesse"), 20);
     }
 
     @Test

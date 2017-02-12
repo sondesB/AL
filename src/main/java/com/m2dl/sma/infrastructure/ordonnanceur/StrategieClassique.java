@@ -7,18 +7,19 @@ import com.m2dl.sma.infrastructure.etat.IEtat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class StrategieClassique implements IStratOrdonnanceur {
 
     private List<Agent> listOrdonnancement;
     private List<OrdonnanceurListener> listListenerPourOrdonnanceur;
-    private EnumVitesse vitesse;
+    private int vitesse;
     private boolean run = true;
 
     public StrategieClassique(List<Agent> listAgents, List<OrdonnanceurListener> listListenerActuels){
         listOrdonnancement = listAgents;
         listListenerPourOrdonnanceur = listListenerActuels;
-        vitesse = EnumVitesse.CENT;
+        changerVitesse(EnumVitesse.CENT);
     }
 
     @Override
@@ -35,12 +36,24 @@ public class StrategieClassique implements IStratOrdonnanceur {
 
     private void cycleDeVie(ReferenceAgent agentCourantReference, IEtat etat) {
         listListenerPourOrdonnanceur.forEach(ordonnanceurListener -> ordonnanceurListener.changementEtat(agentCourantReference,etat));
+        try {
+            TimeUnit.MICROSECONDS.sleep(vitesse);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
         etat.executer().ifPresent(iEtat -> cycleDeVie(agentCourantReference, iEtat));
     }
 
     @Override
     public void changerVitesse(EnumVitesse vitesse) {
-        this.vitesse = vitesse;
+        switch (vitesse){
+            case CENT: this.vitesse = 10; break;
+            case SOIXANTE_QUINZE: this.vitesse = 15; break;
+            case CINQUANTE: this.vitesse = 20; break;
+            case VINGT_CINQ: this.vitesse = 50; break;
+            case DIX: this.vitesse = 100; break;
+            default: this.vitesse = 10; break;
+        }
     }
 
     @Override
