@@ -1,7 +1,5 @@
 package Agent.Percevoir;
 
-import Agent.Percevoir.CreerPerception.FabriqueAbstractPerception;
-import Agent.Percevoir.CreerPerception.ICreerPerception;
 import Agent.Percevoir.CreerPerception.Perceptions.AbstractPerception;
 import Agent.Percevoir.LireMessageInfrastructure.ILireMessageInfrastructure;
 import Agent.Percevoir.LireMessageInfrastructure.LireMessageInfrastructure;
