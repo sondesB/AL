@@ -1,5 +1,6 @@
 package com.m2dl.sma.infrastructure;
 
+import com.m2dl.sma.infrastructure.agent.Agent;
 import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 import com.m2dl.sma.infrastructure.annuaire.Annuaire;
 import com.m2dl.sma.infrastructure.annuaire.AnnuaireImpl;
@@ -9,11 +10,10 @@ import com.m2dl.sma.infrastructure.etat.IEtat;
 import com.m2dl.sma.infrastructure.fabrique.Fabrique;
 import com.m2dl.sma.infrastructure.fabrique.ICreationService;
 import com.m2dl.sma.infrastructure.fabrique.ISuicideService;
-import com.m2dl.sma.infrastructure.ordonnanceur.IOrdonnanceur;
-import com.m2dl.sma.infrastructure.ordonnanceur.IStratOrdonnanceur;
-import com.m2dl.sma.infrastructure.ordonnanceur.Ordonnanceur;
-import com.m2dl.sma.infrastructure.ordonnanceur.StrategieClassique;
+import com.m2dl.sma.infrastructure.ordonnanceur.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class Infrastructure implements ICreationService, ISuicideService, ICommunication, IOrdonnanceur {
@@ -23,7 +23,7 @@ public class Infrastructure implements ICreationService, ISuicideService, ICommu
     Annuaire annuaire;
 
     public Infrastructure() {
-        ordonnanceur = new Ordonnanceur(new StrategieClassique());
+        ordonnanceur = new Ordonnanceur(new StrategieClassique(new ArrayList<>(), new ArrayList<>()));
         annuaire = new AnnuaireImpl();
         fabrique = new Fabrique(annuaire);
     }
@@ -46,6 +46,11 @@ public class Infrastructure implements ICreationService, ISuicideService, ICommu
     @Override
     public void changerOrdonnancement(IStratOrdonnanceur stratOrdonnanceur) {
         ordonnanceur.changerOrdonnancement(stratOrdonnanceur);
+    }
+
+    @Override
+    public List<Agent> arreterOrdonnancement() {
+        return ordonnanceur.arreterOrdonnancement();
     }
 
     @Override
