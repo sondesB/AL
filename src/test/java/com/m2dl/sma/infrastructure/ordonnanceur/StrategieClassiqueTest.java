@@ -36,8 +36,17 @@ public class StrategieClassiqueTest {
 
         assertEquals(Whitebox.getInternalState(strategieClassique, "vitesse"), 10);
 
-        strategieClassique.changerVitesse(vitesse);
+        strategieClassique.changerVitesse(EnumVitesse.DIX);
+        assertEquals(Whitebox.getInternalState(strategieClassique, "vitesse"), 100);
+
+        strategieClassique.changerVitesse(EnumVitesse.VINGT_CINQ);
+        assertEquals(Whitebox.getInternalState(strategieClassique, "vitesse"), 50);
+
+        strategieClassique.changerVitesse(EnumVitesse.CINQUANTE);
         assertEquals(Whitebox.getInternalState(strategieClassique, "vitesse"), 20);
+
+        strategieClassique.changerVitesse(EnumVitesse.SOIXANTE_QUINZE);
+        assertEquals(Whitebox.getInternalState(strategieClassique, "vitesse"), 15);
     }
 
     @Test

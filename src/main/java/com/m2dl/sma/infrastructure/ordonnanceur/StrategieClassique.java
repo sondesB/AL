@@ -52,7 +52,6 @@ public class StrategieClassique implements IStratOrdonnanceur {
             case CINQUANTE: this.vitesse = 20; break;
             case VINGT_CINQ: this.vitesse = 50; break;
             case DIX: this.vitesse = 100; break;
-            default: this.vitesse = 10; break;
         }
     }
 
