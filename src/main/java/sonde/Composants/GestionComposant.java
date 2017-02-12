@@ -24,6 +24,7 @@ public class GestionComposant implements Configuration {
     public int getPeriodicite(){
         return periodicite;
     }
+
     @Override
     public void definirPeriodicite(int valeur) {
         this.periodicite = valeur;
@@ -33,8 +34,7 @@ public class GestionComposant implements Configuration {
      * get components that have appeared, log them and send a list
      * of their services to GestionAgent
      *
-     * @return void
-     * @throws Exception
+     * @throws AcquisitionFailure
      */
     public void getComposantApparu() throws AcquisitionFailure {
         Set<OCComponent> listComposants = acquisition.getNewComponents();
@@ -58,8 +58,7 @@ public class GestionComposant implements Configuration {
      * get components that have disappeared, log them and send a list
      * of their services to GestionAgent
      *
-     * @return void
-     * @throws Exception
+     * @throws AcquisitionFailure
      */
     public void getComposantDisparu() throws AcquisitionFailure {
         Set<OCComponent> listComposants = acquisition.getDisappearedComponents();

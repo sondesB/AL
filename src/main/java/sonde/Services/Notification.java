@@ -10,14 +10,14 @@ import java.util.ArrayList;
 public interface Notification {
 
     /**
-     * Modifie la liste des services apparus
+     * Communique la liste des services apparus au composant GestionAgent
      *
      * @param listServicesApparus les services apparus
      */
     void servicesApparus(ArrayList<OCService> listServicesApparus);
 
     /**
-     * Modifie la liste des service disparus
+     * Communique la liste des service disparus au composant GestionAgent
      *
      * @param listServicesDisparus les services disparus
      */

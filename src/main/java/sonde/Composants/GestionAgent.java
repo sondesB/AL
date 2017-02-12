@@ -5,7 +5,8 @@ import com.m2dl.sma.infrastructure.fabrique.ICreationService;
 import interfaceswcomp.OCService;
 import sonde.Services.DisparitionComposant;
 import sonde.Services.Notification;
-package Agent.CycleDeVie.EtatPercevoir ;
+//import Agent.CycleDeVie.EtatPercevoir ;
+//import medium.services.enregistrement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,19 +18,26 @@ import java.util.Map;
 public class GestionAgent implements Notification, DisparitionComposant {
 
     private ICreationService creationService;
-    private EtatPercevoir etatPercevoir;
-    private Enregistrement enregistrement;
-
-    private Map<OCService, ReferenceAgent> listRefAgent = new HashMap<OCService, ReferenceAgent>(); //TypeListe : ReffAgent (class equipe infra)
+    //private EtatPercevoir etatPercevoir;
+    //private Enregistrement enregistrement;
+    /**
+     * Une map de chaque service et son agent
+     */
+    private Map<OCService, ReferenceAgent> listRefAgent = new HashMap<OCService, ReferenceAgent>();
+    /**
+     * Chaque agent vient verifier si son service a disparu ou pas
+     */
     private Map<ReferenceAgent, OCService> messageToAgent = new HashMap<ReferenceAgent, OCService>();
 
     @Override
     public void servicesApparus(ArrayList<OCService> listServicesApparus) {
-        //plan
+        /**
+         *
+         */
         for (OCService service : listServicesApparus) {
-            ReferenceAgent refAgent = creationService.creer(etatPercevoir.setServiceAgent(service)); //ReferenceAgent createAgent(IEtat) | IEtat SetService(OCService)
-            listRefAgent.put(service, refAgent);
-            enregistrement.addAgent(refAgent, service); //addAgent(RefAgent,OCService
+            //ReferenceAgent refAgent = creationService.creer(etatPercevoir.setServiceAgent(service)); //ReferenceAgent createAgent(IEtat) | IEtat SetService(OCService)
+            //listRefAgent.put(service, refAgent);
+            //enregistrement.addAgent(refAgent, service); //addAgent(RefAgent,OCService
         }
     }
 
