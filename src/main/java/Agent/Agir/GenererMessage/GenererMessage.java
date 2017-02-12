@@ -1,5 +1,8 @@
 package Agent.Agir.GenererMessage;
 
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
+import com.m2dl.sma.infrastructure.communication.ICommunication;
+
 import Agent.Agir.GenererMessage.Message.Annonce;
 import Agent.Agir.GenererMessage.Message.MessageAgent;
 import Agent.Agir.GenererMessage.Message.Reponse;
@@ -25,7 +28,7 @@ public class GenererMessage implements IGenererMessage {
     	if(this.messageAgent instanceof Annonce) {
     		this.communication.diffuserMessage(this.referenceAgent, this.messageAgent);
     	} else if (this.messageAgent instanceof Reponse) {
-    		this.communication.envoyerMessage(to, this.messageAgent);
+    		this.communication.envoyerMessage(this.referenceAgent, to, this.messageAgent);
     	}
     }
 

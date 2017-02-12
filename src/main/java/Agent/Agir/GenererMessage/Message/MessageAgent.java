@@ -1,5 +1,8 @@
 package Agent.Agir.GenererMessage.Message;
 
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
+import com.m2dl.sma.infrastructure.communication.IMessageAgent;
+
 import interfaceswcomp.OCService;
 
 /**
@@ -14,7 +17,7 @@ public abstract class MessageAgent implements IMessageAgent {
         return service;
     }
 
-    public ReferenceAgent getReferenceAgent() {
+    public ReferenceAgent getExpediteur() {
         return referenceAgent;
     }
 }

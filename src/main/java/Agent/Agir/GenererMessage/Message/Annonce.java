@@ -1,5 +1,7 @@
 package Agent.Agir.GenererMessage.Message;
 
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
+
 import interfaceswcomp.OCService;
 
 /**
