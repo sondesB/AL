@@ -14,6 +14,7 @@ import java.sql.*;
 public class PersistanceService {
 
     private String username,password,url,driver;
+    private String infConnexion;
 
     private Connection connection;
 
@@ -74,16 +75,14 @@ public class PersistanceService {
 
     /**
      * Connexion à la base de donnée.
-     * @param username
-     * @param password
-     * @param url
-     * @param driver
+     * @param infConnexion
      */
-    public void setConnexion(String username,String password, String url, String driver)  {
-        this.username = username;
+    public void setConnexion(String infConnexion)  {
+       /* this.username = username;
         this.password = password;
         this.url = url;
-        this.driver = driver;
+        this.driver = driver;*/
+       this.infConnexion=infConnexion;
     }
 
     /**
