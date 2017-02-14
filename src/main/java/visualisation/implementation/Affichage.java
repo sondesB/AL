@@ -1,6 +1,5 @@
 package visualisation.implementation;
 
-import visualisation.abstractvisualisation.AbstractAffichage;
 import visualisation.interfaces.IStrategieAffichage;
 
 /**

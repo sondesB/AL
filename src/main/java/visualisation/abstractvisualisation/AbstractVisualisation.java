@@ -112,9 +112,6 @@ public abstract class AbstractVisualisation {
     private AbstractAffichage implem_affichage;
     
     private final class BridgeImpl_affichage implements AbstractAffichage.Requires {
-      public final ITransfert donneRecu() {
-        return ComponentImpl.this.journalisation().donneEnvoyer();
-      }
     }
     
     public final AbstractAffichage.Component affichage() {
@@ -126,6 +123,9 @@ public abstract class AbstractVisualisation {
     private AbstractJournalisation implem_journalisation;
     
     private final class BridgeImpl_journalisation implements AbstractJournalisation.Requires {
+      public final ITransfert envoyerMsgVersAffichage() {
+        return ComponentImpl.this.affichage().recevoirMsgDeJournalisation();
+      }
     }
     
     public final AbstractJournalisation.Component journalisation() {
@@ -226,4 +226,3 @@ public abstract class AbstractVisualisation {
     return _comp;
   }
 }
-
