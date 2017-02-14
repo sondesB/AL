@@ -226,3 +226,4 @@ public abstract class AbstractVisualisation {
     return _comp;
   }
 }
+

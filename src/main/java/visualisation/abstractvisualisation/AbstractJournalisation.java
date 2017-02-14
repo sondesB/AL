@@ -1,6 +1,5 @@
 package visualisation.abstractvisualisation;
 
-
 import com.m2dl.sma.infrastructure.annuaire.AgentListener;
 import visualisation.interfaces.ITransfert;
 

@@ -165,3 +165,4 @@ public abstract class AbstractAffichage {
     return this._newComponent(new Requires() {}, true);
   }
 }
+
