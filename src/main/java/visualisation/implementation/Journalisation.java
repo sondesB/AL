@@ -8,19 +8,22 @@ import visualisation.abstractvisualisation.AbstractJournalisation;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  * Created by alpha on 10/02/2017.
  */
 public class Journalisation extends AbstractJournalisation implements AgentListener{
 
+    Logger log;
+
     List<Agent> agentList;
 
 
     public Journalisation(){
         super();
+        log = Logger.getLogger(Journalisation.class);
         agentList = new ArrayList<>();
-
     }
 
     @Override
