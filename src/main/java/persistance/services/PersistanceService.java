@@ -124,7 +124,7 @@ public class PersistanceService {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + Bdd);
             //prstatement = connection.createStatement();
-            System.out.println("Connexion a " + Bdd + " avec succ�s");
+            System.out.println("Connexion a " + Bdd + " avec succ�s :" + connection.getMetaData().getDatabaseProductName());
         } catch (ClassNotFoundException | SQLException notFoundException) {
             notFoundException.printStackTrace();
             System.out.println("Erreur de connecxion");
