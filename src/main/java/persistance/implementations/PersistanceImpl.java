@@ -22,9 +22,9 @@ public class PersistanceImpl implements IPersistance,IRecuperationPlan {
     }
 
     @Override
-    public BaseDePlanAbstraite recupererBasePlan(OCService service,int id) {
+    public BaseDePlanAbstraite recupererBasePlan(int id) {
         this.persistanceService.setConnexion(".."+ File.separator+"bdd"+ File.separator+"database.db");
-        return this.persistanceService.getBaseDePlan(service,id);
+        return this.persistanceService.getBaseDePlan(id);
     }
 
     /**
