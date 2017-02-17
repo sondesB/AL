@@ -1,4 +1,4 @@
-package log.tests;
+package log.exemple;
 
 import interfaceswcomp.OCComponent;
 import interfaceswcomp.OCService;

@@ -1,4 +1,4 @@
-package persistance.tests;
+package persistance.exemple;
 
 import persistance.interfaces.BaseDePlanAbstraite;
 

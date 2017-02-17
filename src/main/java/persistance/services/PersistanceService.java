@@ -27,10 +27,10 @@ public class PersistanceService {
 
     /**
      * Permet de récuperer la base de plan d'un service donnée.
-     * @param ocService Le service.
+     * @param ocService Le service. Why  ? Why ?
      * @return La base de plan.
      */
-    public BaseDePlanAbstraite getBaseDePlan(OCService ocService,int id)  {
+    public BaseDePlanAbstraite getBaseDePlan(int id)  {
         connect();
         BaseDePlanAbstraite basedeplan = null;
         try {
