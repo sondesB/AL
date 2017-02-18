@@ -7,9 +7,11 @@ import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 public interface ICommunication {
 
     void envoyerMessage(ReferenceAgent expediteur, ReferenceAgent destinataire,
-            MessageAgent messageAgent);
 
-    void diffuserMessage(ReferenceAgent expediteur, MessageAgent messageAgent);
+            IMessageAgent IMessageAgent);
 
-    Optional<MessageAgent> recevoirMessage(ReferenceAgent destinataire);
+    void diffuserMessage(ReferenceAgent expediteur, IMessageAgent IMessageAgent);
+
+    Optional<IMessageAgent> recevoirMessage(ReferenceAgent destinataire);
+
 }

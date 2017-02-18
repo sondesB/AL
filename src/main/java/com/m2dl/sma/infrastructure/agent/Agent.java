@@ -9,6 +9,11 @@ public class Agent {
     public Agent(IEtat etatInitial) {
         this.etatInitial = etatInitial;
         this.referenceAgent = new ReferenceAgent();
+<<<<<<< HEAD
+=======
+
+        this.etatInitial.setReferenceAgent(this.referenceAgent);
+>>>>>>> 710ad8f9961909014f7d03800a58e20b462cf332
     }
 
     public ReferenceAgent getReferenceAgent() {
