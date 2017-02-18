@@ -29,13 +29,15 @@ public class Journalisation extends AbstractJournalisation implements AgentListe
     @Override
     public void agentAjoute(Agent agent) {
         agentList.add(agent);
-
-
+        this.log.info("L'agent " + agent + " viens d'etre crée");
+        this.afficherAgent(agent);
     }
 
     @Override
     public void agentRetire(Agent agent) {
         agentList.remove(agent);
+        this.log.info("L'agent " + agent + " viens d'etre supprimé");
+        this.afficherAgent(agent);
     }
 
     @Override
