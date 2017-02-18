@@ -1,13 +1,7 @@
 package com.m2dl.sma.infrastructure.ordonnanceur;
 
 import com.m2dl.sma.infrastructure.EnumVitesse;
-<<<<<<< HEAD
 
-public class StrategieEtatAEtat implements IStratOrdonnanceur {
-    @Override
-    public void ordonnancer() {
-
-=======
 import com.m2dl.sma.infrastructure.agent.Agent;
 import com.m2dl.sma.infrastructure.etat.IEtat;
 
@@ -55,19 +49,12 @@ public class StrategieEtatAEtat implements IStratOrdonnanceur {
     private void changerEtatAgent(Agent agentCourant, IEtat iEtat) {
         listListenerPourOrdonnanceur.forEach(ordonnanceurListener -> ordonnanceurListener.changementEtat(agentCourant.getReferenceAgent(), iEtat));
         listEtatAgent.put(agentCourant, iEtat);
->>>>>>> 710ad8f9961909014f7d03800a58e20b462cf332
+
     }
 
     @Override
     public void changerVitesse(EnumVitesse vitesse) {
-<<<<<<< HEAD
 
-    }
-
-    @Override
-    public void arreterOrdonnancement() {
-
-=======
         switch (vitesse){
             case CENT: this.vitesse = 10; break;
             case SOIXANTE_QUINZE: this.vitesse = 15; break;
@@ -97,6 +84,6 @@ public class StrategieEtatAEtat implements IStratOrdonnanceur {
     public void agentRetire(Agent agent) {
         listOrdonnancement.remove(agent);
         listEtatAgent.remove(agent);
->>>>>>> 710ad8f9961909014f7d03800a58e20b462cf332
+
     }
 }
