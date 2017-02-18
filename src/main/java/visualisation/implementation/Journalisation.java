@@ -42,18 +42,14 @@ public class Journalisation extends AbstractJournalisation implements AgentListe
 
     @Override
     protected AgentListener make_notification() {
-        return null;
+        return this;
     }
 
     private void afficherAgent (Agent agent) {
-        String agentsEnString = "";
+        String agentsEnString;
 
+        agentsEnString = agent.getEtatInitial() + " n\\  ";
 
-        Iterator<Agent> it = this.agentList.iterator();
-
-        while (it.hasNext()) {
-            agentsEnString += it.next().getEtatInitial() + " n\\  ";
-        }
 
         this.requires().envoyerMsgVersAffichage().lireInformations(agentsEnString);
     }
