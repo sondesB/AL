@@ -10,9 +10,5 @@ import java.util.List;
  * L'IMPLEMENTATION REELLE DE CETTE CLASSE.
  */
 public class Agent {
-    private List<OCService> services;
 
-    public List<OCService> getServices() {
-        return this.services;
-    }
 }
