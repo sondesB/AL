@@ -3,6 +3,7 @@ package persistance.services;
 import interfaceswcomp.OCService;
 import persistance.interfaces.BaseDePlanAbstraite;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.sql.*;
@@ -67,10 +68,11 @@ public class PersistanceService {
      */
     public void persisterBaseDePlan(BaseDePlanAbstraite baseDePlan) {
         try {
-            Class.forName(driver);
-            connection = DriverManager.getConnection(url, username, password);
+            //Class.forName("org.sqlite.Driver");
+           // connection = DriverManager.getConnection(url, username, password);
+            connect();
             long serialized_id = serializeJavaObjectToDB(baseDePlan);
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -120,13 +122,19 @@ public class PersistanceService {
      *
      */
     private void connect() {
+
         try {
+         //   File resourcesDirectory = new File("src/main/java/persistance/bdd/database.db");
+         //   System.out.println(" path = "+ resourcesDirectory.getAbsolutePath());
+
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:" + Bdd);
+         //   connection = DriverManager.getConnection("jdbc:sqlite::resource:" + Bdd );
+            connection = DriverManager.getConnection("jdbc:sqlite:" + Bdd  );
             //prstatement = connection.createStatement();
             System.out.println("Connexion a " + Bdd + " avec succ�s :" + connection.getMetaData().getDatabaseProductName());
         } catch (ClassNotFoundException | SQLException notFoundException) {
             notFoundException.printStackTrace();
+            System.out.println("Path database :" + Bdd);
             System.out.println("Erreur de connecxion");
         }
     }

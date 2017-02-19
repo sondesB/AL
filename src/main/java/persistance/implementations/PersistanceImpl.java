@@ -17,13 +17,13 @@ public class PersistanceImpl implements IPersistance,IRecuperationPlan {
 
     @Override
     public void persisterBaseDePlan(BaseDePlanAbstraite baseDePlan) {
-        this.persistanceService.setConnexion(".."+ File.separator+"bdd"+ File.separator+"database.db");
+        this.persistanceService.setConnexion("src"+File.separator+"main"+File.separator+"java"+File.separator+"persistance"+File.separator+"bdd"+File.separator+"database.bdd");
         this.persistanceService.persisterBaseDePlan(baseDePlan);
     }
 
     @Override
     public BaseDePlanAbstraite recupererBasePlan(int id) {
-        this.persistanceService.setConnexion(".."+ File.separator+"bdd"+ File.separator+"database.db");
+        this.persistanceService.setConnexion("src"+File.separator+"main"+File.separator+"java"+File.separator+"persistance"+File.separator+"bdd"+File.separator+"database.bdd");
         return this.persistanceService.getBaseDePlan(id);
     }
 
