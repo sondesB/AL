@@ -9,6 +9,7 @@ import log.exemple.OCServiceImplExemple2;
 import log.implementations.LogImpl;
 import log.interfaces.ILogComposant;
 import log.interfaces.ILogDecision;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -104,8 +105,7 @@ public class LogImplTest extends TestCase {
         assertTrue(file.exists());
         assertTrue(file.length() > 0);
 
-       // file.delete();
+        file.delete();
     }
-
 
 }

@@ -41,7 +41,7 @@ public class LogService {
     public void ecrireLog(String logLine) {
         try {
             PrintWriter pw = new PrintWriter(this.log);
-            pw.write(logLine);
+            pw.println(logLine);
             pw.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
