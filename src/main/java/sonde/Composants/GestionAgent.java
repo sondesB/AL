@@ -5,7 +5,7 @@ import com.m2dl.sma.infrastructure.fabrique.ICreationService;
 import interfaceswcomp.OCService;
 import sonde.Services.DisparitionComposant;
 import sonde.Services.Notification;
-//import Agent.CycleDeVie.EtatPercevoir ;
+import Agent.CycleDeVie.EtatPercevoir ;
 //import medium.services.enregistrement;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.Map;
 public class GestionAgent implements Notification, DisparitionComposant {
 
     private ICreationService creationService;
-    //private EtatPercevoir etatPercevoir;
+    private EtatPercevoir etatPercevoir;
     //private Enregistrement enregistrement;
     /**
      * Une map de chaque service et son agent
@@ -31,13 +31,11 @@ public class GestionAgent implements Notification, DisparitionComposant {
 
     @Override
     public void servicesApparus(ArrayList<OCService> listServicesApparus) {
-        /**
-         *
-         */
         for (OCService service : listServicesApparus) {
-            //ReferenceAgent refAgent = creationService.creer(etatPercevoir.setServiceAgent(service)); //ReferenceAgent createAgent(IEtat) | IEtat SetService(OCService)
-            //listRefAgent.put(service, refAgent);
-            //enregistrement.addAgent(refAgent, service); //addAgent(RefAgent,OCService
+            etatPercevoir.setServiceAgent(service);
+            ReferenceAgent refAgent = creationService.creer(etatPercevoir.executer().get()); //ReferenceAgent createAgent(IEtat) | IEtat SetService(OCService)
+            listRefAgent.put(service, refAgent);
+            //enregistrement.addAgent(refAgent, service); //addAgent(RefAgent,OCService)
         }
     }
 
