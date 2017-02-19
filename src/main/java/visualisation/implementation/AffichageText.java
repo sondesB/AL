@@ -8,7 +8,7 @@ import visualisation.interfaces.IStrategieAffichage;
 public class AffichageText implements IStrategieAffichage {
 
     @Override
-    public void affichageMsg(String msg) {
+    public void lireInformations(String msg) {
         System.out.println(msg);
     }
 }

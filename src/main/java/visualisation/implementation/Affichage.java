@@ -7,18 +7,20 @@ import visualisation.interfaces.ITransfert;
 /**
  * Created by alpha on 10/02/2017.
  */
-public class Affichage extends AbstractAffichage {
+public class Affichage extends AbstractAffichage implements ITransfert {
     private IStrategieAffichage stategieAffichage;
 
-    public void afficher () {
+    public Affichage(){
+        stategieAffichage = new AffichageText();
     }
-
-    public void affichageMsg(String msg) {
-        stategieAffichage.affichageMsg(msg);
+    @Override
+    protected ITransfert make_recevoirMsgDeJournalisation() {
+        return this;
     }
 
     @Override
-    protected ITransfert make_recevoirMsgDeJournalisation() {
-        return null;
+    public void lireInformations(String msg) {
+        stategieAffichage.lireInformations(msg);
+
     }
 }

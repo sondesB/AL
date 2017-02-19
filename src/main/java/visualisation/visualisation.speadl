@@ -6,23 +6,26 @@ namespace abstractvisualisation {
 
 	component AbstractVisualisation {
 
-		provides notification : IServiceNotification = journalisation.notification
-		requires souscription : IServiceSouscription
+    		provides notification : IServiceNotification = journalisation.notification
+    		requires souscription : Annuaire
 
-		part affichage : AbstractAffichage{
-			bind donneRecu to journalisation.donneEnvoyer
-		}
+    		part affichage : AbstractAffichage{
 
-		part journalisation : AbstractJournalisation
-	}
+    		}
 
-	component AbstractJournalisation{
-		provides donneEnvoyer : ITransfert
-		provides notification : IServiceNotification
-	}
+    		part journalisation : AbstractJournalisation  {
+    			bind envoyerMsgVersAffichage to affichage.recevoirMsgDeJournalisation
+    		}
+    	}
 
-	component AbstractAffichage{
-		requires donneRecu : ITransfert
-	}
+    	component AbstractJournalisation{
+    		requires envoyerMsgVersAffichage  : ITransfert
+    		provides notification : IServiceNotification
+    	}
+
+    	component AbstractAffichage{
+    		provides recevoirMsgDeJournalisation : ITransfert
+    	}
+
 
 }

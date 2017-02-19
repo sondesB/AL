@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
+import visualisation.interfaces.IServiceNotification;
 
 /**
  * Created by alpha on 10/02/2017.
@@ -25,6 +26,18 @@ public class Journalisation extends AbstractJournalisation implements AgentListe
         log = Logger.getLogger(Journalisation.class);
         agentList = new ArrayList<>();
     }
+
+
+    private void afficherAgent (Agent agent) {
+        String agentsEnString;
+
+        agentsEnString =  "Agent " + agent.getEtatInitial() + " n\\  ";
+
+
+        this.requires().envoyerMsgVersAffichage().lireInformations(agentsEnString);
+    }
+
+
 
     @Override
     public void agentAjoute(Agent agent) {
@@ -44,15 +57,4 @@ public class Journalisation extends AbstractJournalisation implements AgentListe
     protected AgentListener make_notification() {
         return this;
     }
-
-    private void afficherAgent (Agent agent) {
-        String agentsEnString;
-
-        agentsEnString = agent.getEtatInitial() + " n\\  ";
-
-
-        this.requires().envoyerMsgVersAffichage().lireInformations(agentsEnString);
-    }
-
-
 }
