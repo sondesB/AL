@@ -2,7 +2,6 @@ package persistance.services;
 
 import interfaceswcomp.OCService;
 import persistance.interfaces.BaseDePlanAbstraite;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,7 +13,8 @@ import java.sql.*;
 public class PersistanceService {
 
     private String username,password,url,driver;
-
+    private String Bdd;
+    private PreparedStatement  prstatement = null;
     private Connection connection;
 
     /**
@@ -27,30 +27,34 @@ public class PersistanceService {
 
     /**
      * Permet de récuperer la base de plan d'un service donnée.
-     * @param ocService Le service.
+     * @param ocService Le service. Why  ? Why ?
      * @return La base de plan.
      */
-    public BaseDePlanAbstraite getBaseDePlan(OCService ocService)  {
-        PreparedStatement pstmt = null;
+    public BaseDePlanAbstraite getBaseDePlan(int id)  {
+        connect();
         BaseDePlanAbstraite basedeplan = null;
         try {
-            pstmt = connection
+            prstatement = connection
                     .prepareStatement(SQL_DESERIALIZE_OBJECT);
 
-        ResultSet rs = pstmt.executeQuery();
+        ResultSet rs = prstatement.executeQuery();
         rs.next();
 
         // Object object = rs.getObject(1);
 
-        byte[] buf = rs.getBytes(1);
+      /*  byte[] buf = rs.getBytes(1);*/
         ObjectInputStream objectIn = null;
-        if (buf != null)
-            objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
+        String buf = rs.getString(1);
+        if (buf != null) {
+            objectIn = new ObjectInputStream(new ByteArrayInputStream(buf.getBytes()));
+        }
+            //objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
 
         basedeplan = (BaseDePlanAbstraite) objectIn.readObject();
 
         rs.close();
-        pstmt.close();
+
+        close();
         } catch (SQLException | IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } 
@@ -65,8 +69,7 @@ public class PersistanceService {
         try {
             Class.forName(driver);
             connection = DriverManager.getConnection(url, username, password);
-            long serialized_id = serializeJavaObjectToDB(connection, baseDePlan);
-            connection.close();
+            long serialized_id = serializeJavaObjectToDB(baseDePlan);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -74,44 +77,69 @@ public class PersistanceService {
 
     /**
      * Connexion à la base de donnée.
-     * @param username
-     * @param password
-     * @param url
-     * @param driver
+     * @param bdd
      */
-    public void setConnexion(String username,String password, String url, String driver)  {
-        this.username = username;
+    public void setConnexion(String bdd)  {
+       /* this.username = username;
         this.password = password;
         this.url = url;
         this.driver = driver;
+       this.infConnexion=infConnexion;*/
+       this.Bdd = bdd;
     }
 
     /**
-     *
-     * @param connection
      * @param objectToSerialize
      * @return
      * @throws SQLException
      */
-    private long serializeJavaObjectToDB(Connection connection,
-                                               Object objectToSerialize) throws SQLException {
-
-        PreparedStatement pstmt = connection
+    private long serializeJavaObjectToDB(Object objectToSerialize) throws SQLException {
+        connect();
+        prstatement = connection
                 .prepareStatement(SQL_SERIALIZE_OBJECT);
 
         // just setting the class name
-        pstmt.setString(1, objectToSerialize.getClass().getName());
-        pstmt.setObject(2, objectToSerialize);
-        pstmt.executeUpdate();
-        ResultSet rs = pstmt.getGeneratedKeys();
+        prstatement.setString(1, objectToSerialize.getClass().getName());
+        prstatement.setString(2, objectToSerialize.toString());
+        prstatement.executeUpdate("INSERT INTO serialized_java_objects(object_name, serialized_object) VALUES ()"+objectToSerialize.getClass().getName()+','+objectToSerialize+")");
+        ResultSet rs = prstatement.getGeneratedKeys();
         int serialized_id = -1;
         if (rs.next()) {
             serialized_id = rs.getInt(1);
         }
         rs.close();
-        pstmt.close();
+        close();
         System.out.println("Java object serialized to database. Object: "
                 + objectToSerialize);
         return serialized_id;
+    }
+
+
+    /**
+     * Active la cconnection avec les param�tres d�finis
+     *
+     */
+    private void connect() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:" + Bdd);
+            //prstatement = connection.createStatement();
+            System.out.println("Connexion a " + Bdd + " avec succ�s :" + connection.getMetaData().getDatabaseProductName());
+        } catch (ClassNotFoundException | SQLException notFoundException) {
+            notFoundException.printStackTrace();
+            System.out.println("Erreur de connecxion");
+        }
+    }
+    /**
+     * Ferme la cconnection en cours
+     *
+     */
+    public void close() {
+        try {
+            connection.close();
+            prstatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

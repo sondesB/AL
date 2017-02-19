@@ -9,9 +9,10 @@ public interface IRecuperationPlan {
 
     /**
      * Récupere la base de plan relatif à un service.
-     * @param service Le service dont on veut récupérer la base de plan.
+     * @param service Le service dont on veut récupérer la base de plan. Why ???
      * @return La base de plan de l'agent.
      */
-    BaseDePlanAbstraite recupererBasePlan(OCService service);
+    //Anciennement BaseDePlanAbstraite recupererBasePlan(OCService service,int id);
+    BaseDePlanAbstraite recupererBasePlan(int id);
 
 }

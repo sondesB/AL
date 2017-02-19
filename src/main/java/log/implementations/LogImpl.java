@@ -28,13 +28,13 @@ public class LogImpl implements ILogComposant, ILogDecision, ILogRestitution {
 
     @Override
     public void logBinding(OCService service1, OCService service2) {
-        String log = String.format("%s %s %s - bind", this.getDateToString(), service1, service2);
+        String log = String.format("%s %s %s - bind", this.getDateToString(), service1.getServiceName(), service2.getServiceName());
         this.logService.ecrireLog(log);
     }
 
     @Override
     public void logUnbinding(OCService service1, OCService service2) {
-        String log = String.format("%s %s %s - unbind", this.getDateToString(), service1, service2);
+        String log = String.format("%s %s %s - unbind", this.getDateToString(), service1.getServiceName(), service2.getServiceName());
         this.logService.ecrireLog(log);
     }
 
