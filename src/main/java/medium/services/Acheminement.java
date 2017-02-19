@@ -1,6 +1,7 @@
 package medium.services;
 
-import stub.Annonce;
+
+import Agent.Agir.GenererMessage.Message.Annonce;
 
 /**
  * Interface Acheminement. Service fourni par le Medium.

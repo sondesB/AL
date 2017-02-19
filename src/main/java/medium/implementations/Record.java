@@ -1,9 +1,9 @@
 package medium.implementations;
 
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 import interfaceswcomp.OCService;
 import medium.interfaces.ListerAgents;
 import medium.services.Enregistrement;
-import stub.Agent;
 
 import java.util.HashMap;
 
@@ -17,7 +17,7 @@ public class Record implements ListerAgents, Enregistrement {
     /**
      * Liste des agents disponibles associés à leurs services.
      */
-    private HashMap<Agent, OCService> agents = new HashMap<>();
+    private HashMap<ReferenceAgent, OCService> agents = new HashMap<>();
 
     /**
      * Ajoute un agent disponible à la liste.
@@ -26,7 +26,7 @@ public class Record implements ListerAgents, Enregistrement {
      * @param service service de l'agent
      */
     @Override
-    public void addAgent(Agent agent, OCService service) {
+    public void addAgent(ReferenceAgent agent, OCService service) {
         this.agents.put(agent, service);
     }
 
@@ -36,7 +36,7 @@ public class Record implements ListerAgents, Enregistrement {
      * @param agent agent disparu
      */
     @Override
-    public void removeAgent(Agent agent) {
+    public void removeAgent(ReferenceAgent agent) {
         this.agents.remove(agent);
     }
 
@@ -46,7 +46,7 @@ public class Record implements ListerAgents, Enregistrement {
      * @return liste d'agents et services
      */
     @Override
-    public HashMap<Agent, OCService> getListAgents() {
+    public HashMap<ReferenceAgent, OCService> getListAgents() {
         return this.agents;
     }
 }

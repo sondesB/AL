@@ -1,7 +1,7 @@
 package medium.services;
 
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 import interfaceswcomp.OCService;
-import stub.Agent;
 
 
 /**
@@ -14,15 +14,15 @@ public interface Enregistrement {
     /**
      * Signale l'arrivé d'un agent.
      *
-     * @param agent nouvel agent
+     * @param RefAgent nouvel agent
      * @param service service de l'agent
      */
-    void addAgent(Agent agent, OCService service);
+    void addAgent(ReferenceAgent RefAgent, OCService service);
 
     /**
      * Signal la disparition d'un agent.
      *
-     * @param agent agent disparu
+     * @param RefAgent agent disparu
      */
-    void removeAgent(Agent agent);
+    void removeAgent(ReferenceAgent RefAgent);
 }

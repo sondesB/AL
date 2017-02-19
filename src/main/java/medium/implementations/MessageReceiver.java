@@ -1,7 +1,7 @@
 package medium.implementations;
 
+import Agent.Agir.GenererMessage.Message.Annonce;
 import medium.services.Acheminement;
-import stub.Annonce;
 
 /**
  * Composant récupérant l’annonce d’un agent.

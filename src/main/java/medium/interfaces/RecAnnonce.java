@@ -1,6 +1,6 @@
 package medium.interfaces;
 
-import stub.Annonce;
+import Agent.Agir.GenererMessage.Message.Annonce;
 
 /**
  * Interface interne du Medium.

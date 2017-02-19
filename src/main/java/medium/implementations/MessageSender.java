@@ -1,10 +1,10 @@
 package medium.implementations;
 
+import Agent.Agir.GenererMessage.Message.Annonce;
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
+import com.m2dl.sma.infrastructure.communication.ICommunication;
 import interfaceswcomp.OCService;
 import medium.interfaces.EnvAnnonce;
-import stub.Agent;
-import stub.Annonce;
-import stub.Communication;
 import unifieur.services.Matching;
 
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.Map;
 public class MessageSender implements EnvAnnonce {
 
     private Matching matching;
-    private Communication communication;
+    private ICommunication communication;
 
     /**
      * Envoi l'annonce ann aux agents compatibles.
@@ -27,10 +27,10 @@ public class MessageSender implements EnvAnnonce {
      * @param ann    annonce
      */
     @Override
-    public void sendAnnonce(HashMap<Agent, OCService> agents, Annonce ann) {
-        for (Map.Entry<Agent, OCService> agent : agents.entrySet()) {
+    public void sendAnnonce(HashMap<ReferenceAgent, OCService> agents, Annonce ann) {
+        for (Map.Entry<ReferenceAgent, OCService> agent : agents.entrySet()) {
             if (match(ann, agent.getValue())) {
-                communication.envoiSimple(ann, agent.getKey());
+                communication.diffuserMessage(agent.getKey(), ann);
             }
         }
     }

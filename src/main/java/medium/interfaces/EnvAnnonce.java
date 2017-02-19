@@ -1,8 +1,9 @@
 package medium.interfaces;
 
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 import interfaceswcomp.OCService;
-import stub.Agent;
-import stub.Annonce;
+
+import Agent.Agir.GenererMessage.Message.Annonce;
 
 import java.util.HashMap;
 
@@ -14,8 +15,8 @@ public interface EnvAnnonce {
     /**
      * Envoi une annonce.
      *
-     * @param agents map d'agents possible destinataire ainsi que leurs services
-     * @param ann    annonce
+     * @param refAgents map d'agents possible destinataire ainsi que leurs services
+     * @param ann       annonce
      */
-    void sendAnnonce(HashMap<Agent, OCService> agents, Annonce ann);
+    void sendAnnonce(HashMap<ReferenceAgent, OCService> refAgents, Annonce ann);
 }

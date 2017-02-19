@@ -1,7 +1,7 @@
 package medium.interfaces;
 
+import com.m2dl.sma.infrastructure.agent.ReferenceAgent;
 import interfaceswcomp.OCService;
-import stub.Agent;
 
 import java.util.HashMap;
 
@@ -15,5 +15,5 @@ public interface ListerAgents {
      *
      * @return liste d'agents et services
      */
-    HashMap<Agent, OCService> getListAgents();
+    HashMap<ReferenceAgent, OCService> getListAgents();
 }

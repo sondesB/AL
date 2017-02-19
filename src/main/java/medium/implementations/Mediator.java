@@ -1,7 +1,7 @@
 package medium.implementations;
 
 import medium.interfaces.RecAnnonce;
-import stub.Annonce;
+import Agent.Agir.GenererMessage.Message.Annonce;
 
 /**
  * Ce composant est un médiateur entre le composant MessageSender
