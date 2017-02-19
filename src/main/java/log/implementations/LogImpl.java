@@ -23,7 +23,7 @@ public class LogImpl implements ILogComposant, ILogDecision, ILogRestitution {
     @Override
     public void logApparitionComposant(OCComponent ocComponent) {
         String log = String.format("%s %s - Apparition",this.getDateToString(), ocComponent.getComponentProperties());
-        logService.ecrireLog(log);
+        this.logService.ecrireLog(log);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class LogImpl implements ILogComposant, ILogDecision, ILogRestitution {
     @Override
     public void logDisparitionComposant(OCComponent ocComponent) {
         String log = String.format("%s %s - Disparition",this.getDateToString(), ocComponent.getComponentProperties());
-        logService.ecrireLog(log);
+        this.logService.ecrireLog(log);
     }
 
 

@@ -23,7 +23,8 @@ public class LogService {
      * Constructeur.
      */
     public LogService() {
-        this.log = new File(".."+File.separator+"fichier"+File.separator+"log.txt");
+        this.log = new File("src"+File.separator+"main"+File.separator+"java"+File.separator+"log"+File.separator+"fichier"+File.separator+"file.txt");
+
         if(!this.log.exists()){
             try {
                 this.log.createNewFile();

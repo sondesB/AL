@@ -29,7 +29,7 @@ public class LogImplTest extends TestCase {
     private OCService service2;
 
     @Before
-    public void SetUp(){
+    public void setUp(){
         component=new OCComponentImplExemple();
         service1= new OCServiceImplExemple1();
         service2= new OCServiceImplExemple2();
@@ -42,11 +42,11 @@ public class LogImplTest extends TestCase {
         log.logApparitionComposant(component);
 
         // display the path if correct
-        Path logPath = Paths.get(File.separator+"main"+File.separator+"java"+File.separator+"log"+File.separator+"fichier");
+        Path logPath = Paths.get("src"+File.separator+"main"+File.separator+"java"+File.separator+"log"+File.separator+"fichier");
         System.out.format("%s%n", logPath.toUri());
 
         // create the file
-        File file = new File(logPath +File.separator+ "File.txt");
+        File file = new File(logPath +File.separator+"file.txt");
 
         assertTrue(file.exists());
         assertTrue(file.length() > 0);
@@ -61,11 +61,11 @@ public class LogImplTest extends TestCase {
         log.logDisparitionComposant(component);
 
         // display the path if correct
-        Path logPath = Paths.get(File.separator+"main"+File.separator+"java"+File.separator+"log"+File.separator+"fichier");
+        Path logPath = Paths.get("src"+File.separator+"main"+File.separator+"java"+File.separator+"log"+File.separator+"fichier");
         System.out.format("%s%n", logPath.toUri());
 
         // create the file
-        File file = new File(logPath +File.separator+ "File.txt");
+        File file = new File(logPath +File.separator+"file.txt");
         assertTrue(file.exists());
         assertTrue(file.length() > 0);
 
@@ -75,15 +75,14 @@ public class LogImplTest extends TestCase {
     @Test
     public void testLogBinding() throws Exception {
         ILogDecision log = new LogImpl();
-
         log.logBinding(service1,service2);
 
         // display the path if correct
-        Path logPath = Paths.get(File.separator+"main"+File.separator+"java"+File.separator+"log"+File.separator+"fichier");
+        Path logPath = Paths.get("src"+File.separator+"main"+File.separator+"java"+File.separator+"log"+File.separator+"fichier");
         System.out.format("%s%n", logPath.toUri());
 
         // create the file
-        File file = new File(logPath +File.separator+ "File.txt");
+        File file = new File(logPath +File.separator+"file.txt");
         assertTrue(file.exists());
         assertTrue(file.length() > 0);
 
@@ -97,15 +96,15 @@ public class LogImplTest extends TestCase {
 
 
         // display the path if correct
-        Path logPath = Paths.get(File.separator+"main"+File.separator+"java"+File.separator+"log"+File.separator+"fichier");
+        Path logPath = Paths.get("src"+File.separator+"main"+File.separator+"java"+File.separator+"log"+File.separator+"fichier");
         System.out.format("%s%n", logPath.toUri());
 
         // create the file
-        File file = new File(logPath +File.separator+ "File.txt");
+        File file = new File(logPath +File.separator+"file.txt");
         assertTrue(file.exists());
         assertTrue(file.length() > 0);
 
-        file.delete();
+       // file.delete();
     }
 
 
