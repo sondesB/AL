@@ -2,10 +2,9 @@ package persistance.services;
 
 import interfaceswcomp.OCService;
 import persistance.interfaces.BaseDePlanAbstraite;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.*;
 import java.sql.*;
 
 /**
@@ -13,7 +12,6 @@ import java.sql.*;
  */
 public class PersistanceService {
 
-    private String username,password,url,driver;
     private String Bdd;
     private PreparedStatement  prstatement = null;
     private Connection connection;
@@ -27,8 +25,7 @@ public class PersistanceService {
     
 
     /**
-     * Permet de récuperer la base de plan d'un service donnée.
-     * @param ocService Le service. Why  ? Why ?
+     * Permet de récuperer la base de plan d'un service donnée
      * @return La base de plan.
      */
     public BaseDePlanAbstraite getBaseDePlan(int id)  {
@@ -37,7 +34,7 @@ public class PersistanceService {
         try {
             prstatement = connection
                     .prepareStatement(SQL_DESERIALIZE_OBJECT);
-
+        prstatement.setInt(1,id);
         ResultSet rs = prstatement.executeQuery();
         rs.next();
 
@@ -45,9 +42,9 @@ public class PersistanceService {
 
       /*  byte[] buf = rs.getBytes(1);*/
         ObjectInputStream objectIn = null;
-        String buf = rs.getString(1);
-        if (buf != null) {
-            objectIn = new ObjectInputStream(new ByteArrayInputStream(buf.getBytes()));
+       // Blob buf = rs.getBytes(1);
+        if ( rs.getBytes(1) != null) {
+            objectIn = new ObjectInputStream(new ByteArrayInputStream( rs.getBytes(1)));
         }
             //objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
 
@@ -70,7 +67,6 @@ public class PersistanceService {
         try {
             //Class.forName("org.sqlite.Driver");
            // connection = DriverManager.getConnection(url, username, password);
-            connect();
             long serialized_id = serializeJavaObjectToDB(baseDePlan);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,10 +96,25 @@ public class PersistanceService {
         prstatement = connection
                 .prepareStatement(SQL_SERIALIZE_OBJECT);
 
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutput out = null;
+        byte[] yourBytes;
+        try {
+            out = new ObjectOutputStream(bos);
+            out.writeObject(objectToSerialize);
+            out.flush();
+            yourBytes= bos.toByteArray();
+            Blob blob = new SerialBlob(yourBytes);
         // just setting the class name
         prstatement.setString(1, objectToSerialize.getClass().getName());
-        prstatement.setString(2, objectToSerialize.toString());
-        prstatement.executeUpdate("INSERT INTO serialized_java_objects(object_name, serialized_object) VALUES ()"+objectToSerialize.getClass().getName()+','+objectToSerialize+")");
+        prstatement.setBytes(2, blob.getBytes(1,(int)blob.length()));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        prstatement.executeUpdate();
         ResultSet rs = prstatement.getGeneratedKeys();
         int serialized_id = -1;
         if (rs.next()) {
@@ -145,7 +156,7 @@ public class PersistanceService {
     public void close() {
         try {
             connection.close();
-            prstatement.close();
+           // prstatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

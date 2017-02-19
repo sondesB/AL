@@ -33,6 +33,7 @@ public class PersistanceImplTest extends TestCase {
         BaseDePlanAbstraite base = persistanceRec.recupererBasePlan(1);
 
         assertTrue(base!=null);
+        assertTrue(base instanceof BaseDePlanAbstraiteImplExemple);
     }
 
 }
