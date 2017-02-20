@@ -1,0 +1,6 @@
+2017-02-20 01:55:08 INFO  Journalisation:45 - L'agent com.m2dl.sma.infrastructure.agent.Agent@5f341870 viens d'etre crée
+2017-02-20 01:56:57 INFO  Journalisation:45 - L'agent com.m2dl.sma.infrastructure.agent.Agent@5f341870 viens d'etre crée
+2017-02-20 01:57:18 INFO  Journalisation:45 - L'agent com.m2dl.sma.infrastructure.agent.Agent@5f341870 viens d'etre crée_
+2017-02-20 01:57:37 INFO  Journalisation:45 - L'agent etatInitial viens d'etre crée_
+2017-02-20 01:57:57 INFO  Journalisation:45 - L'agent com.m2dl.sma.infrastructure.agent.ReferenceAgent@5682e3d9 viens d'etre crée
+2017-02-20 01:58:15 INFO  Journalisation:45 - L'agent com.m2dl.sma.infrastructure.agent.Agent@5f341870 viens d'etre crée
