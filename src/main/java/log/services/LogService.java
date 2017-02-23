@@ -2,6 +2,7 @@ package log.services;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
@@ -22,7 +23,15 @@ public class LogService {
      * Constructeur.
      */
     public LogService() {
-        this.log = new File("log.txt");
+        this.log = new File("src"+File.separator+"main"+File.separator+"java"+File.separator+"log"+File.separator+"fichier"+File.separator+"file.txt");
+
+        if(!this.log.exists()){
+            try {
+                this.log.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -32,7 +41,7 @@ public class LogService {
     public void ecrireLog(String logLine) {
         try {
             PrintWriter pw = new PrintWriter(this.log);
-            pw.write(logLine);
+            pw.println(logLine);
             pw.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
