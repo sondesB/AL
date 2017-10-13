@@ -18,26 +18,16 @@ import java.util.Map;
 public class GestionAgent implements Notification, DisparitionComposant {
 
     private ICreationService creationService;
-    //private EtatPercevoir etatPercevoir;
-    //private Enregistrement enregistrement;
-    /**
-     * Une map de chaque service et son agent
-     */
+   
     private Map<OCService, ReferenceAgent> listRefAgent = new HashMap<OCService, ReferenceAgent>();
-    /**
-     * Chaque agent vient verifier si son service a disparu ou pas
-     */
+    
     private Map<ReferenceAgent, OCService> messageToAgent = new HashMap<ReferenceAgent, OCService>();
 
     @Override
     public void servicesApparus(ArrayList<OCService> listServicesApparus) {
-        /**
-         *
-         */
+      
         for (OCService service : listServicesApparus) {
-            //ReferenceAgent refAgent = creationService.creer(etatPercevoir.setServiceAgent(service)); //ReferenceAgent createAgent(IEtat) | IEtat SetService(OCService)
-            //listRefAgent.put(service, refAgent);
-            //enregistrement.addAgent(refAgent, service); //addAgent(RefAgent,OCService
+           
         }
     }
 
