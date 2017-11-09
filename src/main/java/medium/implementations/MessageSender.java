@@ -16,14 +16,33 @@ import java.util.Map;
  * L'envoi des annonces est réalisé grâce à l'interface Communication.
  */
 public class MessageSender implements EnvAnnonce {
+
     private Matching matching;
     private ICommunication communication;
-     @Override
+
+    /**
+     * Envoi l'annonce ann aux agents compatibles.
+     *
+     * @param agents liste d'agents possible destinataire ainsi que leurs services
+     * @param ann    annonce
+     */
+    @Override
     public void sendAnnonce(HashMap<ReferenceAgent, OCService> agents, Annonce ann) {
         for (Map.Entry<ReferenceAgent, OCService> agent : agents.entrySet()) {
             if (match(ann, agent.getValue())) {
                 communication.diffuserMessage(agent.getKey(), ann);
-            }        }     }
+            }
+        }
+    }
+
+    /**
+     * Return true if the service contained in "annonce"
+     * match with the OCService service.
+     *
+     * @param ann     annonce
+     * @param service OCService
+     * @return boolean
+     */
     private boolean match(Annonce ann, OCService service) {
         return (matching.match(ann.getService(), service));
     }
