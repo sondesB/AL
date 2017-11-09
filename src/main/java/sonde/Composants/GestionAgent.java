@@ -18,8 +18,10 @@ import java.util.Map;
 public class GestionAgent implements Notification, DisparitionComposant {
 
     private ICreationService creationService;
-    private Map<OCService, ReferenceAgent> listRefAgent = new HashMap<OCService, ReferenceAgent>();
-    private Map<ReferenceAgent, OCService> messageToAgent = new HashMap<ReferenceAgent, OCService>();
+    private Map<OCService, ReferenceAgent> listRefAgent = 
+        new HashMap<OCService, ReferenceAgent>();
+    private Map<ReferenceAgent, OCService> messageToAgent = 
+        new HashMap<ReferenceAgent, OCService>();
     @Override
     public void servicesApparus(ArrayList<OCService> listServicesApparus) {
            for (OCService service : listServicesApparus) {
